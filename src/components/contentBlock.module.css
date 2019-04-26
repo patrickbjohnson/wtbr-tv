@@ -1,0 +1,18 @@
+.block {
+    position: relative;
+    height: 0;
+    padding-bottom: 62%;
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+
+.title {
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.subtitle,
+.desc {
+    display: none;
+}

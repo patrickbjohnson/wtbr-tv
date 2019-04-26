@@ -1,0 +1,25 @@
+.ticker {
+    padding-top: 15px;
+    padding-bottom: 15px;
+
+    color: #FA6400;
+    border-top: 1px solid #000;
+    border-bottom: 1px solid #000;
+}
+
+.item {
+    text-transform: uppercase;
+    font-size: 13px;
+    line-height: 1;
+}
+
+.item:after {
+    content: "-";
+    display: inline-block;
+    margin-left: 10px;
+    margin-right: 10px;
+}
+
+.item:last-of-type:after {
+    display: none;
+}
