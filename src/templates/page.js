@@ -13,7 +13,7 @@ const Page = (props) => {
     return (
         <Container>
             <Navigation />
-            {components.map(component => {
+            {components && components.map(component => {
                 const type = cleanComponentName( component.__typename );
                 switch ( type ) {
                     case 'ContentBlockGrid':
