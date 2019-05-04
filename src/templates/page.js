@@ -3,6 +3,8 @@ import Container from '../components/container'
 import Navigation from '../components/navigation'
 import ContentBlock from '../components/ContentBlock'
 import ContentBlockGrid from '../components/ContentGrid'
+import ContentHero from '../components/content-hero'
+import TextBlockGrid from '../components/text-block-grid'
 
 const cleanComponentName = (component) => {
     return component.replace('Contentful', '');
@@ -10,6 +12,7 @@ const cleanComponentName = (component) => {
 
 const Page = (props) => {
     const { components } = props.pageContext;
+
     return (
         <Container>
             <Navigation />
@@ -17,7 +20,11 @@ const Page = (props) => {
                 const type = cleanComponentName( component.__typename );
                 switch ( type ) {
                     case 'ContentBlockGrid':
-                      return <ContentBlockGrid key={component.id} {...component} />
+                        return <ContentBlockGrid key={component.id} {...component} />
+                    case 'TextBlockGrid':
+                        return <TextBlockGrid key={component.id} {...component} />
+                    case 'ContentHero':
+                        return <ContentHero key={component.id} {...component} />
                     default:
                       return (<div key={component.id} {...component}>{type}</div>)
                 }
