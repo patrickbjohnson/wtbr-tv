@@ -52,27 +52,17 @@ exports.createPages = ({ graphql, actions }) => {
                       id
                       title
                       description {
-                        id
                         description
                       }
                     }
                   }
-                  ... on ContentfulContentHero {
-                    id
-                    heroTitle
-                    heroContent {
-                      id
-                      heroContent
-                    }
-                    backgroundColor
-                  }
                   ... on ContentfulContentBlockGrid {
                     id
-                    displayCategory
                     contentBlocks {
                       id
                       title
                       subTitle
+                      category
                       description
                       backgroundImage {
                         id
@@ -89,6 +79,37 @@ exports.createPages = ({ graphql, actions }) => {
                       }
                     }
                   }
+                  ... on ContentfulFeaturedPosts {
+                    posts {
+                      id
+                      title
+                      description {
+                        childMarkdownRemark {
+                          rawMarkdownBody
+                        }
+                      }
+                    }
+                  }
+                  ... on ContentfulJobList {
+                    id
+                    sectionTitle
+                    activeJobs {
+                      id
+                      title
+                      description {
+                        id
+                        description
+                      }
+                    }
+                  }
+                  ... on ContentfulContentHero {
+                    id
+                    heroTitle
+                    heroContent {
+                      id
+                    }
+                    backgroundColor
+                  }
                 }
               }
             }
@@ -99,7 +120,9 @@ exports.createPages = ({ graphql, actions }) => {
         if (result.errors) {
           reject(result.errors)
         }
+
         const pages = result.data.allContentfulPage.edges
+
         pages.forEach((page, index) => {
           const title = page.node.slug.toLowerCase();
           createPage({
@@ -111,6 +134,7 @@ exports.createPages = ({ graphql, actions }) => {
             },
           })
         })
+
 
         const posts = result.data.allContentfulBlogPost.edges
         posts.forEach((post, index) => {

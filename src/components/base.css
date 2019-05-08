@@ -71,3 +71,34 @@ a {
   padding: 0;
   list-style: none;
 }
+
+.outline-text {
+  font-size: 65px;
+  font-weight: 700;
+  text-align: center;
+  line-height: 1;
+  -webkit-text-stroke-width: 1px;
+  -webkit-text-stroke-color: black;
+}
+
+.out-orange {
+  color: orange;
+}
+
+@supports ((-webkit-text-stroke-color: black)) {
+  .outline-text {
+    -webkit-text-stroke-width: 1px;
+    -webkit-text-stroke-color: black;
+  }
+
+  .out-orange {
+    -webkit-text-stroke-color: orange;
+    color: transparent;
+  }
+}
+
+@media (min-width: 1024px) {
+  .outline-text {
+    font-size: 170px;
+  }
+}
