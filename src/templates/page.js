@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Container from '../components/container'
 import Navigation from '../components/navigation'
+import Footer from '../components/site-footer'
 import ContentBlockGrid from '../components/ContentGrid'
 import ContentHero from '../components/content-hero'
 import TextBlockGrid from '../components/text-block-grid'
@@ -31,6 +32,7 @@ const Page = (props) => {
                       return (<div key={component.id} {...component}>{type}</div>)
                 }
             })}
+            <Footer />
         </Container>
     )
 }
