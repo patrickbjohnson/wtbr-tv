@@ -34,7 +34,7 @@ class ContentGrid extends Component {
 
     nextBlock = () => {
         const currentIndex = this.getCurrentIndex()
-        console.log(this.state.blocks.length);
+
         if (currentIndex === this.state.blocks.length - 1) return
 
         this.setState({
@@ -44,6 +44,7 @@ class ContentGrid extends Component {
 
     prevBlock = () => {
         const currentIndex = this.getCurrentIndex()
+
         if (currentIndex === 0) return
 
         this.setState({
@@ -52,7 +53,6 @@ class ContentGrid extends Component {
     }
 
     render() {
-        console.log('PROPS: ', this.props)
         const blocks = this.state.blocks
         const currentBlock = this.state.activeBlock
         return (

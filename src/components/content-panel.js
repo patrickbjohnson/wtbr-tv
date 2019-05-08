@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import styles from './content-panel.module.css'
 
 const ContentPanel = (props) => {
-    console.log(props)
     const { nextClickHandler, prevClickHandler, current } = props;
+
     return (
         <div className={styles.block}>
             <span onClick={() => prevClickHandler() }>Previous</span>

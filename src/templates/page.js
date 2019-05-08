@@ -14,7 +14,7 @@ const cleanComponentName = (component) => {
 
 const Page = (props) => {
     const { components } = props.pageContext;
-    console.log(components);
+
     return (
         <Container>
             <Navigation />

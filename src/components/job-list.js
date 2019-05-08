@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import Accordion from './accordion';
 
 const JobList = (props) => {
-    console.log(props)
     const { sectionTitle, activeJobs } = props
+
     return (
         <div>
             <div>
