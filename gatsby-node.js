@@ -7,6 +7,7 @@ exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const pageTemplate = path.resolve('./src/templates/page.js')
     const postTemplate = path.resolve('./src/templates/blog-post.js')
+
     resolve(
       graphql(
         `
@@ -124,9 +125,9 @@ exports.createPages = ({ graphql, actions }) => {
         const pages = result.data.allContentfulPage.edges
 
         pages.forEach((page, index) => {
-          const title = page.node.slug.toLowerCase();
+          const slug = page.node.slug.toLowerCase();
           createPage({
-            path: `/${title}/`,
+            path: `/${slug}/`,
             component: pageTemplate,
             context: {
               slug: page.node.slug,
@@ -134,7 +135,6 @@ exports.createPages = ({ graphql, actions }) => {
             },
           })
         })
-
 
         const posts = result.data.allContentfulBlogPost.edges
         posts.forEach((post, index) => {

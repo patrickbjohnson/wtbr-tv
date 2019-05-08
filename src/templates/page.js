@@ -6,6 +6,7 @@ import ContentBlockGrid from '../components/ContentGrid'
 import ContentHero from '../components/content-hero'
 import TextBlockGrid from '../components/text-block-grid'
 import JobList from '../components/job-list'
+import FeaturedPosts from '../components/featured-posts'
 
 const cleanComponentName = (component) => {
     return component.replace('Contentful', '');
@@ -13,7 +14,7 @@ const cleanComponentName = (component) => {
 
 const Page = (props) => {
     const { components } = props.pageContext;
-
+    console.log(components);
     return (
         <Container>
             <Navigation />
@@ -28,6 +29,8 @@ const Page = (props) => {
                         return <ContentHero key={component.id} {...component} />
                     case 'JobList':
                         return <JobList key={component.id} {...component} />
+                    case 'FeaturedPosts':
+                        return <FeaturedPosts key={component.id} {...component} />
                     default:
                       return (<div key={component.id} {...component}>{type}</div>)
                 }

@@ -5,10 +5,16 @@
     justify-content: flex-start;
 }
 
+
 .col {
-    width: calc(25% - 5px);
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    margin-right: 5px;
+    width: 100%;
+    margin-bottom: 1px;
+    overflow: hidden;
+}
+
+@media (min-width: 768px) {
+    .col {
+        width: calc(25% - 1px);
+        margin-right: 1px;
+    }
 }
