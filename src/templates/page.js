@@ -20,19 +20,34 @@ const Page = (props) => {
             <Navigation />
             {components && components.map(component => {
                 const type = cleanComponentName( component.__typename );
+                console.log(component)
                 switch ( type ) {
                     case 'ContentBlockGrid':
-                        return <ContentBlockGrid key={component.id} {...component} />
+                        return <ContentBlockGrid
+                            key={component.id}
+                            {...component} />
                     case 'TextBlockGrid':
-                        return <TextBlockGrid key={component.id} {...component} />
+                        return <TextBlockGrid
+                            key={component.id}
+                            {...component} />
                     case 'ContentHero':
-                        return <ContentHero key={component.id} {...component} />
+                        return <ContentHero
+                            key={component.id}
+                            {...component} />
                     case 'JobList':
-                        return <JobList key={component.id} {...component} />
+                        return <JobList
+                            key={component.id}
+                            {...component} />
                     case 'FeaturedPosts':
-                        return <FeaturedPosts key={component.id} {...component} />
+                        return <FeaturedPosts
+                            key={component.id}
+                            {...component} />
                     default:
-                      return (<div key={component.id} {...component}>{type}</div>)
+                      return (<div
+                        key={component.id}
+                        {...component}>
+                            {type}
+                        </div>)
                 }
             })}
             <Footer />

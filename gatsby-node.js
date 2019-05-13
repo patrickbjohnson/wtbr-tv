@@ -81,6 +81,7 @@ exports.createPages = ({ graphql, actions }) => {
                     }
                   }
                   ... on ContentfulFeaturedPosts {
+                    id
                     posts {
                       id
                       title
@@ -127,7 +128,7 @@ exports.createPages = ({ graphql, actions }) => {
         pages.forEach((page, index) => {
           const slug = page.node.slug.toLowerCase();
           createPage({
-            path: `/${slug}/`,
+            path: (slug === 'home') ? '/' : `/${slug}`,
             component: pageTemplate,
             context: {
               slug: page.node.slug,
