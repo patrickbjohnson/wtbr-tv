@@ -18,7 +18,6 @@ class ContentGrid extends Component {
     }
 
     componentDidMount() {
-        console.log(this.props.contentBlocks)
         this.setState({
             base: this.props.contentBlocks,
             blocks: this.props.contentBlocks,

@@ -20,7 +20,6 @@ const Page = (props) => {
             <Navigation />
             {components && components.map(component => {
                 const type = cleanComponentName( component.__typename );
-                console.log(component)
                 switch ( type ) {
                     case 'ContentBlockGrid':
                         return <ContentBlockGrid
