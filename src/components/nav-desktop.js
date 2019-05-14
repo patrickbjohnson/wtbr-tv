@@ -7,9 +7,9 @@ export default ({nav}) => {
     return (
       <div className={styles.block}>
         <nav className={styles.navWrap} role="navigation">
-          <a className={styles.logo} href="#">
-          <img src="http://placehold.it/200x80" alt=""/>
-          </a>
+          <Link className={styles.logo} to="/">
+            <img src="http://placehold.it/200x80" alt=""/>
+          </Link>
           <ul className={cx(styles.navigation, 'list-inline')}>
             {nav.map((item) => {
               return (

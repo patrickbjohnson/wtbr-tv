@@ -70,9 +70,6 @@ export const pageQuery = graphql`
               sizes
             }
           }
-          description {
-            description
-          }
         }
       }
     }

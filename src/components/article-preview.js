@@ -19,7 +19,7 @@ const formatDate = (date) => {
 export default ({ article }) => {
   const { node } = article
   return (
-  <article className={styles.article}>
+  <article className={styles.article} id={node.slug}>
     <div className={styles.meta}>
       <h2 className={styles.title}>{node.title}</h2>
       <small>{formatDate(node.publishDate)}</small>

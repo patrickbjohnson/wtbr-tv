@@ -13,7 +13,7 @@
 }
 
 .content {
-    order: 2;
+    order: 3;
     padding: 48px 30px 20px;
 }
 
@@ -37,21 +37,77 @@
     line-height: 1.5;
 }
 
+.mobilePagination {
+    display: block;
+    text-align: center;
+    order: 2;
+}
+
+.dot {
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border: 1px solid #000;
+    border-radius: 50%;
+    margin-left: 2px;
+    margin-right: 2px;
+    background-color: #fff;
+    transition: background-color .25s ease-out;
+}
+
+.activeDot {
+    background-color: #000;
+    transition: background-color .25s ease-out;
+}
+
+.pagination {
+    display: none;
+}
 
 @media (min-width: 768px) {
+    .mobilePagination {
+        display: none;
+    }
+
+    .pagination {
+        display: block;
+        text-transform: uppercase;
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50);
+        cursor: pointer;
+    }
+
+    .prev {
+        left: 20px;
+        writing-mode: vertical-rl;
+        transform: rotate(180deg);
+    }
+
+    .next {
+        right: 20px;
+        writing-mode: vertical-lr;
+    }
+
     .block {
-        max-width: 1440px;
+        position: relative;
         margin-left: auto;
         margin-right: auto;
+        padding-top: 5%;
+        padding-bottom: 5%;
+        overflow: hidden;
+        box-sizing: content-box;
     }
 
     .inner {
+        max-width: 1440px;
         flex-direction: row;
         align-items: flex-start;
         justify-content: space-between;
         width: 82%;
         margin-left: auto;
         margin-right: auto;
+
     }
 
     .content {
@@ -62,8 +118,25 @@
 
     .media {
         order: 2;
-
         width: 100%;
         max-width: 700px;
+        overflow: scroll;
+        height: 100%;
+        max-height: 475px;
+    }
+
+    .image {
+        display: block;
+    }
+
+    .image + .image {
+        margin-top: 30px;
+    }
+}
+
+@media (min-width: 1440px) {
+    .block {
+        padding-top: 130px;
+        padding-bottom: 130px;
     }
 }

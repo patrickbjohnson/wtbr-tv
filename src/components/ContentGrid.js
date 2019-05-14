@@ -8,7 +8,9 @@ import styles from './contentGrid.module.css'
 class ContentGrid extends Component {
     constructor(props) {
         super(props)
-        this.refNodes = [];
+        this.initalBlocks = []
+        this.mq = null
+        this.matches = false
         this.state = {
             base: [],
             blocks: [],
@@ -18,21 +20,29 @@ class ContentGrid extends Component {
     }
 
     componentDidMount() {
+        this.mq = window.matchMedia('(min-width: 768px)');
+        this.initalBlocks = this.props.contentBlocks
+
         this.setState({
             base: this.props.contentBlocks,
             blocks: this.props.contentBlocks,
             chunked: chunk(this.props.contentBlocks, 4),
+        }, () => {
+            this.matches = this.mq.matches
         })
     }
-
-    setRef = (ref) => {
-        this.refNodes.push(ref);
-    };
 
     getCurrentIndex = () => {
         const blocks = this.state.blocks
         const current = this.state.activeBlock
         return blocks.findIndex((b) => b.id === current.id)
+    }
+
+    resetBlocks = () => {
+        this.setState({
+            blocks: this.initalBlocks,
+            activeBlock: null
+        })
     }
 
     blockClickHandler = (block) => {
@@ -85,6 +95,12 @@ class ContentGrid extends Component {
         })
     }
 
+    setCurrentBlock = (block) => {
+        this.setState({
+            activeBlock: block
+        })
+    }
+
     render() {
         const chunked = this.state.chunked
         const currentBlock = this.state.activeBlock
@@ -99,8 +115,10 @@ class ContentGrid extends Component {
                                     return (
                                         <ContentPanel
                                         key={block.id}
+                                            blocks={this.initalBlocks}
                                             prevClickHandler={this.prevBlock}
                                             nextClickHandler={this.nextBlock}
+                                            dotHandler={this.setCurrentBlock}
                                             current={currentBlock}
                                         />
                                     )
@@ -108,7 +126,6 @@ class ContentGrid extends Component {
                                     return (
                                         <div
                                             className={styles.col}
-                                            ref={this.setRef}
                                             onClick={() => this.blockClickHandler(block)}
                                             key={block.id}
                                         >

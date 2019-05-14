@@ -34,9 +34,6 @@ exports.createPages = ({ graphql, actions }) => {
                     sizes
                   }
                 }
-                description {
-                  description
-                }
               }
             }
           }
@@ -84,11 +81,24 @@ exports.createPages = ({ graphql, actions }) => {
                     id
                     posts {
                       id
+                      slug
                       title
-                      description {
-                        childMarkdownRemark {
-                          rawMarkdownBody
+                      heroImage {
+                        id
+                        fluid {
+                          base64
+                          tracedSVG
+                          aspectRatio
+                          src
+                          srcSet
+                          srcWebp
+                          srcSetWebp
+                          sizes
                         }
+                      }
+                      body {
+                        id
+                        body
                       }
                     }
                   }
