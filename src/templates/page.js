@@ -1,4 +1,5 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
+import { ParallaxProvider } from 'react-scroll-parallax'
 import Container from '../components/container'
 import Navigation from '../components/navigation'
 import Footer from '../components/site-footer'
@@ -7,6 +8,7 @@ import ContentHero from '../components/content-hero'
 import TextBlockGrid from '../components/text-block-grid'
 import JobList from '../components/job-list'
 import FeaturedPosts from '../components/featured-posts'
+import HomeHero from '../components/home-hero'
 
 const cleanComponentName = (component) => {
     return component.replace('Contentful', '');
@@ -16,10 +18,13 @@ const Page = (props) => {
     const { components } = props.pageContext;
 
     return (
+        <ParallaxProvider>
         <Container>
             <Navigation />
+            <HomeHero/>
             {components && components.map(component => {
                 const type = cleanComponentName( component.__typename );
+
                 switch ( type ) {
                     case 'ContentBlockGrid':
                         return <ContentBlockGrid
@@ -51,6 +56,7 @@ const Page = (props) => {
             })}
             <Footer />
         </Container>
+        </ParallaxProvider>
     )
 }
 

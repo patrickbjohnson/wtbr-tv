@@ -102,3 +102,21 @@ a {
     font-size: 170px;
   }
 }
+
+.fade-in-delay {
+  opacity: 1;
+  transition: 1s ease-out .2s;
+}
+
+.display-immediate {
+  opacity: 1;
+  transform: 0s linear 0s;
+}
+
+.fp-tableCell {
+  /* height: calc(100vh - 70px) !important; */
+}
+
+.full-width {
+  width: 100%;
+}

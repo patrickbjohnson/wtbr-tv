@@ -2,12 +2,14 @@ import React, { Component } from 'react';
 import chunk from 'lodash.chunk'
 import ContentBlock from './ContentBlock';
 import ContentPanel from './content-panel'
+import SectionHeader from './section-header'
 
 import styles from './contentGrid.module.css'
 
 class ContentGrid extends Component {
     constructor(props) {
         super(props)
+        console.log(props)
         this.initalBlocks = []
         this.mq = null
         this.matches = false
@@ -107,6 +109,9 @@ class ContentGrid extends Component {
 
         return (
             <div className={styles.grid}>
+                {this.props.sectionTitle &&
+                    <SectionHeader text={this.props.sectionTitle} />
+                }
                 {chunked && chunked.map((set, i) => {
                     return (
                         <div className={styles.row} key={i}>

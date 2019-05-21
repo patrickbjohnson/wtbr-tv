@@ -56,6 +56,7 @@ exports.createPages = ({ graphql, actions }) => {
                   }
                   ... on ContentfulContentBlockGrid {
                     id
+                    sectionTitle
                     contentBlocks {
                       id
                       title
