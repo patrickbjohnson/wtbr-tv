@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import chunk from 'lodash.chunk'
+import uniqBy from 'lodash.uniqby'
 import ContentBlock from './ContentBlock';
 import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
@@ -9,7 +10,7 @@ import styles from './contentGrid.module.css'
 class ContentGrid extends Component {
     constructor(props) {
         super(props)
-        console.log(props)
+
         this.initalBlocks = []
         this.mq = null
         this.matches = false
@@ -17,17 +18,32 @@ class ContentGrid extends Component {
             base: [],
             blocks: [],
             panelRow: null,
-            activeBlock: null
+            activeBlock: null,
+            categories: []
         }
+    }
+
+    sluggedCategories = (cat) => {
+        return cat.toLowerCase().replace(/\s+/g, '-')
     }
 
     componentDidMount() {
         this.mq = window.matchMedia('(min-width: 768px)');
         this.initalBlocks = this.props.contentBlocks
 
+        const cats = this.initalBlocks.map((block) => {
+            const cat = block.category
+
+            return {
+                title: cat,
+                slug: this.sluggedCategories(cat)
+            }
+        })
+
         this.setState({
             base: this.props.contentBlocks,
             blocks: this.props.contentBlocks,
+            categories: uniqBy(cats, 'slug'),
             chunked: chunk(this.props.contentBlocks, 4),
         }, () => {
             this.matches = this.mq.matches
@@ -103,6 +119,20 @@ class ContentGrid extends Component {
         })
     }
 
+    filterContentSelection = (slug) => {
+        let results = [];
+
+        if (slug === "*") {
+            results = this.initalBlocks
+        } else {
+            results = this.initalBlocks.filter(block => this.sluggedCategories(block.category) === slug)
+        }
+
+        this.setState({
+            chunked: chunk(results, 4)
+        })
+    }
+
     render() {
         const chunked = this.state.chunked
         const currentBlock = this.state.activeBlock
@@ -142,6 +172,15 @@ class ContentGrid extends Component {
                         </div>
                     )
                 })}
+
+                {this.state.categories &&
+                    <div>
+                        {this.state.categories.map((cat, i) => {
+                            return (<span key={i} onClick={() => this.filterContentSelection(cat.slug)}>{cat.title}</span>)
+                        })}
+                        <span onClick={() => this.filterContentSelection('*')}>reset</span>
+                    </div>
+                }
             </div>
         )
     }

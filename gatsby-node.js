@@ -7,7 +7,6 @@ exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const pageTemplate = require.resolve('./src/templates/page.js')
     const postTemplate = require.resolve('./src/templates/blog-post.js')
-
     resolve(
       graphql(
         `
@@ -57,6 +56,7 @@ exports.createPages = ({ graphql, actions }) => {
                   ... on ContentfulContentBlockGrid {
                     id
                     sectionTitle
+                    displayCategory
                     contentBlocks {
                       id
                       title
@@ -66,14 +66,7 @@ exports.createPages = ({ graphql, actions }) => {
                       backgroundImage {
                         id
                         fluid {
-                          base64
-                          tracedSVG
-                          aspectRatio
                           src
-                          srcSet
-                          srcWebp
-                          srcSetWebp
-                          sizes
                         }
                       }
                     }
