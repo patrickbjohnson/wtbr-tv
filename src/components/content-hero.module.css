@@ -1,16 +1,45 @@
-.hero {
+.block {
     padding: 70px 32px;
+    position: relative;
+    margin-bottom: 50px;
 }
 
 .inner {
     width: 100%;
-    max-width: 1000px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 1200px;
     box-sizing: content-box;
+    display: flex;
+    flex-direction: column;
 }
 
-.title {
+.hero h1,
+.hero h2,
+.hero h3,
+.hero p,
+.body h1,
+.body h2,
+.body h3,
+.body p {
+    display: block;
+}
+
+.body {
+    align-items: center;
+    font-size: 16px;
+    color: #000;
+    letter-spacing: -0.05px;
+    line-height: 25px;
+    text-align: left;
+}
+
+
+.hero h1,
+.hero h2,
+.hero h3 {
+    font-weight: bold;
+}
+
+.hero h1 {
     font-size: 61px;
     letter-spacing: 1.05px;
     line-height: 1.2;
@@ -19,27 +48,26 @@
     margin-bottom: 0;
 }
 
-.right {
-    font-size: 16px;
-    color: #000;
-    letter-spacing: -0.05px;
-    line-height: 25px;
-}
-
-
 
 @media (min-width: 768px) {
-    .inner {
-        display: flex;
-        align-items: flex-start;
+    .block {
+        margin-bottom: 150px;
     }
 
-    .left {
-        width: 47%;
+    .inner {
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .hero {
         padding-right: 50px;
+        width: 60%;
     }
 
     .right {
-        width: 53%;
+        width: 34%;
     }
 }

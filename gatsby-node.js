@@ -62,6 +62,7 @@ exports.createPages = ({ graphql, actions }) => {
                       title
                       subTitle
                       category
+                      categoryColor
                       description
                       backgroundImage {
                         id
@@ -110,11 +111,16 @@ exports.createPages = ({ graphql, actions }) => {
                   }
                   ... on ContentfulContentHero {
                     id
-                    heroTitle
+                    backgroundColor
+                    layoutSelection
+                    heroTitle {
+                      id
+                      heroTitle
+                    }
                     heroContent {
                       id
+                      heroContent
                     }
-                    backgroundColor
                   }
                 }
               }

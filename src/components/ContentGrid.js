@@ -1,16 +1,19 @@
-import React, { Component } from 'react';
+import React, { Component, createRef } from 'react';
 import chunk from 'lodash.chunk'
 import uniqBy from 'lodash.uniqby'
+import cx from 'classnames'
 import ContentBlock from './ContentBlock';
 import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
+import filterPanel from './filter-panel'
 
 import styles from './contentGrid.module.css'
+import FilterPanel from './filter-panel';
 
 class ContentGrid extends Component {
     constructor(props) {
         super(props)
-
+        this.filterPanel = createRef()
         this.initalBlocks = []
         this.mq = null
         this.matches = false
@@ -19,7 +22,9 @@ class ContentGrid extends Component {
             blocks: [],
             panelRow: null,
             activeBlock: null,
-            categories: []
+            filterOpen: true,
+            categories: [],
+            catSelected: false,
         }
     }
 
@@ -31,11 +36,14 @@ class ContentGrid extends Component {
         this.mq = window.matchMedia('(min-width: 768px)');
         this.initalBlocks = this.props.contentBlocks
 
+        this.filterPanelClickHandler()
+
         const cats = this.initalBlocks.map((block) => {
             const cat = block.category
 
             return {
                 title: cat,
+                color: block.categoryColor,
                 slug: this.sluggedCategories(cat)
             }
         })
@@ -43,11 +51,14 @@ class ContentGrid extends Component {
         this.setState({
             base: this.props.contentBlocks,
             blocks: this.props.contentBlocks,
+            filterOpen: false,
             categories: uniqBy(cats, 'slug'),
             chunked: chunk(this.props.contentBlocks, 4),
         }, () => {
             this.matches = this.mq.matches
         })
+
+
     }
 
     getCurrentIndex = () => {
@@ -71,6 +82,30 @@ class ContentGrid extends Component {
         })
     }
 
+    filterHeightToggle = () => {
+        if (!this.props.displayCategory) return;
+        const cs = this.state.filterOpen
+        const openHeight = this.filterPanel.scrollHeight
+
+        if (this.state.filterOpen) {
+            this.filterPanel.style.height = `0`
+        } else {
+            this.filterPanel.style.height = `${openHeight - 45}px`
+        }
+
+        this.setState({
+            filterOpen: !cs
+        })
+    }
+
+    filterPanelClickHandler = () => {
+        if (!this.props.displayCategory) return;
+        this.filterHeightToggle()
+        if (!this.state.catSelected) {
+            this.filterContentSelection('*')
+        }
+    }
+
     insertPanel = () => {
         const current = this.getCurrentIndex();
         const diff = Math.abs((current % 4) - 4)
@@ -83,9 +118,9 @@ class ContentGrid extends Component {
         }
 
         const newBlocks = [
-            ...this.state.base.slice(0, sliceIndex),
+            ...this.state.blocks.slice(0, sliceIndex),
             panel,
-            ...this.state.base.slice(sliceIndex)
+            ...this.state.blocks.slice(sliceIndex)
         ]
 
         this.setState({
@@ -128,17 +163,25 @@ class ContentGrid extends Component {
             results = this.initalBlocks.filter(block => this.sluggedCategories(block.category) === slug)
         }
 
+        this.filterHeightToggle()
+
         this.setState({
+            blocks: results,
+            catSelected: true,
             chunked: chunk(results, 4)
         })
     }
 
     render() {
+        const { displayCategory } = this.props
         const chunked = this.state.chunked
         const currentBlock = this.state.activeBlock
+        const categories = this.state.categories
 
         return (
-            <div className={styles.grid}>
+            <div className={cx(styles.grid, {
+                [displayCategory]: styles.gridSpace
+            })}>
                 {this.props.sectionTitle &&
                     <SectionHeader text={this.props.sectionTitle} />
                 }
@@ -151,6 +194,7 @@ class ContentGrid extends Component {
                                         <ContentPanel
                                         key={block.id}
                                             blocks={this.initalBlocks}
+                                            currentBlocks={this.state.blocks}
                                             prevClickHandler={this.prevBlock}
                                             nextClickHandler={this.nextBlock}
                                             dotHandler={this.setCurrentBlock}
@@ -173,13 +217,14 @@ class ContentGrid extends Component {
                     )
                 })}
 
-                {this.state.categories &&
-                    <div>
-                        {this.state.categories.map((cat, i) => {
-                            return (<span key={i} onClick={() => this.filterContentSelection(cat.slug)}>{cat.title}</span>)
-                        })}
-                        <span onClick={() => this.filterContentSelection('*')}>reset</span>
-                    </div>
+                {displayCategory &&
+                    <FilterPanel
+                        categories={categories}
+                        isOpen={this.state.filterOpen}
+                        refHandler={(el) => this.filterPanel = el}
+                        selectionHanlder={this.filterContentSelection}
+                        panelHandler={this.filterPanelClickHandler}
+                    />
                 }
             </div>
         )

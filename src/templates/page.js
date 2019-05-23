@@ -21,39 +21,44 @@ const Page = (props) => {
         <ParallaxProvider>
         <Container>
             <Navigation />
-            <HomeHero/>
-            {components && components.map(component => {
-                const type = cleanComponentName( component.__typename );
+            <div style={{'paddingTop': '70px'}}>
+                {components && components.map(component => {
+                    const type = cleanComponentName( component.__typename );
 
-                switch ( type ) {
-                    case 'ContentBlockGrid':
-                        return <ContentBlockGrid
+                    switch ( type ) {
+                        case 'ContentHomeHero':
+                             return <HomeHero
+                                    key={component.id}
+                                    {...component} />
+                        case 'ContentBlockGrid':
+                            return <ContentBlockGrid
+                                key={component.id}
+                                {...component} />
+                        case 'TextBlockGrid':
+                            return <TextBlockGrid
+                                key={component.id}
+                                {...component} />
+                        case 'ContentHero':
+                            return <ContentHero
+                                key={component.id}
+                                {...component} />
+                        case 'JobList':
+                            return <JobList
+                                key={component.id}
+                                {...component} />
+                        case 'FeaturedPosts':
+                            return <FeaturedPosts
+                                key={component.id}
+                                {...component} />
+                        default:
+                          return (<div
                             key={component.id}
-                            {...component} />
-                    case 'TextBlockGrid':
-                        return <TextBlockGrid
-                            key={component.id}
-                            {...component} />
-                    case 'ContentHero':
-                        return <ContentHero
-                            key={component.id}
-                            {...component} />
-                    case 'JobList':
-                        return <JobList
-                            key={component.id}
-                            {...component} />
-                    case 'FeaturedPosts':
-                        return <FeaturedPosts
-                            key={component.id}
-                            {...component} />
-                    default:
-                      return (<div
-                        key={component.id}
-                        {...component}>
-                            {type}
-                        </div>)
-                }
-            })}
+                            {...component}>
+                                {type}
+                            </div>)
+                    }
+                })}
+            </div>
             <Footer />
         </Container>
         </ParallaxProvider>
