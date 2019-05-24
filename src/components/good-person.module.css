@@ -9,11 +9,6 @@
     margin-bottom: 20px;
 }
 
-.body {
-    padding-left: 30px;
-    padding-right: 30px;
-}
-
 .title {
     font-size: 25px;
     line-height: 1.2;
@@ -28,9 +23,9 @@
 
 @media (min-width: 1024px) {
     .block {
-        max-width: 675px;
         display: flex;
         margin-bottom: 100px;
+        padding-bottom: 0;
     }
 
     .media {
@@ -40,6 +35,12 @@
     .text {
         font-size: 15px;
         line-height: 1.6;
+    }
+
+    .body {
+        padding-right: 0;
+        padding-left: 30px;
+        padding-right: 30px;
     }
 
 }

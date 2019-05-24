@@ -36,3 +36,10 @@
         font-size: 100px;
     }
 }
+
+@media (min-width: 1200px) {
+    .text {
+        font-size: 170px;
+        line-height: 1.1;
+    }
+}

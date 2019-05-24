@@ -9,10 +9,10 @@ class SectionHeader extends Component {
     }
 
     render() {
-        const { text } = this.props
+        const { text, classes } = this.props
 
         return (
-            <Parallax className="full-width" y={[100, -20]}>
+            <Parallax className={classes} y={[100, -20]}>
                 <div className={styles.block}>
                     <h2 className={styles.text}>{text}</h2>
                 </div>

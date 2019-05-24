@@ -5,6 +5,10 @@
     margin-right: auto;
 }
 
+.fullwidth {
+    max-width: 100%;
+}
+
 .item {
     border-bottom: 1px solid #000;
 }

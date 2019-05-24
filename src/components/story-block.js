@@ -2,9 +2,11 @@ import React from 'react';
 
 import styles from './story-block.module.css'
 const StoryBlock = (props) => {
-    const { title, text, image } = props
+    const { title, text, image, color } = props
     return (
-        <div className={styles.block}>
+        <div className={styles.block} style={{
+            backgroundColor: color
+        }}>
             <div className={styles.inner}>
                 <div className={styles.media} style={{
                     'backgroundImage': `url(${image})`

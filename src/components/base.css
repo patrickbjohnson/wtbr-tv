@@ -87,6 +87,7 @@ a {
 
 @supports ((-webkit-text-stroke-color: black)) {
   .outline-text {
+    color: transparent;
     -webkit-text-stroke-width: 1px;
     -webkit-text-stroke-color: black;
   }
@@ -119,4 +120,16 @@ a {
 
 .full-width {
   width: 100%;
+}
+
+.tal {
+  text-align: left;
+}
+
+.parallax-tal h2 {
+  text-align: left;
+}
+
+.parallax-transparent h2 {
+  color: transparent;
 }
