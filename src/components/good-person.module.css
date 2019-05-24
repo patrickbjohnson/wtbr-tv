@@ -1,0 +1,45 @@
+.block {
+    position: relative;
+    padding-bottom: 50px;
+}
+
+.image {
+    display: block;
+    margin: auto;
+    margin-bottom: 20px;
+}
+
+.body {
+    padding-left: 30px;
+    padding-right: 30px;
+}
+
+.title {
+    font-size: 25px;
+    line-height: 1.2;
+    margin-top: 0;
+    margin-bottom: 10px;
+}
+
+.text {
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+@media (min-width: 1024px) {
+    .block {
+        max-width: 675px;
+        display: flex;
+        margin-bottom: 100px;
+    }
+
+    .media {
+        flex-shrink: 0;
+    }
+
+    .text {
+        font-size: 15px;
+        line-height: 1.6;
+    }
+
+}

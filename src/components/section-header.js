@@ -6,7 +6,6 @@ import styles from './section-header.module.css'
 class SectionHeader extends Component {
     constructor(props) {
         super(props)
-
     }
 
     render() {

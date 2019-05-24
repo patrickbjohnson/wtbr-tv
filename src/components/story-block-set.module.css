@@ -1,0 +1,19 @@
+.block {
+    position: relative;
+}
+
+.header {
+    padding: 30px;
+    background-color: #000;
+    color: #fff;
+    text-align: center;
+    font-size: 30px;
+    line-height: 1.2;
+}
+
+@media (min-width: 1024px) {
+    .header {
+        font-size: 61px;
+        line-height: 1.2;
+    }
+}

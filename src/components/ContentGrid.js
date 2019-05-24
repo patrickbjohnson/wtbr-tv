@@ -32,13 +32,11 @@ class ContentGrid extends Component {
         return cat.toLowerCase().replace(/\s+/g, '-')
     }
 
-    componentDidMount() {
-        this.mq = window.matchMedia('(min-width: 768px)');
-        this.initalBlocks = this.props.contentBlocks
-
+    initCategories = (blocks) => {
+        if (!this.props.displayCategory) return;
         this.filterPanelClickHandler()
 
-        const cats = this.initalBlocks.map((block) => {
+        const cats = blocks.map((block) => {
             const cat = block.category
 
             return {
@@ -49,16 +47,23 @@ class ContentGrid extends Component {
         })
 
         this.setState({
+            categories: uniqBy(cats, 'slug'),
+        })
+    }
+
+    componentDidMount() {
+        this.mq = window.matchMedia('(min-width: 768px)');
+        this.initalBlocks = this.props.contentBlocks
+        this.setState({
             base: this.props.contentBlocks,
             blocks: this.props.contentBlocks,
             filterOpen: false,
-            categories: uniqBy(cats, 'slug'),
             chunked: chunk(this.props.contentBlocks, 4),
         }, () => {
             this.matches = this.mq.matches
         })
 
-
+        this.initCategories(this.props.contentBlocks)
     }
 
     getCurrentIndex = () => {
@@ -83,7 +88,7 @@ class ContentGrid extends Component {
     }
 
     filterHeightToggle = () => {
-        if (!this.props.displayCategory) return;
+        // if (!this.props.displayCategory) return;
         const cs = this.state.filterOpen
         const openHeight = this.filterPanel.scrollHeight
 
@@ -99,7 +104,7 @@ class ContentGrid extends Component {
     }
 
     filterPanelClickHandler = () => {
-        if (!this.props.displayCategory) return;
+        // if (!this.props.displayCategory) return;
         this.filterHeightToggle()
         if (!this.state.catSelected) {
             this.filterContentSelection('*')
@@ -178,6 +183,7 @@ class ContentGrid extends Component {
         const currentBlock = this.state.activeBlock
         const categories = this.state.categories
 
+        console.log(this.props)
         return (
             <div className={cx(styles.grid, {
                 [displayCategory]: styles.gridSpace
@@ -226,6 +232,8 @@ class ContentGrid extends Component {
                         panelHandler={this.filterPanelClickHandler}
                     />
                 }
+
+
             </div>
         )
     }

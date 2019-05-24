@@ -1,14 +1,15 @@
-import React, { Component } from 'react';
-import Accordion from './accordion';
+import React, { Component } from 'react'
+import Accordion from './accordion'
+import SectionHeader from './section-header'
 
 const JobList = (props) => {
     const { sectionTitle, activeJobs } = props
 
     return (
         <div>
-            <div>
-                <h2 className="outline-text out-orange">{sectionTitle}</h2>
-            </div>
+            <SectionHeader
+                text={sectionTitle}
+            />
             <Accordion set={activeJobs}/>
         </div>
     )

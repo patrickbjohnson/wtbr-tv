@@ -1,0 +1,14 @@
+.layout {
+    display: flex;
+    justify-content: space-between;
+}
+
+.col {
+    position: relative;
+    width: 50%;
+}
+
+.sticky {
+    position: sticky;
+    top: 100px;
+}
