@@ -63,7 +63,7 @@ class DesktopNav extends Component {
               <img src={logoLg} className={cx(styles.image)} alt="Where the Buffalo Roam"/>
             }
           </Link>
-          <ul className={cx(styles.navigation, 'list-inline', {
+          <ul className={cx(styles.navigation, {
             [styles.scrolledNav]: this.state.pastThreshold
           })}>
             {nav.map((item, i) => {

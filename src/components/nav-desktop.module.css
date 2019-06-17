@@ -60,6 +60,8 @@
     flex-direction: row;
     justify-content: flex-end;
     transition: width .25s ease-out;
+    margin-right: 0;
+    margin-left: auto;
   }
 
   .scrolledLogo {
