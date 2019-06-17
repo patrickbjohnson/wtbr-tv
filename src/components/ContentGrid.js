@@ -183,7 +183,6 @@ class ContentGrid extends Component {
         const currentBlock = this.state.activeBlock
         const categories = this.state.categories
 
-        console.log(this.props)
         return (
             <div className={cx(styles.grid, {
                 [displayCategory]: styles.gridSpace

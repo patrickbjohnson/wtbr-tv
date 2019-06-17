@@ -9,6 +9,7 @@ import TextBlockGrid from '../components/text-block-grid'
 import JobList from '../components/job-list'
 import FeaturedPosts from '../components/featured-posts'
 import HomeHero from '../components/home-hero'
+import HeroSlider from '../components/multi-slide-hero'
 
 const cleanComponentName = (component) => {
     return component.replace('Contentful', '');
@@ -22,6 +23,7 @@ const Page = (props) => {
         <Container>
             <Navigation />
             <div style={{'paddingTop': '70px'}}>
+
                 {components && components.map(component => {
                     const type = cleanComponentName( component.__typename );
 
@@ -48,6 +50,10 @@ const Page = (props) => {
                                 {...component} />
                         case 'FeaturedPosts':
                             return <FeaturedPosts
+                                key={component.id}
+                                {...component} />
+                        case 'HeroSlider':
+                            return <HeroSlider 
                                 key={component.id}
                                 {...component} />
                         default:

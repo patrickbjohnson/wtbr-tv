@@ -3,7 +3,7 @@ import Markdown from 'react-markdown'
 import styles from './content-hero.module.css'
 
 const ContentHero = (props) => {
-    console.log(props)
+
     const {
         heroTitle,
         heroContent,

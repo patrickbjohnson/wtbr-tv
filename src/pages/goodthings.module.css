@@ -68,4 +68,9 @@
         line-height: 1.2;
         margin-top: 0;
     }
+
+    .section > p {
+        font-size: 25px;
+        line-height: 1.56;
+    }
 }

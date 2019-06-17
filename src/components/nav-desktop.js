@@ -1,20 +1,82 @@
-import React from 'react';
+import React, { Component, createRef } from 'react';
 import { Link } from 'gatsby'
 import styles from './nav-desktop.module.css'
 import cx from 'classnames'
+import throttle from 'lodash.throttle'
 
-export default ({nav}) => {
+import logoLg from './wordmark-lg.svg'
+import logoSm from './wordmark-sm.svg'
+
+
+class DesktopNav extends Component {
+  constructor(props) {
+    super(props)
+    this.navBar = createRef()
+    this.nav = []
+    this.state = {
+      pastThreshold: null
+    }
+
+  }
+
+  componentDidMount() {
+    window.addEventListener('scroll', throttle((e) => {
+      this.scrollHandler(e)
+    }, 100))
+  }
+
+  scrollHandler = (e) => {
+    const h = window.innerHeight
+    const threshold = h * .15
+
+    this.setState({
+      pastThreshold: window.scrollY > threshold
+    })
+  }
+
+  hoverHandler = (index, item, state) => {
+    const navItem = this.nav[index]
+
+    if (state) {
+      navItem.style.backgroundColor = item.navColor
+    } else {
+      navItem.style.backgroundColor = '#fff'
+    }
+  }
+
+  setRef = (ref) => {
+    this.nav.push(ref);
+  }
+
+  render() {
+    const { nav } = this.props
+
     return (
-      <div className={styles.block}>
+      <div className={styles.block} ref={this.navBar}>
         <nav className={styles.navWrap} role="navigation">
-          <Link className={styles.logo} to="/">
-            <img src="http://placehold.it/200x80" alt=""/>
+          <Link className={cx(styles.logo, {
+            [styles.scrolledLogo]: this.state.pastThreshold
+          })} to="/">
+            {this.state.pastThreshold ?
+              <img src={logoSm} className={cx(styles.image, styles.small)} alt="Where the Buffalo Roam"/>
+              :
+              <img src={logoLg} className={cx(styles.image)} alt="Where the Buffalo Roam"/>
+            }
           </Link>
-          <ul className={cx(styles.navigation, 'list-inline')}>
-            {nav.map((item) => {
+          <ul className={cx(styles.navigation, 'list-inline', {
+            [styles.scrolledNav]: this.state.pastThreshold
+          })}>
+            {nav.map((item, i) => {
+              if (item.slug === 'home') return false;
               return (
-                <li className={styles.item} key={item.id}>
-                  <Link className={styles.link} to={item.slug}>{item.pageHeadline}</Link>
+                <li
+                  ref={this.setRef}
+                  key={item.id}
+                  className={styles.item}
+                  onMouseEnter={() => this.hoverHandler(i, item, true)}
+                  onMouseLeave={() => this.hoverHandler(i, item, false)}
+                >
+                  <Link className={styles.link} to={item.slug}>{item.slug}</Link>
                 </li>
               )
             })}
@@ -22,4 +84,7 @@ export default ({nav}) => {
         </nav>
       </div>
     )
+  }
 }
+
+export default DesktopNav;

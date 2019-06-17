@@ -13,6 +13,7 @@ export default () => (
               navItem {
                 id
                 slug
+                navColor
                 pageHeadline
                 seoPageTitle
               }

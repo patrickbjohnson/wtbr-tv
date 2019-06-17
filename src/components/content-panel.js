@@ -5,7 +5,7 @@ import styles from './content-panel.module.css'
 
 const ContentPanel = (props) => {
     const { nextClickHandler, prevClickHandler, dotHandler, blocks, currentBlocks, current,  } = props;
-    console.log(blocks)
+
     return (
         <div className={styles.block}>
             {currentBlocks.length > 1 &&
