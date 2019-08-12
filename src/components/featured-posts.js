@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Link } from 'gatsby'
-
+import FlickitySlider from './flickity-slider'
 import styles from './featured-posts.module.css'
 
 const FeaturedPosts = (props) => {
@@ -8,6 +8,7 @@ const FeaturedPosts = (props) => {
 
     return (
         <div className={styles.posts}>
+            <FlickitySlider slides={posts} type='posts' />
             {posts && posts.map((p, i) => {
                 return (
                     <div className={styles.article} key={p.id}>

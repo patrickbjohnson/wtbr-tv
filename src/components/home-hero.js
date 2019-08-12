@@ -81,12 +81,6 @@ class HomeHero extends Component {
             controls: false,
             background: true,
         });
-        
-
-        Promise.all([this.player.getVideoWidth(), this.player.getVideoHeight()]).then(function(dimensions) {
-            console.log(dimensions)
-            
-        });
     }
 
 

@@ -10,6 +10,7 @@ import JobList from '../components/job-list'
 import FeaturedPosts from '../components/featured-posts'
 import HomeHero from '../components/home-hero'
 import HeroSlider from '../components/multi-slide-hero'
+import FlickitySlider from '../components/flickity-slider'
 
 const cleanComponentName = (component) => {
     return component.replace('Contentful', '');
@@ -27,9 +28,10 @@ const Page = (props) => {
             <Navigation />
             <div style={{'paddingTop': '70px'}}>
                 {(slug === 'home' && hasVideo) &&
-
-                <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
+                    <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
                 }
+                
+                <FlickitySlider />
                 
                 {components && components.map(component => {
                     const type = cleanComponentName( component.__typename );
