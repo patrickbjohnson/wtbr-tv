@@ -188,7 +188,7 @@ class ContentGrid extends Component {
                 [displayCategory]: styles.gridSpace
             })}>
                 {this.props.sectionTitle &&
-                    <SectionHeader text={this.props.sectionTitle} />
+                    <SectionHeader text={this.props.sectionTitle} classes='wrapper' />
                 }
                 {chunked && chunked.map((set, i) => {
                     return (

@@ -41,6 +41,19 @@
   flex-grow: 1;
 }
 
+.link {
+  transition: background-color .25s ease-out;
+}
+
+.link:hover {
+  background-color: #F8D377;
+}
+
+.link.active {
+  background-color: #F8D377;
+}
+
+
 @media (min-width: 1024px) {
   .block {
     display: block;

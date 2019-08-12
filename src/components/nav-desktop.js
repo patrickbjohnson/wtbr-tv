@@ -73,16 +73,11 @@ class DesktopNav extends Component {
                   ref={this.setRef}
                   key={item.id}
                   className={styles.item}
-                  onMouseEnter={() => this.hoverHandler(i, item, true)}
-                  onMouseLeave={() => this.hoverHandler(i, item, false)}
                 >
                   <Link 
                   className={styles.link} 
                   to={item.slug}
-                  activeStyle={{ 
-                    backgroundColor: item.navColor,
-                    color: '#fff' 
-                  }}
+                  activeClassName={styles.active}
                   >{item.slug}</Link>
                 </li>
               )
