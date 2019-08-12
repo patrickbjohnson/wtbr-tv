@@ -46,8 +46,6 @@ class SlideHero extends Component {
         const { activeSlide, slides } = this.state     
         const { title, slideImage, heroSlug } = activeSlide
         
-        console.log(activeSlide)
-        
         return (
             <div className={styles.block}>
                 <div className={cx(styles.inner, {

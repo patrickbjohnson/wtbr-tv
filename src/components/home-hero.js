@@ -1,8 +1,10 @@
-import React, { Component } from 'react'
+import React, { Component, createRef } from 'react'
 import ReactFullpage from '@fullpage/react-fullpage'
 import cx from 'classnames'
-
+import Player from '@vimeo/player';
 import styles from './home-hero.module.css'
+
+const key = 'F9BF40A7-583F4D86-94FB5B6D-77C600ED'
 
 class HomeHero extends Component {
     constructor(props) {
@@ -10,15 +12,17 @@ class HomeHero extends Component {
         this.contentRefs = []
         this.api = null
         this.SCROLL_SPEED = 1000
+        this.video = createRef()
+        this.player = null
         this.state = {
             isLast: null,
             activePanel: null,
             sections: [
                 {
-                    text: "Be good people.Make good things."
+                    text: ""
                 },
                 {
-                    text: "A full service production company that believes in being good people and making good things."
+                    text: this.props.videoHeroTitle
                 }
             ]
         }
@@ -63,6 +67,27 @@ class HomeHero extends Component {
             enteringContent.classList.add(fadeClass)
         }, 1000)
     }
+    
+    componentDidMount() {
+        const { videoId } = this.props
+        
+        this.player = new Player(this.video.current, {
+            id: videoId,
+            width: '100%',
+            autoplay: true,
+            title: false,
+            muted: true,
+            loop: true,
+            controls: false,
+            background: true,
+        });
+        
+
+        Promise.all([this.player.getVideoWidth(), this.player.getVideoHeight()]).then(function(dimensions) {
+            console.log(dimensions)
+            
+        });
+    }
 
 
     render() {
@@ -70,13 +95,11 @@ class HomeHero extends Component {
         const lastSlide = slides[slides.length - 1]
         return (
             <div className={styles.block}>
-                <div className={styles.videoWrapper}>
-                    <video autoPlay muted className={styles.video}>
-                        <source src="http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4" type="video/mp4" />
-                    </video>
-                </div>
+                <div className={styles.videoWrapper} ref={this.video}></div>
                 {!this.state.isLast &&
                     <ReactFullpage
+                        licenseKey={key}
+                        sectionsColor={[]}
                         scrollingSpeed={this.SCROLL_SPEED}
                         easingcss3={'cubic-bezier(0.215, 0.61, 0.355, 1), 1.2s'}
                         afterLoad={this.afterLoadHanlder}

@@ -7,7 +7,9 @@ exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const pageTemplate = require.resolve('./src/templates/page.js')
     const postTemplate = require.resolve('./src/templates/blog-post.js')
-    console.log('foo')
+    
+    console.log('hello world')
+    
     resolve(
       graphql(
         `
@@ -44,6 +46,19 @@ exports.createPages = ({ graphql, actions }) => {
                 slug
                 components {
                   __typename
+                  ... on ContentfulVideoHero {
+                    id
+                    videoHeroTitle
+                    videoId
+                    videoBackground {
+                      id
+                      file {
+                        url
+                        fileName
+                        contentType
+                      }
+                    }
+                  }
                   ... on ContentfulTextBlockGrid {
                     id
                     textBlocks {

@@ -16,8 +16,8 @@ const cleanComponentName = (component) => {
 }
 
 const Page = (props) => {
-    const { components } = props.pageContext;
 
+    const { components, slug } = props.pageContext;
     return (
         <ParallaxProvider>
         <Container>
@@ -28,10 +28,11 @@ const Page = (props) => {
                     const type = cleanComponentName( component.__typename );
 
                     switch ( type ) {
-                        case 'ContentHomeHero':
-                             return <HomeHero
-                                    key={component.id}
-                                    {...component} />
+                        case 'VideoHero': 
+                            return <HomeHero 
+                                key={component.id}
+                                {...component}
+                            />
                         case 'ContentBlockGrid':
                             return <ContentBlockGrid
                                 key={component.id}
