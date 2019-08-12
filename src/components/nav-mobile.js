@@ -23,7 +23,7 @@ class MobileNav extends Component {
 
     render() {
         const  { nav } = this.props
-
+      
         return (
           <div className={styles.block}>
             <div className={styles.navBar}>
