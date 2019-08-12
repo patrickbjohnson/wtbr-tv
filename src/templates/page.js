@@ -18,21 +18,23 @@ const cleanComponentName = (component) => {
 const Page = (props) => {
 
     const { components, slug } = props.pageContext;
+    
+    const hasVideo = components.filter(c => c.__typename === 'ContentfulVideoHero')
+
     return (
         <ParallaxProvider>
         <Container>
             <Navigation />
             <div style={{'paddingTop': '70px'}}>
+                {(slug === 'home' && hasVideo) &&
 
+                <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
+                }
+                
                 {components && components.map(component => {
                     const type = cleanComponentName( component.__typename );
 
                     switch ( type ) {
-                        case 'VideoHero': 
-                            return <HomeHero 
-                                key={component.id}
-                                {...component}
-                            />
                         case 'ContentBlockGrid':
                             return <ContentBlockGrid
                                 key={component.id}
@@ -58,11 +60,7 @@ const Page = (props) => {
                                 key={component.id}
                                 {...component} />
                         default:
-                          return (<div
-                            key={component.id}
-                            {...component}>
-                                {type}
-                            </div>)
+                          return false
                     }
                 })}
             </div>
