@@ -103,10 +103,15 @@
 }
 
 @media (min-width: 1024px) {
+    .footer {
+        padding: 46px 90px 20px;
+    }
+    
     .title {
-        font-size: 48px;
+        font-size: 60px;
         color: #fff;
         letter-spacing: 0.55px;
+        margin-bottom: 37px;
     }
 
     .links {
