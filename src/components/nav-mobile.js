@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import { Link } from 'gatsby'
 import cx from 'classnames'
 
+import logoSm from './wordmark-sm.svg'
+
 import styles from './nav-mobile.module.css'
 
 class MobileNav extends Component {
@@ -21,14 +23,13 @@ class MobileNav extends Component {
 
     render() {
         const  { nav } = this.props
-        console.log(this.props)
 
         return (
           <div className={styles.block}>
             <div className={styles.navBar}>
-              <a href="#">
-                <img src="http://placehold.it/75x25" alt=""/>
-              </a>
+              <Link to='/'>
+                <img src={logoSm} alt="Where the Buffalo Roam"/>
+              </Link>
 
               <div className={cx(styles.menu, {
                 [styles.isOpen]: this.state.isOpen
@@ -46,11 +47,9 @@ class MobileNav extends Component {
                       <Link 
                         className={styles.link} 
                         to={item.slug}
-                        activeStyle={{ 
-                          backgroundColor: item.navColor,
-                          color: '#fff' 
-                        }}>
-                          {item.pageHeadline}
+                        activeClassName={styles.active}
+                        >
+                          {item.slug}
                       </Link>
                     </li>
                   )

@@ -96,9 +96,14 @@
   opacity: 0;
 }
 
-.activeLink {
-  background-color: red;
+.link {
+  transition: background-color .25s ease-out;
 }
+
+.active {
+  background-color: #F8D377;
+}
+
 
 @media (min-width: 1024px) {
   .block {
