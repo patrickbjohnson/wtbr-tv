@@ -19,7 +19,7 @@ const Page = (props) => {
 
     const { components, slug } = props.pageContext;
     
-    const hasVideo = components.filter(c => c.__typename === 'ContentfulVideoHero')
+    const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
 
     return (
         <ParallaxProvider>
