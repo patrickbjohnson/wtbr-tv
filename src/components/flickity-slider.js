@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react';
-import Flickity from 'flickity'
+
 import { Image, Link } from 'gatsby'
 import '../../node_modules/flickity/css/flickity.css'
 import styles from '../components/flickity-slider.module.css'
@@ -12,6 +12,8 @@ class FlickitySlider extends Component {
   }
   
   componentDidMount() {
+
+    const Flickity  = require('flickity')
     console.log(this.props)
     const flkty = new Flickity( this.flick.current, {
       cellAlign: 'left',
