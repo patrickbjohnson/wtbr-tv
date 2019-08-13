@@ -27,9 +27,9 @@ class MobileNav extends Component {
         return (
           <div className={styles.block}>
             <div className={styles.navBar}>
-              <Link to='/'>
+              <a href="/">
                 <img src={logoSm} alt="Where the Buffalo Roam"/>
-              </Link>
+              </a>
 
               <div className={cx(styles.menu, {
                 [styles.isOpen]: this.state.isOpen

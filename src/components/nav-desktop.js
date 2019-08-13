@@ -54,15 +54,15 @@ class DesktopNav extends Component {
     return (
       <div className={styles.block} ref={this.navBar}>
         <nav className={styles.navWrap} role="navigation">
-          <Link className={cx(styles.logo, {
+          <a href='/' className={cx(styles.logo, {
             [styles.scrolledLogo]: this.state.pastThreshold
-          })} to="/">
+          })}>
             {this.state.pastThreshold ?
               <img src={logoSm} className={cx(styles.image, styles.small)} alt="Where the Buffalo Roam"/>
               :
               <img src={logoLg} className={cx(styles.image)} alt="Where the Buffalo Roam"/>
             }
-          </Link>
+          </a>
           <ul className={cx(styles.navigation, {
             [styles.scrolledNav]: this.state.pastThreshold
           })}>

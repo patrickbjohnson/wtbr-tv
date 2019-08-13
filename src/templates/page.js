@@ -11,6 +11,8 @@ import FeaturedPosts from '../components/featured-posts'
 import HomeHero from '../components/home-hero'
 import HeroSlider from '../components/multi-slide-hero'
 
+import base from '../components/base.css'
+
 const cleanComponentName = (component) => {
     return component.replace('Contentful', '');
 }
@@ -20,15 +22,14 @@ const Page = (props) => {
     const { components, slug } = props.pageContext;
     
     const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
-
+    console.log(hasVideo)
     return (
         <ParallaxProvider>
         <Container>
             <Navigation />
             <div style={{'paddingTop': '70px'}}>
                 {(slug === 'home' && hasVideo) &&
-
-                <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
+                    <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
                 }
                 
                 {components && components.map(component => {
