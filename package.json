@@ -10,6 +10,7 @@
     "@fullpage/react-fullpage": "^0.1.14",
     "@vimeo/player": "^2.10.0",
     "classnames": "^2.2.6",
+    "core-js": "^2.6.9",
     "gatsby-image": "^2.0.13",
     "gatsby-plugin-react-helmet": "^3.0.0",
     "gatsby-plugin-sharp": "^2.0.6",
@@ -26,8 +27,7 @@
     "react-markdown": "^4.0.8",
     "react-scroll-parallax": "^2.1.2",
     "remark": "^10.0.1",
-    "remark-react": "^5.0.1",
-    "sharp": "^0.22.1"
+    "remark-react": "^5.0.1"
   },
   "devDependencies": {
     "babel-eslint": "^10.0.1",
