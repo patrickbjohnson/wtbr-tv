@@ -7,8 +7,8 @@ class Accordion extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            active: null,
-            accordion: null,
+            active: {},
+            accordion: props.set,
         }
     }
 
@@ -19,13 +19,6 @@ class Accordion extends Component {
          */
         this.setState({
             active: set === this.state.active ? {} : set
-        });
-    }
-
-    componentDidMount() {
-        this.setState({
-            accordion: this.props.set,
-            active: {}
         });
     }
 

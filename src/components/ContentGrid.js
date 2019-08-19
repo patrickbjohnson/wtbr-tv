@@ -88,7 +88,6 @@ class ContentGrid extends Component {
     }
 
     filterHeightToggle = () => {
-        // if (!this.props.displayCategory) return;
         const cs = this.state.filterOpen
         const openHeight = this.filterPanel.scrollHeight
 
@@ -104,7 +103,6 @@ class ContentGrid extends Component {
     }
 
     filterPanelClickHandler = () => {
-        // if (!this.props.displayCategory) return;
         this.filterHeightToggle()
         if (!this.state.catSelected) {
             this.filterContentSelection('*')
@@ -185,7 +183,7 @@ class ContentGrid extends Component {
 
         return (
             <div className={cx(styles.grid, {
-                [displayCategory]: styles.gridSpace
+                [styles.gridSpace]: displayCategory
             })}>
                 {this.props.sectionTitle &&
                     <SectionHeader text={this.props.sectionTitle} classes='wrapper' />

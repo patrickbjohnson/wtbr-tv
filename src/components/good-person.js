@@ -5,7 +5,7 @@ const GoodPerson = () => {
     return (
         <div className={styles.block}>
             <div className={styles.media}>
-                <img className={styles.image} src="http://placehold.it/300x300" alt=""/>
+                <img className={styles.image} src="https://placehold.it/300x300" alt=""/>
             </div>
             <div className={styles.body}>
                 <h3 className={styles.title}>Mercer Brockenbrough</h3>

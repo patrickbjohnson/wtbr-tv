@@ -68,15 +68,16 @@ class DesktopNav extends Component {
           })}>
             {nav.map((item, i) => {
               if (item.slug === 'home') return false;
+
               return (
                 <li
                   ref={this.setRef}
                   key={item.id}
                   className={styles.item}
                 >
-                  <Link 
-                  className={styles.link} 
-                  to={item.slug}
+                  <Link
+                  className={styles.link}
+                  to={`/${item.slug}`}
                   activeClassName={styles.active}
                   >{item.slug}</Link>
                 </li>
