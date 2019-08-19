@@ -23,13 +23,13 @@ class MobileNav extends Component {
 
     render() {
         const  { nav } = this.props
-      
+
         return (
           <div className={styles.block}>
             <div className={styles.navBar}>
-              <Link to='/'>
+              <a href="/">
                 <img src={logoSm} alt="Where the Buffalo Roam"/>
-              </Link>
+              </a>
 
               <div className={cx(styles.menu, {
                 [styles.isOpen]: this.state.isOpen
@@ -44,9 +44,9 @@ class MobileNav extends Component {
                 {nav.map((item) => {
                   return (
                     <li className={styles.item} key={item.id}>
-                      <Link 
-                        className={styles.link} 
-                        to={item.slug}
+                      <Link
+                        className={styles.link}
+                        to={`/${item.slug}`}
                         activeClassName={styles.active}
                         >
                           {item.slug}

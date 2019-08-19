@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Link } from 'gatsby'
 
 import logo from './circle-logo.png';
 import styles from './site-footer.module.css'
@@ -16,7 +17,7 @@ const Footer = (props) => {
                         <a href="#">Facebook</a>
                         <a href="#">Email</a>
                         <a href="#">123-456-7890</a>
-                        <a href="#">jobs</a>
+                        <Link to="/jobs">Jobs</Link>
                     </div>
                 </div>
 

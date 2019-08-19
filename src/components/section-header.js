@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import { Parallax, withController } from 'react-scroll-parallax'
+import { Parallax } from 'react-scroll-parallax'
+import MediaQuery from 'react-responsive'
 
 import styles from './section-header.module.css'
 
@@ -12,12 +13,22 @@ class SectionHeader extends Component {
         const { text, classes } = this.props
 
         return (
-            <Parallax className={classes} y={[100, -20]}>
-                <div className={styles.block}>
-                    <h2 className={styles.text}>{text}</h2>
-                </div>
-            </Parallax>
-
+            <>
+                <MediaQuery minWidth={768}>
+                    <Parallax className={classes} y={[20, -40]}>
+                        <div className={styles.block}>
+                            <h2 className={styles.text}>{text}</h2>
+                        </div>
+                    </Parallax>
+                </MediaQuery>
+                <MediaQuery maxWidth={767}>
+                  <div className={classes}>
+                      <div className={styles.block}>
+                          <h2 className={styles.text}>{text}</h2>
+                      </div>
+                  </div>
+                </MediaQuery>
+            </>
         )
     }
 }

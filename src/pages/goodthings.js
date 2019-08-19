@@ -17,22 +17,22 @@ const blocks = [
     {
         title: "Volunteering at Centeral Texas Food Bank",
         text: "Team Good Things along with some great friends, old and brand new, packed almost 700 lunches for kids at Austin’s @ctxfoodbank earlier this week during @sxsw. Thanks for the opportunity to pitch in at your amazing facility!! It was a real privilege and we will be back again. Good Things!!",
-        image: "http://placehold.it/1200x900"
+        image: "https://placehold.it/1200x900"
     },
     {
         title: "Tristique Bibendum Dapibus",
         text: "Team Good Things along with some great friends, old and brand new, packed almost 700 lunches for kids at Austin’s @ctxfoodbank earlier this week during @sxsw. Thanks for the opportunity to pitch in at your amazing facility!! It was a real privilege and we will be back again. Good Things!!",
-        image: "http://placehold.it/1200x900"
+        image: "https://placehold.it/1200x900"
     },
     {
         title: "Volunteering at Centeral Texas Food Bank",
         text: "Team Good Things along with some great friends, old and brand new, packed almost 700 lunches for kids at Austin’s @ctxfoodbank earlier this week during @sxsw. Thanks for the opportunity to pitch in at your amazing facility!! It was a real privilege and we will be back again. Good Things!!",
-        image: "http://placehold.it/1200x900"
+        image: "https://placehold.it/1200x900"
     },
     {
         title: "Volunteering at Centeral Texas Food Bank",
         text: "Team Good Things along with some great friends, old and brand new, packed almost 700 lunches for kids at Austin’s @ctxfoodbank earlier this week during @sxsw. Thanks for the opportunity to pitch in at your amazing facility!! It was a real privilege and we will be back again. Good Things!!",
-        image: "http://placehold.it/1200x900"
+        image: "https://placehold.it/1200x900"
     }
 ]
 

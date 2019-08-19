@@ -1,7 +1,7 @@
 .footer {
     position: relative;
     padding: 70px 16% 30px;
-    background-image: radial-gradient(circle 375px at center -75px, #F6C561 41%, #C2217D 100%);
+    background-image: radial-gradient(circle at 59% 0, #f6c561, #c2217d);
     color: white;
     text-align: left;
 }
@@ -53,11 +53,11 @@
         text-align: left;
         background-image: radial-gradient(circle 1000px at 60% -290px, #F6C561 41%, #C2217D 100%);
     }
-    
+
     .title {
         max-width: 700px;
     }
-    
+
     .flex {
         display: flex;
         flex-direction: row;
@@ -106,7 +106,7 @@
     .footer {
         padding: 46px 90px 20px;
     }
-    
+
     .title {
         font-size: 60px;
         color: #fff;
