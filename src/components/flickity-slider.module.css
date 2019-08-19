@@ -1,8 +1,35 @@
 .slider {
-  background-color: red;
+  /* background-color: red; */
 }
 
 .slide {
   width: 100%;
-  background-color: blue;
+  /* background-color: blue; */
+}
+
+.nav {
+  
+}
+
+
+.nav {
+  display: block;
+  text-align: center;
+}
+
+.dot {
+  display: inline-block;
+  width: 6px;
+  height: 6px;
+  border: 1px solid #000;
+  border-radius: 50%;
+  margin-left: 2px;
+  margin-right: 2px;
+  background-color: #fff;
+  transition: background-color .25s ease-out;
+}
+
+.activeDot {
+  background-color: #000;
+  transition: background-color .25s ease-out;
 }
