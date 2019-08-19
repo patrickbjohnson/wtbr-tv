@@ -21,7 +21,7 @@ class BlogIndex extends React.Component {
       <Layout location={this.props.location} >
           <Helmet title={siteTitle} />
           <div className={styles.hero}>
-            <img src="http://placehold.it/1600x600" alt=""/>
+            <img src="https://placehold.it/1600x600" alt=""/>
           </div>
           <Ticker articles={posts} />
           <div className="wrapper">
