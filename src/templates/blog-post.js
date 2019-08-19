@@ -53,14 +53,7 @@ export const pageQuery = graphql`
       }
       heroImage {
         fluid {
-          base64
-          tracedSVG
-          aspectRatio
-          src
-          srcSet
-          srcWebp
-          srcSetWebp
-          sizes
+          ...GatsbyContentfulFluid
         }
       }
     }
