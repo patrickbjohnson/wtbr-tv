@@ -18,23 +18,39 @@
 }
 
 .title {
-    font-size: 40px;
-    line-height: 1.2;
+    font-size: 60px;
+    font-weight: 500;
+    line-height: normal;
     margin-top: 0;
     margin-bottom: 20px;
 }
 
 .subtitle {
+    color: #000000;
+    font-family: Helvetica;
     font-size: 13px;
-    line-height: 1.2;
-    text-transform: uppercase;
-    margin-top: 0;
+    font-stretch: normal;
+    font-style: normal;
+    font-weight: normal;
+    letter-spacing: 1.5px;
+    line-height: 1.69;
     margin-bottom: 22px;
+    margin-top: 0;
+    text-transform: uppercase;
+    width: 179px;
 }
 
 .text {
-    font-size: 12px;
-    line-height: 1.5;
+    width: 420px;
+    height: 79px;
+    font-family: Helvetica;
+    font-size: 15px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: 1.67;
+    letter-spacing: -0.05px;
+    color: #000000;
 }
 
 .mobilePagination {

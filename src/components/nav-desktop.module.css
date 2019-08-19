@@ -94,5 +94,7 @@
     text-transform: capitalize;
     text-decoration: none;
     text-align: center;
+    font-family: Helvetica;
+    letter-spacing: 1px;
   }
 }

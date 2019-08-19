@@ -71,11 +71,12 @@
     transition: background-color .25s ease-out;
     text-transform: capitalize;
     text-align: right;
+    cursor: pointer;
 }
 
 .navItem:hover,
 .isActive {
-    background-color: #7DF8B9;
+    background-color: #c2217d;
 }
 
 .fadingOut {
@@ -110,7 +111,7 @@
         top: 50%;
         transform: translateY(-50%);
     }
-    
+
     .title h1,
     .title h2,
     .title h3,
@@ -160,7 +161,7 @@
     .block {
         margin-bottom: 170px;
     }
-    
+
     .title h1,
     .title h2,
     .title h3,

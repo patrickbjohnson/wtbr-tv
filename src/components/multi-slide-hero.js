@@ -8,7 +8,7 @@ import styles from './multi-slide-hero.module.css'
 class SlideHero extends Component {
     constructor(props) {
         super(props)
-        
+
         this.image = createRef()
         this.nav = []
         this.state = {
@@ -31,9 +31,9 @@ class SlideHero extends Component {
 
     navClickHandler = (slide) => {
         this.setState({
-            fadingOut: true, 
+            fadingOut: true,
         })
-        
+
         setTimeout(() => {
             this.setState({
                 activeSlide: slide,
@@ -43,27 +43,27 @@ class SlideHero extends Component {
     }
 
     render() {
-        const { activeSlide, slides } = this.state     
+        const { activeSlide, slides } = this.state
         const { title, slideImage, heroSlug } = activeSlide
-        
+
         return (
             <div className={styles.block}>
                 <div className={cx(styles.inner, {
                     [styles.fadingOut]: this.state.fadingOut
                 })}>
-                    {title && 
+                    {title &&
                         <Markdown className={styles.title} source={title.title} />
                     }
-                    
+
                     {slideImage &&
-                        <img 
+                        <img
                             ref={this.image}
                             className={cx(styles.image, {
                                 [styles.topAlign]: activeSlide.pos === 'top',
-                                [styles.centerAlign]: activeSlide.pos === 'center' || activeSlide.pos === 'center'
-                            })} 
+                                [styles.centerAlign]: activeSlide.pos === 'center'
+                            })}
                             src={slideImage.fluid.src}
-                        />                    
+                        />
                     }
                 </div>
 

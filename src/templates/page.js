@@ -19,52 +19,51 @@ const cleanComponentName = (component) => {
 }
 
 const Page = (props) => {
-    console.log(props)
     const { components, slug } = props.data.contentfulPage;
-    
+
     const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
 
     return (
         <ParallaxProvider>
-        <Container>
-            <Navigation />
-            <div style={{'paddingTop': '70px'}}>
+            <Container>
+                <Navigation />
+                <div style={{'paddingTop': '70px'}}>
 
-                {(slug === 'home' && hasVideo) &&
-                    <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
-                }
-                
-                {components && components.map(component => {
-                    const type = cleanComponentName( component.__typename );
-
-                    switch ( type ) {
-                        case 'ContentBlockGrid':
-                            return <ContentBlockGrid
-                                key={component.id}
-                                {...component} />
-                        case 'TextBlockGrid':
-                            return <TextBlockGrid
-                                key={component.id}
-                                {...component} />
-                        case 'ContentHero':
-                            return <ContentHero
-                                key={component.id}
-                                {...component} />
-                        case 'JobList':
-                            return <JobList
-                                key={component.id}
-                                {...component} />
-                        case 'HeroSlider':
-                            return <HeroSlider 
-                                key={component.id}
-                                {...component} />
-                        default:
-                          return false
+                    {(slug === 'home' && hasVideo) &&
+                        <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
                     }
-                })}
-            </div>
-            <Footer />
-        </Container>
+
+                    {components && components.map(component => {
+                        const type = cleanComponentName( component.__typename );
+
+                        switch ( type ) {
+                            case 'ContentBlockGrid':
+                                return <ContentBlockGrid
+                                    key={component.id}
+                                    {...component} />
+                            case 'TextBlockGrid':
+                                return <TextBlockGrid
+                                    key={component.id}
+                                    {...component} />
+                            case 'ContentHero':
+                                return <ContentHero
+                                    key={component.id}
+                                    {...component} />
+                            case 'JobList':
+                                return <JobList
+                                    key={component.id}
+                                    {...component} />
+                            case 'HeroSlider':
+                                return <HeroSlider
+                                    key={component.id}
+                                    {...component} />
+                            default:
+                              return false
+                        }
+                    })}
+                </div>
+                <Footer />
+            </Container>
         </ParallaxProvider>
     )
 }
