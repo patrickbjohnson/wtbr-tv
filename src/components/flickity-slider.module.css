@@ -4,13 +4,8 @@
 
 .slide {
   width: 100%;
-  /* background-color: blue; */
+  float: left;
 }
-
-.nav {
-  
-}
-
 
 .nav {
   display: block;
@@ -32,4 +27,8 @@
 .activeDot {
   background-color: #000;
   transition: background-color .25s ease-out;
+}
+
+.flickity-button {
+  display: none;
 }

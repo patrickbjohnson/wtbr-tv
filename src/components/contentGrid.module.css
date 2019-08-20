@@ -1,20 +1,11 @@
 .gridSpace {
+  position: relative;
   padding-bottom: 45px;
 }
 
-.grid,
-.row {
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
-}
 
 .col {
     width: 100%;
-    margin-bottom: 1px;
     overflow: hidden;
 }
 
@@ -26,6 +17,10 @@
     transition: height .25s ease-out;
     overflow: hidden;
     padding-bottom: 45px;
+}
+
+.slide {
+    width: 100%;
 }
 
 .filterOpen {
@@ -57,9 +52,15 @@
     box-sizing: content-box;
 }
 
-@media (min-width: 768px) {
-    .col {
-        width: calc(25% - 1px);
-        margin-right: 1px;
-    }
+.grid {
+    display: grid;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 2px;
+    background-color: #fff;
+    color: #444;
+}
+
+.full {
+    grid-column: 1 / span 4;
 }

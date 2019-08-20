@@ -8,23 +8,7 @@ const FeaturedPosts = (props) => {
 
     return (
         <div className={styles.posts}>
-            <FlickitySlider slides={posts} type='posts' />
-            {posts && posts.map((p, i) => {
-                return (
-                    <div className={styles.article} key={p.id}>
-                        <div className={styles.inner}>
-                            <div className={styles.content}>
-                                <h1 className={styles.title}>{p.title}</h1>
-                                <Link className={styles.link} to={`blog#${p.slug}`}>Read More</Link>
-                            </div>
-                            <div className={styles.media} style={{
-                                backgroundImage: `url(${p.heroImage.fluid.src})`
-                            }}>
-                            </div>
-                        </div>
-                    </div>
-                )
-            })}
+            <FlickitySlider type="posts" slides={posts} />
         </div>
     )
 }

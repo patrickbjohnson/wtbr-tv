@@ -1,7 +1,7 @@
 import React, { Component, createRef } from 'react'
 import ReactFullpage from '@fullpage/react-fullpage'
 import cx from 'classnames'
-import Player from '@vimeo/player';
+import Player from '@vimeo/player'
 import styles from './home-hero.module.css'
 
 const key = 'F9BF40A7-583F4D86-94FB5B6D-77C600ED'

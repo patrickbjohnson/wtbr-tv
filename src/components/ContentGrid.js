@@ -6,6 +6,7 @@ import ContentBlock from './ContentBlock';
 import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
 import filterPanel from './filter-panel'
+import ContentPanelMobile from './content-panel-mobile'
 
 import styles from './contentGrid.module.css'
 import FilterPanel from './filter-panel';
@@ -14,7 +15,9 @@ class ContentGrid extends Component {
     constructor(props) {
         super(props)
         this.filterPanel = createRef()
+        this.flick = createRef()
         this.initalBlocks = []
+        this.flkty = null
         this.mq = null
         this.matches = false
         this.state = {
@@ -25,11 +28,12 @@ class ContentGrid extends Component {
             filterOpen: true,
             categories: [],
             catSelected: false,
+            activeSlide: 0
         }
     }
 
     sluggedCategories = (cat) => {
-        return cat.toLowerCase().replace(/\s+/g, '-')
+        return cat ? cat.toLowerCase().replace(/\s+/g, '-') : false
     }
 
     initCategories = (blocks) => {
@@ -52,18 +56,47 @@ class ContentGrid extends Component {
     }
 
     componentDidMount() {
+        const Flickity  = require('flickity')
         this.mq = window.matchMedia('(min-width: 768px)');
         this.initalBlocks = this.props.contentBlocks
         this.setState({
             base: this.props.contentBlocks,
             blocks: this.props.contentBlocks,
             filterOpen: false,
-            chunked: chunk(this.props.contentBlocks, 4),
+            filteredBlocks: this.props.contentBlocks,
         }, () => {
             this.matches = this.mq.matches
+            console.log(this.flick)
         })
-
+        
         this.initCategories(this.props.contentBlocks)
+    }
+    
+    componentDidUpdate(prevProps, prevState, snapshot) {
+        const Flickity  = require('flickity')
+        
+        const {
+            filteredBlocks
+        } = this.state
+        
+        const shouldUpdate = filteredBlocks.filter((b) => {
+            return b.hasOwnProperty('type') && b.type === 'panel'
+        })
+        
+        if (shouldUpdate.length > 0 && this.flick.current) {
+            console.log('inside if')
+            this.flkty = new Flickity(this.flick.current, {
+                cellAlign: 'left',
+                contain: true,
+                draggable: false
+            });
+          
+            this.flkty.on('change', (i) => {
+                this.setState({
+                    active: i
+                })
+            })
+        }
     }
 
     getCurrentIndex = () => {
@@ -79,11 +112,14 @@ class ContentGrid extends Component {
         })
     }
 
-    blockClickHandler = (block) => {
+    blockClickHandler = (block, index) => {
+        console.log(block)
         this.setState({
             activeBlock: block
         }, () => {
             this.insertPanel()
+            if (!this.flkty) return
+            this.flkty.select(index)
         })
     }
 
@@ -113,21 +149,24 @@ class ContentGrid extends Component {
         const current = this.getCurrentIndex();
         const diff = Math.abs((current % 4) - 4)
         const sliceIndex = current + diff;
-
+        const data = this.state.activeBlock
         const panel = {
             type: 'panel',
             id: `panel-${Math.random()}`,
-            block: this.state.activeBlock
+            data
         }
 
         const newBlocks = [
-            ...this.state.blocks.slice(0, sliceIndex),
+            ...this.state.base.slice(0, sliceIndex),
             panel,
-            ...this.state.blocks.slice(sliceIndex)
+            ...this.state.base.slice(sliceIndex)
         ]
 
         this.setState({
-            chunked: chunk(newBlocks, 4)
+            blocks: newBlocks,
+            filteredBlocks: newBlocks
+        }, () => {
+            console.log('insert panels: ', this.state.filteredBlocks)
         })
     }
 
@@ -171,54 +210,71 @@ class ContentGrid extends Component {
         this.setState({
             blocks: results,
             catSelected: true,
-            chunked: chunk(results, 4)
+            filteredBlocks: results
+        }, () => {
+            console.log('results!', this.state.filteredBlocks)
         })
+    }
+    
+    updateCurrentSlideIndex = (index) => {
+        console.log(index)
     }
 
     render() {
-        const { displayCategory } = this.props
-        const chunked = this.state.chunked
-        const currentBlock = this.state.activeBlock
-        const categories = this.state.categories
+        const {
+            currentBlock,
+            categories,
+            filteredBlocks
+        } = this.state
+        
+        const {
+            displayCategory
+        } = this.props
 
         return (
-            <div className={cx(styles.grid, {
+            <div className={cx(styles.layout, {
                 [styles.gridSpace]: displayCategory
             })}>
                 {this.props.sectionTitle &&
                     <SectionHeader text={this.props.sectionTitle} classes='wrapper' />
                 }
-                {chunked && chunked.map((set, i) => {
-                    return (
-                        <div className={styles.row} key={i}>
-                            {set && set.map((block) => {
-                                if (block.hasOwnProperty('type')) {
-                                    return (
-                                        <ContentPanel
-                                        key={block.id}
-                                            blocks={this.initalBlocks}
-                                            currentBlocks={this.state.blocks}
-                                            prevClickHandler={this.prevBlock}
-                                            nextClickHandler={this.nextBlock}
-                                            dotHandler={this.setCurrentBlock}
-                                            current={currentBlock}
-                                        />
-                                    )
-                                } else {
-                                    return (
-                                        <div
-                                            className={styles.col}
-                                            onClick={() => this.blockClickHandler(block)}
-                                            key={block.id}
-                                        >
-                                            <ContentBlock key={block.id} {...block}/>
-                                        </div>
-                                    )
-                                }
-                            })}
-                        </div>
-                    )
-                })}
+                <div className={styles.grid}>
+                    {filteredBlocks && filteredBlocks.map((b, i) => {
+                        if (b.hasOwnProperty('type') && b.type === 'panel') {
+                            return (
+                                <div className={cx(styles.col, styles.full)}>
+                                    
+                                    <div className={styles.slider} ref={this.flick}>
+                                        {filteredBlocks && filteredBlocks.map((s, i) => {
+                                          if (s.type !== 'panel') {
+                                            return (
+                                              <div className={styles.slide} key={s.id}>
+                                                <ContentPanelMobile {...s} currentSlide={this.state.active} slideIndex={i}/>
+                                                <ContentPanel {...s} currentSlide={this.state.active} slideIndex={i}/>
+                                              </div>
+                                            )            
+                                          }
+                                        })}
+                                      </div>
+                                </div>
+                            )
+                        } else { 
+                            return (
+                                <div
+                                    className={styles.col}
+                                    onClick={() => this.blockClickHandler(b, i)}
+                                    key={b.id}
+                                >
+                                    <ContentBlock 
+                                        key={b.id}
+                                        inGrid={true}
+                                        {...b}
+                                    />
+                                </div>
+                            )   
+                        }
+                    })}
+                </div>
 
                 {displayCategory &&
                     <FilterPanel
@@ -229,7 +285,6 @@ class ContentGrid extends Component {
                         panelHandler={this.filterPanelClickHandler}
                     />
                 }
-
 
             </div>
         )

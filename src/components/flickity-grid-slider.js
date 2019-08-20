@@ -3,9 +3,9 @@ import { Image, Link } from 'gatsby'
 import '../../node_modules/flickity/dist/flickity.css'
 import styles from '../components/flickity-slider.module.css'
 import cx from 'classnames'
-import ContentBlock from '../components/ContentBlock'
-import ContentPanel from '../components/content-panel'
-import ContentPanelMobile from '../components/content-panel-mobile'
+import ContentBlock from './ContentBlock'
+import ContentPanel from './content-panel'
+import ContentPanelMobile from './content-panel-mobile'
 
 /**
  * 
@@ -15,7 +15,7 @@ import ContentPanelMobile from '../components/content-panel-mobile'
  * 
  */
 
-class FlickitySlider extends Component {
+class FlickityGridSlider extends Component {
   constructor(props) {
     super(props)
     
@@ -47,6 +47,10 @@ class FlickitySlider extends Component {
     })
   }
   
+  componentDidUpdate(prevProps, prevState, snapshot) {
+    console.log(prevProps, prevState, snapshot)
+  }
+  
   render() {
     return (
       <div className={styles.slider} ref={this.flick}>
@@ -65,4 +69,4 @@ class FlickitySlider extends Component {
   }
 }
 
-export default FlickitySlider;
+export default FlickityGridSlider;

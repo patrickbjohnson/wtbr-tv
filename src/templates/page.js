@@ -34,12 +34,17 @@ const Page = (props) => {
                         <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
                     }
 
-                    <FlickitySlider />
+                    
 
                     {components && components.map(component => {
                         const type = cleanComponentName( component.__typename );
 
                         switch ( type ) {
+                          
+                            case 'FeaturedPosts':
+                              return <FeaturedPosts
+                                key={component.id}
+                                {...component} />
                             case 'ContentBlockGrid':
                                 return <ContentBlockGrid
                                     key={component.id}
@@ -106,34 +111,60 @@ export const pageQuery = graphql`
             displayCategory
             contentBlocks {
               id
-              title
-              subTitle
+              body {
+                body
+              }
               category
               categoryColor
-              description
-              backgroundImage {
-                id
+              title
+              type
+              image {
                 fluid {
-                    ...GatsbyContentfulFluid
+                  ...GatsbyContentfulFluid
                 }
+              }
+              videos {
+                title
+                videoId
+                caption
               }
             }
           }
           ... on ContentfulFeaturedPosts {
             id
             posts {
-              id
-              slug
-              title
-              heroImage {
+              ... on ContentfulContentBlock {
                 id
-                fluid {
-                  ...GatsbyContentfulFluid
+                body {
+                  body
+                }
+                category
+                categoryColor
+                title
+                type
+                image {
+                  fluid {
+                    ...GatsbyContentfulFluid
+                  }
+                }
+                videos {
+                  title
+                  videoId
+                  caption
                 }
               }
-              body {
+              ... on ContentfulBlogPost {
                 id
-                body
+                slug
+                title
+                body {
+                  body
+                }
+                image {
+                  fluid {
+                    ...GatsbyContentfulFluid
+                  }
+                }
               }
             }
           }
