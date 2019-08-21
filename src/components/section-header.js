@@ -15,7 +15,7 @@ class SectionHeader extends Component {
         return (
             <>
                 <MediaQuery minWidth={768}>
-                    <Parallax className={classes} y={[20, -40]}>
+                    <Parallax className={classes} y={[40, -60]}>
                         <div className={styles.block}>
                             <h2 className={styles.text}>{text}</h2>
                         </div>
