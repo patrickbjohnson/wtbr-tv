@@ -14,13 +14,13 @@ class FilterPanel extends Component {
     getColorScheme(color, hovered) {
       if(hovered) {
         return {
-          backgroundColor: '#000',
-          color: color || '#FFF'
+          backgroundColor: color || '#999',
+          color: '#FFF'
         }
       } else {
         return {
-          backgroundColor: color || '#999',
-          color: '#FFF'
+          backgroundColor: '#000',
+          color: color || '#FFF'
         }
       }
     }
