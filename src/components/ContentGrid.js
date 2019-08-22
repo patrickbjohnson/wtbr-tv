@@ -5,10 +5,8 @@ import cx from 'classnames'
 import ContentBlock from './ContentBlock';
 import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
-import filterPanel from './filter-panel'
-var Flickity
-
-if( typeof window !== 'undefined') Flickity = require('flickity');
+import filterPanel from './filter-panel';
+import Flickity from 'flickity';
 
 import FilterPanel from './filter-panel';
 
@@ -51,7 +49,6 @@ class ContentGrid extends Component {
     }
 
     initFlickity = () => {
-        if(!window) return
         this.flickity = new Flickity(this.slider.current, {
             cellAlign: 'left',
             contain: true,
