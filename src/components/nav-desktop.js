@@ -6,15 +6,20 @@ import throttle from 'lodash.throttle'
 
 import logoLg from './wordmark-lg.svg'
 import logoSm from './wordmark-sm.svg'
+import w from './logo-w.svg'
 
 
 class DesktopNav extends Component {
   constructor(props) {
     super(props)
     this.navBar = createRef()
+    this.logoWrap = createRef()
     this.nav = []
+    this.threshold = 600
     this.state = {
-      pastThreshold: null
+      pastThreshold: null,
+      isAnimatingLogo: false,
+      scrolledDown: false
     }
 
   }
@@ -23,25 +28,44 @@ class DesktopNav extends Component {
     window.addEventListener('scroll', throttle((e) => {
       this.scrollHandler(e)
     }, 100))
+
+    this.setState({
+      largeLogo: window.scrollY < this.threshold,
+      smallLogo: window.scrollY > this.threshold
+    })
   }
 
   scrollHandler = (e) => {
     const h = window.innerHeight
     const threshold = h * .15
-
-    this.setState({
-      pastThreshold: window.scrollY > threshold
-    })
-  }
-
-  hoverHandler = (index, item, state) => {
-    const navItem = this.nav[index]
-
-    if (state) {
-      navItem.style.backgroundColor = item.navColor
-    } else {
-      navItem.style.backgroundColor = '#fff'
+    
+    if ((window.scrollY > threshold) && !this.state.scrolledDown) {
+      this.setState({
+        scrolledDown: true,
+        scrolledUp: false
+      }, () => {
+        this.scrollAnimation('down')
+      })
     }
+    
+    if ((window.scrollY < threshold) && (!this.state.scrolledUp && this.state.scrolledDown)) {
+      this.setState({
+        scrolledUp: true,
+        scrolledDown: false
+      }, () => {
+        console.log('scrolled up')  
+        this.scrollAnimation('up')
+      })
+    }
+  }
+  
+  scrollAnimation = (dir) => {    
+    this.setState({
+      largeLogo: dir === 'up',
+      smallLogo: dir === 'down'
+    }, () => {
+      console.log(dir, this.state)
+    })
   }
 
   setRef = (ref) => {
@@ -57,11 +81,24 @@ class DesktopNav extends Component {
           <a href='/' className={cx(styles.logo, {
             [styles.scrolledLogo]: this.state.pastThreshold
           })}>
-            {this.state.pastThreshold ?
-              <img src={logoSm} className={cx(styles.image, styles.small)} alt="Where the Buffalo Roam"/>
-              :
-              <img src={logoLg} className={cx(styles.image)} alt="Where the Buffalo Roam"/>
-            }
+              <div 
+                className={cx(styles.logoWrap)} 
+                ref={this.logoWrap}>
+                  <img className={cx(styles.image, styles.w)} src={w} alt=""/>
+                  <img 
+                  src={logoSm} 
+                  className={cx(styles.image, styles.small, {
+                    [styles.fade]: this.state.largeLogo
+                  })} 
+                  alt="Where the Buffalo Roam"/>
+                
+                <img 
+                  src={logoLg} 
+                  className={cx(styles.image, styles.large, {
+                    [styles.fade]: this.state.smallLogo
+                  })} 
+                  alt="Where the Buffalo Roam"/>  
+              </div>
           </a>
           <ul className={cx(styles.navigation, {
             [styles.scrolledNav]: this.state.pastThreshold

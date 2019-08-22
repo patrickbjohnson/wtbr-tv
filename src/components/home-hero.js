@@ -90,7 +90,7 @@ class HomeHero extends Component {
         return (
             <div className={styles.block}>
                 <div className={styles.videoWrapper} ref={this.video}></div>
-                {/* {!this.state.isLast &&
+                {!this.state.isLast &&
                     <ReactFullpage
                         licenseKey={key}
                         sectionsColor={[]}
@@ -115,9 +115,9 @@ class HomeHero extends Component {
                           );
                         }}
                     />
-                } */}
+                }
 
-                {/* {this.state.isLast && */}
+                {this.state.isLast &&
                     <div className={cx('section', styles.section, styles.singlePanel)}>
                         <div className={cx(
                             'display-immediate',
@@ -126,7 +126,7 @@ class HomeHero extends Component {
                             <p className={styles.title}>{lastSlide.text}</p>
                         </div>
                     </div>
-                {/* } */}
+                }
 
             </div>
         )

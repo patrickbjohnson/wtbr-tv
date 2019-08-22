@@ -1,7 +1,7 @@
 .block {
   display: none;
   position: fixed;
-  z-index: 100;
+  z-index: 9999;
   left: 0;
   right: 0;
   height: 80px;
@@ -16,28 +16,69 @@
 
 .logo {
   flex-shrink: 0;
-  display: block;
-  text-align: center;
-  height: 80px;
   display: flex;
   align-items: center;
-  margin-left: 30px;
-  margin-right: 30px;
-  width: 20%;
+  height: 80px;
+  width: 260px;
+  position: relative;
+  padding-left: 30px;
+}
+
+.logo-wrap {
+  position: relative;
+  width: 260px;
+  height: 80px;
+  overflow: hidden;
 }
 
 .image {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
   display: inline-block;
   vertical-align: middle;
+  max-width: none;
 }
 
-.small {
-  margin-left: 60px;
+.w,
+.small,
+.large {
+  height: 15px;
+}
+
+.small, 
+.large {
+  left: 20px;
+  opacity: 1;
+  transition: opacity .45s ease-out;
+}
+
+@media (min-width: 1200px) {
+
+  .w {
+    height: 19px;
+  }
+  
+  .small,
+  .large {
+    height: 20px;
+    left: 27px;
+  }
+  
+  .logo,
+  .logo-wrap {
+    width: 350px;
+  }
+}
+
+
+
+.fade {
+  opacity: 0
 }
 
 .item {
-  transition: background-color .25s ease-out,
-              flex-grow .25s ease-out;
+  transition: background-color .25s ease-out;
   flex-grow: 1;
 }
 
@@ -68,7 +109,7 @@
 
   .navigation {
     height: 100%;
-    width: 60%;
+    width: 70%;
     display: flex;
     flex-direction: row;
     justify-content: flex-end;
@@ -76,14 +117,6 @@
     margin-left: auto;
     list-style: none;
     transition: width .25s ease-out;
-  }
-
-  .scrolledLogo {
-    width: 15%;
-  }
-
-  .scrolledNav {
-    width: 70%;
   }
 
   .link {

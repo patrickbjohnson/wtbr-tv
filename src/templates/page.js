@@ -34,8 +34,6 @@ const Page = (props) => {
                         <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
                     }
 
-                    
-
                     {components && components.map(component => {
                         const type = cleanComponentName( component.__typename );
 
