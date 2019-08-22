@@ -1,5 +1,5 @@
-.slider {
-  /* background-color: red; */
+.wrapper {
+  position: relative;
 }
 
 .slide {
@@ -29,6 +29,33 @@
   transition: background-color .25s ease-out;
 }
 
-.flickity-button {
-  display: none;
+
+.btn {
+  display: block;
+  position: absolute;
+  top: 50%;
+  cursor: pointer;
+  text-transform: uppercase;
+  appearance: none;
+  border: 0;
+  border-radius: 0;
+  z-index: 999;
+  transform: translateY(-50%);
+  font-size: 13px;
+  background-color: transparent;
+}
+
+.btn[disabled] {
+  cursor: not-allowed;
+}
+
+
+.prev {
+  left: 10px;
+  transform: rotate(-90deg);
+}
+
+.next {
+  right: 10px;
+  transform: rotate(90deg);
 }

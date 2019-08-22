@@ -8,10 +8,7 @@ const Play = () => {
   return (
     <svg
       xmlns='http://www.w3.org/2000/svg'
-      ariaHidden='true'
       className={cx(styles.playIcon)}
-      data-icon='play'
-      data-prefix='fas'
       viewBox='0 0 448 512'
     >
       <path
@@ -26,9 +23,7 @@ const Pause = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      ariaHidden="true"
       className={cx(styles.pauseIcon)}
-      data-prefix="fas"
       viewBox="0 0 448 512"
     >
       <path

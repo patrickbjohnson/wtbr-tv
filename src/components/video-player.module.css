@@ -3,6 +3,10 @@
     margin-bottom: 50px;
 }
 
+.block:last-of-type {
+    margin-bottom: 0;
+}
+
 .video {
     position: relative;
 }

@@ -19,7 +19,7 @@ class FlickitySlider extends Component {
   constructor(props) {
     super(props)
     
-    this.flick = createRef()
+    this.slider = createRef()
     this.flkty = null
     this.state = {
       slides: [],
@@ -28,39 +28,80 @@ class FlickitySlider extends Component {
   }
   
   componentDidMount() {
-    const Flickity  = require('flickity')
+    
     
     this.setState({
       slides: this.props.posts ? this.props.posts : this.props.slides
     }, () => {
-      this.flkty = new Flickity( this.flick.current, {
-        cellAlign: 'left',
-        contain: true,
-        draggable: false
-      });
-      
-      this.flkty.on('change', (i) => {
-        this.setState({
-          active: i
-        })
-      })
+
+      this.initFlickity()
+    })
+  }
+  
+  initFlickity = () => {
+    const Flickity  = require('flickity')
+    
+    this.flickity = new Flickity(this.slider.current, {
+      cellAlign: 'left',
+      contain: true,
+      draggable: false
+    })
+        
+    Array.from(this.slider.current.querySelectorAll('.flickity-button'), (b) => b.style.display = 'none')
+    this.slider.current.querySelector('.flickity-page-dots').style.display = 'none'
+    
+    this.setDisabledStates()
+    this.flickityChangeEvent()
+  }
+
+  setDisabledStates = () => {
+    this.setState({
+        isFirst: this.flickity.selectedIndex === 0,
+        isLast: this.flickity.selectedIndex === (this.flickity.cells.length - 1) 
+    })
+  }
+
+  flickityChangeEvent = () => {
+    this.flickity.on('change', (e) => {
+      this.setDisabledStates()
+      this.setState({active: e})
     })
   }
   
   render() {
     return (
-      <div className={styles.slider} ref={this.flick}>
-        {this.state.slides && this.state.slides.map((s, i) => {
-          if (s.type !== 'panel') {
-            return (
-              <div className={styles.slide} key={s.id}>
-                <ContentPanelMobile {...s} currentSlide={this.state.active} slideIndex={i}/>
-                <ContentPanel {...s} currentSlide={this.state.active} slideIndex={i}/>
-              </div>
-            )            
-          }
-        })}
-      </div>
+      <div className={styles.wrapper}>
+        
+        <div className={styles.slider} ref={this.slider}>
+          {this.state.slides && this.state.slides.map((s, i) => {
+            console.log(i)
+            if (s.type !== 'panel') {
+              return (
+                <div className={styles.slide} key={s.id}>
+                  <ContentPanelMobile {...s} currentSlide={this.state.active} slideIndex={i}/>
+                  <ContentPanel {...s} currentSlide={this.state.active} slideIndex={i}/>
+                </div>
+              )            
+            }
+          })}
+        </div>
+        
+        <div className={styles.pagination}>
+          <button 
+            className={cx(styles.prev, styles.btn)}
+            disabled={this.state.isFirst}
+            onClick={() => {
+                this.flickity.previous()
+            }}>Prev</button>
+            
+            <button 
+              className={cx(styles.next, styles.btn)}
+              disabled={this.state.isLast}
+              onClick={() => {
+                  this.flickity.next()
+              }}>Next</button>
+        </div>
+      </div> 
     )
   }
 }

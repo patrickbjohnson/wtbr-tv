@@ -3,7 +3,6 @@
   padding-bottom: 45px;
 }
 
-
 .col {
     width: 100%;
     overflow: hidden;
@@ -21,10 +20,6 @@
 
 .slide {
     width: 100%;
-}
-
-.filterOpen {
-    height: 100%;
 }
 
 .filterItem {
@@ -62,5 +57,48 @@
 }
 
 .full {
+    position: relative;
     grid-column: 1 / span 4;
+}
+
+.wrapper {
+    position: relative;
+}
+
+.btn {
+    display: block;
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    text-transform: uppercase;
+    appearance: none;
+    border: 0;
+    border-radius: 0;
+    z-index: 999;
+    transform: translateY(-50%);
+    font-size: 13px;
+    background-color: transparent;
+}
+
+.btn[disabled] {
+    cursor: not-allowed;
+}
+
+
+.prev {
+    left: 10px;
+    transform: rotate(-90deg);
+}
+
+.next {
+    right: 10px;
+    transform: rotate(90deg);
+}
+
+.hidden {
+    display: none;
+}
+
+.block {
+    display: block;
 }

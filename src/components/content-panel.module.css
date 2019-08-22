@@ -80,35 +80,13 @@
         display: none;
     }
     
-    .block {
-        display: block;
-    }
-    
     .mobilePagination {
         display: none;
     }
 
-    .pagination {
-        display: block;
-        text-transform: uppercase;
-        position: absolute;
-        top: 50%;
-        transform: translateY(-50);
-        cursor: pointer;
-    }
-
-    .prev {
-        left: 20px;
-        writing-mode: vertical-rl;
-        transform: rotate(180deg);
-    }
-
-    .next {
-        right: 20px;
-        writing-mode: vertical-lr;
-    }
 
     .block {
+        display: block;
         position: relative;
         margin-left: auto;
         margin-right: auto;
@@ -154,8 +132,8 @@
 
 @media (min-width: 1440px) {
     .block {
-        padding-top: 130px;
-        padding-bottom: 130px;
+        padding-top: 110px;
+        padding-bottom: 110px;
     }
 }
 

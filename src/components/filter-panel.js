@@ -12,14 +12,15 @@ class FilterPanel extends Component {
             categories,
             isOpen,
             refHandler,
-            selectionHanlder,
+            selectionHandler,
             panelHandler,
+            resetHandler
         } = this.props
+        
         return (
             <div
                 className={cx(
                     styles.filter,
-                    {[styles.filterOpen]: isOpen}
                 )}
                 ref={refHandler}
             >
@@ -31,14 +32,17 @@ class FilterPanel extends Component {
                                 backgroundColor: cat.color ? cat.color : '#000'
                             }}
                             key={i}
-                            onClick={() => selectionHanlder(cat.slug)}>
+                            onClick={() => selectionHandler(cat.slug)}>
                                 {cat.title}
                         </span>
                     )
                 })}
                 <span
                     className={cx(styles.filterItem)}
-                    onClick={() => selectionHanlder('*')}
+                    onClick={() => {
+                        resetHandler()
+                        selectionHandler('*')
+                    }}
                 >
                     Reset
                 </span>
