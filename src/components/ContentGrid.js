@@ -29,6 +29,7 @@ class ContentGrid extends Component {
             catSelected: false,
             sliderRow: -1,
             active: 0,
+            activeSlide: {},
             panelIsOpen: false,
             isFirst: false,
             isLast: false
@@ -205,9 +206,6 @@ class ContentGrid extends Component {
         const {
             displayCategory
         } = this.props
-
-        console.log('active', active)
-        console.log('activeSlide', activeSlide)
 
         return (
             <div className={cx(styles.layout, {
