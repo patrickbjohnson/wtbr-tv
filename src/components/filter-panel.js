@@ -4,7 +4,25 @@ import styles from './filter-panel.module.css'
 
 class FilterPanel extends Component {
     constructor(props) {
-        super(props)
+      super(props)
+
+      this.state = {
+        hover: null
+      }
+    }
+
+    getColorScheme(color, hovered) {
+      if(hovered) {
+        return {
+          backgroundColor: '#000',
+          color: color || '#FFF'
+        }
+      } else {
+        return {
+          backgroundColor: color || '#999',
+          color: '#FFF'
+        }
+      }
     }
 
     render() {
@@ -16,7 +34,9 @@ class FilterPanel extends Component {
             panelHandler,
             resetHandler
         } = this.props
-        
+
+        const { hover } = this.state
+
         return (
             <div
                 className={cx(
@@ -25,13 +45,15 @@ class FilterPanel extends Component {
                 ref={refHandler}
             >
                 {categories.map((cat, i) => {
+                    const style = this.getColorScheme(cat.color, hover === cat.slug)
+
                     return (
                         <span
                             className={styles.filterItem}
-                            style={{
-                                backgroundColor: cat.color ? cat.color : '#000'
-                            }}
+                            style={style}
                             key={i}
+                            onMouseOver={() => this.setState({ hover: cat.slug })}
+                            onMouseOut={() => this.setState({ hover: null })}
                             onClick={() => selectionHandler(cat.slug)}>
                                 {cat.title}
                         </span>
