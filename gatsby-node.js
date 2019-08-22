@@ -7,6 +7,7 @@ exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const pageTemplate = require.resolve('./src/templates/page.js')
     const postTemplate = require.resolve('./src/templates/blog-post.js')
+    const blog = require.resolve('./src/pages/blog.js')
     
     resolve(
       graphql(
@@ -39,7 +40,7 @@ exports.createPages = ({ graphql, actions }) => {
           const slug = page.node.slug.toLowerCase();
           createPage({
             path: (slug === 'home') ? '/' : `/${slug}`,
-            component: pageTemplate,
+            component: (slug === 'happenings') ? blog : pageTemplate,
             context: {
               slug: page.node.slug
             },

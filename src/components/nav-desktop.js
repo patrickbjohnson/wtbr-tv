@@ -43,19 +43,14 @@ class DesktopNav extends Component {
       this.setState({
         scrolledDown: true,
         scrolledUp: false
-      }, () => {
-        this.scrollAnimation('down')
-      })
+      }, () => this.scrollAnimation('down'))
     }
     
     if ((window.scrollY < threshold) && (!this.state.scrolledUp && this.state.scrolledDown)) {
       this.setState({
         scrolledUp: true,
         scrolledDown: false
-      }, () => {
-        console.log('scrolled up')  
-        this.scrollAnimation('up')
-      })
+      }, () => this.scrollAnimation('up'))
     }
   }
   
@@ -63,8 +58,6 @@ class DesktopNav extends Component {
     this.setState({
       largeLogo: dir === 'up',
       smallLogo: dir === 'down'
-    }, () => {
-      console.log(dir, this.state)
     })
   }
 

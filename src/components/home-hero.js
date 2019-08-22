@@ -87,8 +87,9 @@ class HomeHero extends Component {
     render() {
         const slides = this.state.sections
         const lastSlide = slides[slides.length - 1]
+        const classNames = this.props.classNames
         return (
-            <div className={styles.block}>
+            <div className={cx(styles.block, classNames)}>
                 <div className={styles.videoWrapper} ref={this.video}></div>
                 {!this.state.isLast &&
                     <ReactFullpage

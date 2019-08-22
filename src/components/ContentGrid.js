@@ -1,6 +1,8 @@
-if (typeof window !== `undefined`) {
-    const Flickity = require('flickity');
-}
+// if (typeof window !== `undefined`) {
+//     const Flickity = require('flickity');
+// }
+
+import Flickity from 'flickity'
 
 import React, { Component, createRef } from 'react';
 import uniqBy from 'lodash.uniqby'
@@ -148,8 +150,6 @@ class ContentGrid extends Component {
         this.setState({
             activeSlide: -1,
             panelIsOpen: false
-        }, ()=> {
-            console.log(this.state)
         })
     }
     

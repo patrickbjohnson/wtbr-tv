@@ -49,10 +49,6 @@ class FlickityGridSlider extends Component {
     })
   }
   
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(prevProps, prevState, snapshot)
-  }
-  
   render() {
     return (
       <div className={styles.slider} ref={this.flick}>

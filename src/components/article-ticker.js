@@ -2,14 +2,18 @@ import React from 'react';
 
 import styles from './article-ticker.module.css'
 
-export default ({articles}) => {
+import Ticker from 'react-ticker'
 
-  return (
-    <div className={styles.ticker}>
-      {articles.map(article => {
-        return <span className={styles.item}>{article.node.title}</span>
-      })}
-
-    </div>
-  )
-}
+export default ({articles}) => (
+  <div className={styles.ticker}>
+  <Ticker>
+      {({ index }) => (
+        <>
+        {articles.map((article, i) => {
+          return <span className={styles.item} key={article.node.id}>{article.node.title}</span>
+        })}
+        </>
+      )}
+  </Ticker>
+  </div>
+)

@@ -74,13 +74,13 @@ const Page = (props) => {
     )
 }
 export const pageQuery = graphql`
- query PostBySlug($slug:String!) {
-     contentfulPage(slug:{eq: $slug}) {
-        seoPageTitle
-        slug
-        components {
-          __typename
-          ... on ContentfulVideoHero {
+  query PostBySlug($slug:String!) {
+    contentfulPage(slug:{eq: $slug}) {
+      seoPageTitle
+      slug
+      components {
+        __typename
+        ... on ContentfulVideoHero {
             id
             videoHeroTitle
             videoId

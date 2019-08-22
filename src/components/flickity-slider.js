@@ -1,6 +1,6 @@
-if (typeof window !== `undefined`) {
-  const Flickity = require('flickity');
-}
+// if (typeof window !== `undefined`) {
+//   const Flickity = require('flickity');
+// }
 
 import React, { Component, createRef } from 'react';
 import { Image, Link } from 'gatsby'
@@ -10,6 +10,7 @@ import cx from 'classnames'
 import ContentBlock from '../components/ContentBlock'
 import ContentPanel from '../components/content-panel'
 import ContentPanelMobile from '../components/content-panel-mobile'
+import Flickity from 'flickity'
 
 /**
  * 
@@ -76,7 +77,6 @@ class FlickitySlider extends Component {
         
         <div className={styles.slider} ref={this.slider}>
           {this.state.slides && this.state.slides.map((s, i) => {
-            console.log(i)
             if (s.type !== 'panel') {
               return (
                 <div className={styles.slide} key={s.id}>
