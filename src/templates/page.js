@@ -29,7 +29,7 @@ const Page = (props) => {
             <Container>
                 <Navigation />
                 <div style={{'paddingTop': '70px'}}>
-                  
+
                     {(slug === 'home' && hasVideo) &&
                         <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
                     }
@@ -38,7 +38,7 @@ const Page = (props) => {
                         const type = cleanComponentName( component.__typename );
 
                         switch ( type ) {
-                          
+
                             case 'FeaturedPosts':
                               return <FeaturedPosts
                                 key={component.id}
@@ -121,6 +121,11 @@ export const pageQuery = graphql`
                   ...GatsbyContentfulFluid
                 }
               }
+              hoverImage {
+                fluid {
+                  ...GatsbyContentfulFluid
+                }
+              }
               videos {
                 title
                 videoId
@@ -141,6 +146,11 @@ export const pageQuery = graphql`
                 title
                 type
                 image {
+                  fluid {
+                    ...GatsbyContentfulFluid
+                  }
+                }
+                hoverImage {
                   fluid {
                     ...GatsbyContentfulFluid
                   }
