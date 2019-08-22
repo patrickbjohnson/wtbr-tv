@@ -1,13 +1,13 @@
+if (typeof window !== `undefined`) {
+    const Flickity = require('flickity');
+}
+
 import React, { Component, createRef } from 'react';
-import chunk from 'lodash.chunk'
 import uniqBy from 'lodash.uniqby'
 import cx from 'classnames'
 import ContentBlock from './ContentBlock';
 import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
-import filterPanel from './filter-panel'
-import Flickity from 'flickity';
-
 import FilterPanel from './filter-panel';
 
 import styles from './contentGrid.module.css'

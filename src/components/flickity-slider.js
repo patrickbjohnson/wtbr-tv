@@ -1,3 +1,7 @@
+if (typeof window !== `undefined`) {
+  const Flickity = require('flickity');
+}
+
 import React, { Component, createRef } from 'react';
 import { Image, Link } from 'gatsby'
 import '../../node_modules/flickity/dist/flickity.css'
@@ -39,8 +43,6 @@ class FlickitySlider extends Component {
   }
   
   initFlickity = () => {
-    const Flickity  = require('flickity')
-    
     this.flickity = new Flickity(this.slider.current, {
       cellAlign: 'left',
       contain: true,
