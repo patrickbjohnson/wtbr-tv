@@ -24,7 +24,7 @@ export default ({ article }) => {
       <h2 className={styles.title}>{node.title}</h2>
       <small>{formatDate(node.publishDate)}</small>
     </div>
-    <Img className={styles.image} alt={node.title} fluid={node.heroImage.fluid} />
+    <Img className={styles.image} alt={node.title} fluid={node.image.fluid} />
     <div className={styles.content}>
     <div dangerouslySetInnerHTML={{
       __html: node.body.childMarkdownRemark.html
