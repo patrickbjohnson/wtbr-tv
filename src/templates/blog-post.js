@@ -51,7 +51,7 @@ export const pageQuery = graphql`
         id
         body
       }
-      heroImage {
+      image {
         fluid {
           ...GatsbyContentfulFluid
         }
