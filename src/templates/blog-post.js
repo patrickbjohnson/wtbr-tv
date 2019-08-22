@@ -16,7 +16,7 @@ class BlogPostTemplate extends React.Component {
       <Layout location={this.props.location} >
           <Helmet title={`${post.title} | ${siteTitle}`} />
           <div className={heroStyles.hero}>
-            <Img className={heroStyles.heroImage} alt={post.title} fluid={post.heroImage.fluid} />
+            <Img className={heroStyles.heroImage} alt={post.title} fluid={post.image.fluid} />
           </div>
           <div className="wrapper">
             <h1 className="section-headline">{post.title}</h1>
