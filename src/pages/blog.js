@@ -58,7 +58,7 @@ export const pageQuery = graphql`
               html
             }
           }
-          heroImage {
+          image {
             fluid {
               base64
               tracedSVG

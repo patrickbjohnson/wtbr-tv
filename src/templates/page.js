@@ -11,6 +11,7 @@ import JobList from '../components/job-list'
 import FeaturedPosts from '../components/featured-posts'
 import HomeHero from '../components/home-hero'
 import HeroSlider from '../components/multi-slide-hero'
+import FlickitySlider from '../components/flickity-slider'
 
 import base from '../components/base.css'
 
@@ -28,15 +29,22 @@ const Page = (props) => {
             <Container>
                 <Navigation />
                 <div style={{'paddingTop': '70px'}}>
-
+                  
                     {(slug === 'home' && hasVideo) &&
                         <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
                     }
+
+                    
 
                     {components && components.map(component => {
                         const type = cleanComponentName( component.__typename );
 
                         switch ( type ) {
+                          
+                            case 'FeaturedPosts':
+                              return <FeaturedPosts
+                                key={component.id}
+                                {...component} />
                             case 'ContentBlockGrid':
                                 return <ContentBlockGrid
                                     key={component.id}
@@ -103,34 +111,60 @@ export const pageQuery = graphql`
             displayCategory
             contentBlocks {
               id
-              title
-              subTitle
+              body {
+                body
+              }
               category
               categoryColor
-              description
-              backgroundImage {
-                id
+              title
+              type
+              image {
                 fluid {
-                    ...GatsbyContentfulFluid
+                  ...GatsbyContentfulFluid
                 }
+              }
+              videos {
+                title
+                videoId
+                caption
               }
             }
           }
           ... on ContentfulFeaturedPosts {
             id
             posts {
-              id
-              slug
-              title
-              heroImage {
+              ... on ContentfulContentBlock {
                 id
-                fluid {
-                  ...GatsbyContentfulFluid
+                body {
+                  body
+                }
+                category
+                categoryColor
+                title
+                type
+                image {
+                  fluid {
+                    ...GatsbyContentfulFluid
+                  }
+                }
+                videos {
+                  title
+                  videoId
+                  caption
                 }
               }
-              body {
+              ... on ContentfulBlogPost {
                 id
-                body
+                slug
+                title
+                body {
+                  body
+                }
+                image {
+                  fluid {
+                    ...GatsbyContentfulFluid
+                  }
+                }
               }
             }
           }

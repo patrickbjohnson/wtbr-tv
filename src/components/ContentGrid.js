@@ -6,230 +6,276 @@ import ContentBlock from './ContentBlock';
 import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
 import filterPanel from './filter-panel'
+import Flickity from 'flickity';
+
+import FilterPanel from './filter-panel';
 
 import styles from './contentGrid.module.css'
-import FilterPanel from './filter-panel';
 
 class ContentGrid extends Component {
     constructor(props) {
         super(props)
         this.filterPanel = createRef()
+        this.slider = createRef()
         this.initalBlocks = []
+        this.flick = null
         this.mq = null
         this.matches = false
         this.state = {
             base: [],
             blocks: [],
-            panelRow: null,
-            activeBlock: null,
-            filterOpen: true,
             categories: [],
+            filterOpen: false,
             catSelected: false,
+            sliderRow: -1,
+            active: 0,
+            panelIsOpen: false,
+            isFirst: false,
+            isLast: false
         }
     }
-
+    
+    componentDidMount() {
+        this.setState({
+          flickityReady: true,
+          base: this.props.contentBlocks,
+          blocks: this.props.contentBlocks
+        }, () => {
+            this.initFlickity()
+        });
+        
+        this.initCategories(this.props.contentBlocks)
+    }
+    
+    initFlickity = () => {
+        this.flickity = new Flickity(this.slider.current, {
+            cellAlign: 'left',
+            contain: true,
+            draggable: false
+        })
+            
+        Array.from(this.slider.current.querySelectorAll('.flickity-button'), (b) => b.style.display = 'none')
+        this.slider.current.querySelector('.flickity-page-dots').style.display = 'none'
+        
+        this.setDisabledStates()
+        this.flickityChangeEvent()
+    }
+    
+    setDisabledStates = () => {
+        this.setState({
+            isFirst: this.flickity.selectedIndex === 0,
+            isLast: this.flickity.selectedIndex === (this.flickity.cells.length - 1) 
+        })
+    }
+    
+    flickityChangeEvent = () => {
+        this.flickity.on('change', (e) => {
+            this.setDisabledStates()
+        })
+    }
+    
+    getCurrentIndex = () => {
+        const blocks = this.state.base
+        const current = this.state.activeSlide
+        return blocks.findIndex((b) => b.id === current.id)
+    }
+    
+    insertSlider = () => {
+        const COL_COUNT = 4
+        this.setState({
+            sliderRow: Math.ceil((this.getCurrentIndex() + 1) / COL_COUNT)
+        })
+    }
+    
+    blockHandler = (block, index) => {
+        this.setState({
+            activeSlide: block,
+            panelIsOpen: true
+        }, () => {
+            this.flickity.select(index)
+            this.flickity.resize()
+            this.insertSlider()
+            // this.flickityIntoView()
+        })
+    }
+    
+    flickityIntoView = () => {
+        // const h = window.innerHeight
+        // const dim = this.slider.current.getBoundingClientRect()
+        // console.log(h, dim)
+        // const isInView  = (h/2) - dim.y
+        // console.log(isInView)
+    }
+    
     sluggedCategories = (cat) => {
-        return cat.toLowerCase().replace(/\s+/g, '-')
+        return cat ? cat.toLowerCase().replace(/\s+/g, '-') : false
     }
 
     initCategories = (blocks) => {
         if (!this.props.displayCategory) return;
-        this.filterPanelClickHandler()
 
         const cats = blocks.map((block) => {
             const cat = block.category
-
             return {
                 title: cat,
                 color: block.categoryColor,
                 slug: this.sluggedCategories(cat)
             }
-        })
+        }).filter(c => !!c.slug)
 
         this.setState({
             categories: uniqBy(cats, 'slug'),
         })
     }
 
-    componentDidMount() {
-        this.mq = window.matchMedia('(min-width: 768px)');
-        this.initalBlocks = this.props.contentBlocks
-        this.setState({
-            base: this.props.contentBlocks,
-            blocks: this.props.contentBlocks,
-            filterOpen: false,
-            chunked: chunk(this.props.contentBlocks, 4),
-        }, () => {
-            this.matches = this.mq.matches
-        })
-
-        this.initCategories(this.props.contentBlocks)
-    }
-
-    getCurrentIndex = () => {
-        const blocks = this.state.blocks
-        const current = this.state.activeBlock
-        return blocks.findIndex((b) => b.id === current.id)
-    }
-
-    resetBlocks = () => {
-        this.setState({
-            blocks: this.initalBlocks,
-            activeBlock: null
-        })
-    }
-
-    blockClickHandler = (block) => {
-        this.setState({
-            activeBlock: block
-        }, () => {
-            this.insertPanel()
-        })
-    }
-
     filterHeightToggle = () => {
         const cs = this.state.filterOpen
         const openHeight = this.filterPanel.scrollHeight
+        const PADDING_BUFFER = 45
 
         if (this.state.filterOpen) {
             this.filterPanel.style.height = `0`
         } else {
-            this.filterPanel.style.height = `${openHeight - 45}px`
+            this.filterPanel.style.height = `${openHeight - PADDING_BUFFER}px`
         }
 
         this.setState({
             filterOpen: !cs
         })
     }
-
-    filterPanelClickHandler = () => {
-        this.filterHeightToggle()
-        if (!this.state.catSelected) {
-            this.filterContentSelection('*')
-        }
-    }
-
-    insertPanel = () => {
-        const current = this.getCurrentIndex();
-        const diff = Math.abs((current % 4) - 4)
-        const sliceIndex = current + diff;
-
-        const panel = {
-            type: 'panel',
-            id: `panel-${Math.random()}`,
-            block: this.state.activeBlock
-        }
-
-        const newBlocks = [
-            ...this.state.blocks.slice(0, sliceIndex),
-            panel,
-            ...this.state.blocks.slice(sliceIndex)
-        ]
-
+    
+    filterReset = () => {
         this.setState({
-            chunked: chunk(newBlocks, 4)
+            activeSlide: -1,
+            panelIsOpen: false
+        }, ()=> {
+            console.log(this.state)
         })
     }
-
-    nextBlock = () => {
-        const currentIndex = this.getCurrentIndex()
-
-        if (currentIndex === this.state.blocks.length - 1) return
-
-        this.setState({
-            activeBlock: this.state.blocks[currentIndex + 1]
-        })
-    }
-
-    prevBlock = () => {
-        const currentIndex = this.getCurrentIndex()
-
-        if (currentIndex === 0) return
-
-        this.setState({
-            activeBlock: this.state.blocks[currentIndex - 1]
-        })
-    }
-
-    setCurrentBlock = (block) => {
-        this.setState({
-            activeBlock: block
-        })
-    }
-
+    
     filterContentSelection = (slug) => {
         let results = [];
-
-        if (slug === "*") {
-            results = this.initalBlocks
+        
+        const {
+            base,
+        } = this.state
+        
+        let newBlocks = base.slice()
+        
+        if (slug === '*') {
+            results = base
         } else {
-            results = this.initalBlocks.filter(block => this.sluggedCategories(block.category) === slug)
+            results = newBlocks.filter(b => b.category === slug)
         }
 
         this.filterHeightToggle()
-
+        
+        /**
+         * Have to destroy flickity first
+         * then reset the slides
+         * 
+         * If set state first, flickity errors as 
+         * the DOM elements are removed and re-inserted
+         */
+        this.flickity.destroy()
+        
         this.setState({
             blocks: results,
             catSelected: true,
-            chunked: chunk(results, 4)
+            panelIsOpen: slug === '*' ? false : true
+        }, () => {
+            this.initFlickity()
         })
     }
+    
+    isLastSlide = () => {
+        return this.flickity.selectedIndex === 0 ? 'disabled' : ''
+    }
+    
 
     render() {
-        const { displayCategory } = this.props
-        const chunked = this.state.chunked
-        const currentBlock = this.state.activeBlock
-        const categories = this.state.categories
-
+        const {
+            blocks,
+            categories,
+            sliderRow,
+            active
+        } = this.state
+        
+        const {
+            displayCategory
+        } = this.props
+        
         return (
-            <div className={cx(styles.grid, {
+            <div className={cx(styles.layout, {
                 [styles.gridSpace]: displayCategory
             })}>
                 {this.props.sectionTitle &&
                     <SectionHeader text={this.props.sectionTitle} classes='wrapper' />
                 }
-                {chunked && chunked.map((set, i) => {
-                    return (
-                        <div className={styles.row} key={i}>
-                            {set && set.map((block) => {
-                                if (block.hasOwnProperty('type')) {
-                                    return (
-                                        <ContentPanel
-                                        key={block.id}
-                                            blocks={this.initalBlocks}
-                                            currentBlocks={this.state.blocks}
-                                            prevClickHandler={this.prevBlock}
-                                            nextClickHandler={this.nextBlock}
-                                            dotHandler={this.setCurrentBlock}
-                                            current={currentBlock}
-                                        />
-                                    )
-                                } else {
-                                    return (
-                                        <div
-                                            className={styles.col}
-                                            onClick={() => this.blockClickHandler(block)}
-                                            key={block.id}
-                                        >
-                                            <ContentBlock key={block.id} {...block}/>
-                                        </div>
-                                    )
-                                }
+                
+                <div className={styles.grid}>
+                    {blocks && blocks.map((b, i) => {
+                        return (
+                            <div
+                                className={styles.col}
+                                onClick={() => this.blockHandler(b, i)}
+                                key={b.id}
+                            >
+                                <ContentBlock 
+                                    key={b.id}
+                                    inGrid={true}
+                                    {...b}
+                                />
+                            </div>
+                        )
+                    })}
+                    
+                    <div 
+                        className={cx(styles.full, styles.wrapper, {
+                            [styles.hidden]: !this.state.panelIsOpen,
+                            [styles.block]: this.state.panelIsOpen
+                        })} 
+                        style={{
+                            'gridRow': sliderRow + 1,
+                        }}
+                    >
+                        <div className={styles.slider} ref={this.slider}>
+                            {blocks.map((s, i) => {
+                                return (
+                                    <ContentPanel key={i} currentSlide={active} slideIndex={i} {...s} />
+                                )
                             })}
                         </div>
-                    )
-                })}
-
+                        
+                        <div className={styles.pagination}>
+                            <button 
+                            className={cx(styles.prev, styles.btn)}
+                            disabled={this.state.isFirst}
+                            onClick={() => {
+                                this.flickity.previous()
+                            }}>Prev</button>
+                            
+                            <button 
+                            className={cx(styles.next, styles.btn)}
+                            disabled={this.state.isLast}
+                            onClick={() => {
+                                this.flickity.next()
+                            }}>Next</button>
+                        </div>
+                    </div>
+                </div>
+                
+                
                 {displayCategory &&
                     <FilterPanel
                         categories={categories}
                         isOpen={this.state.filterOpen}
                         refHandler={(el) => this.filterPanel = el}
-                        selectionHanlder={this.filterContentSelection}
-                        panelHandler={this.filterPanelClickHandler}
+                        selectionHandler={this.filterContentSelection}
+                        panelHandler={this.filterHeightToggle}
+                        resetHandler={this.filterReset}
                     />
                 }
-
 
             </div>
         )

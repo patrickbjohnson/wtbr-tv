@@ -1,14 +1,9 @@
 .block {
     position: relative;
-    height: 0;
-    padding-bottom: 62%;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
 }
 
 .title {
-    margin-top: 0;
+    /* margin-top: 0;
     margin-bottom: 0;
     position: absolute;
     left: 10px;
@@ -17,10 +12,26 @@
     margin: auto;
     top: 50%;
     transform: translateY(-50%);
-    color: #fff;
+    color: #fff; */
 }
 
 .subtitle,
 .desc {
     display: none;
+}
+
+
+.media {
+    height: 0;
+    padding-bottom: 56.25%;
+}
+
+.inGrid .body {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    left: 10px;
+    right: 10px;
+    text-align: center;
+    line-height: 1.1;
 }

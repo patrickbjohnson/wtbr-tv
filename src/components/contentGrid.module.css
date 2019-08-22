@@ -1,20 +1,10 @@
 .gridSpace {
+  position: relative;
   padding-bottom: 45px;
-}
-
-.grid,
-.row {
-    position: relative;
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    justify-content: flex-start;
 }
 
 .col {
     width: 100%;
-    margin-bottom: 1px;
     overflow: hidden;
 }
 
@@ -28,8 +18,8 @@
     padding-bottom: 45px;
 }
 
-.filterOpen {
-    height: 100%;
+.slide {
+    width: 100%;
 }
 
 .filterItem {
@@ -57,9 +47,58 @@
     box-sizing: content-box;
 }
 
-@media (min-width: 768px) {
-    .col {
-        width: calc(25% - 1px);
-        margin-right: 1px;
-    }
+.grid {
+    display: grid;
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-gap: 2px;
+    background-color: #fff;
+    color: #444;
+}
+
+.full {
+    position: relative;
+    grid-column: 1 / span 4;
+}
+
+.wrapper {
+    position: relative;
+}
+
+.btn {
+    display: block;
+    position: absolute;
+    top: 50%;
+    cursor: pointer;
+    text-transform: uppercase;
+    appearance: none;
+    border: 0;
+    border-radius: 0;
+    z-index: 999;
+    transform: translateY(-50%);
+    font-size: 13px;
+    background-color: transparent;
+}
+
+.btn[disabled] {
+    cursor: not-allowed;
+}
+
+
+.prev {
+    left: 10px;
+    transform: rotate(-90deg);
+}
+
+.next {
+    right: 10px;
+    transform: rotate(90deg);
+}
+
+.hidden {
+    display: none;
+}
+
+.block {
+    display: block;
 }
