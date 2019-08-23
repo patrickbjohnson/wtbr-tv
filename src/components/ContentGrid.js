@@ -172,20 +172,19 @@ class ContentGrid extends Component {
     filterReset = () => {
       this.setState({
         activeSlide: -1,
-        panelIsOpen: false
+        panelIsOpen: false,
+        catSelected: false
       })
     }
     
     filterContentSelection = (slug) => {
-      
       const {
         base,
       } = this.state
       
       const newBlocks = base.slice()
-      let results = [];
-      
       const compareSlugs = (block) => (block.slug === slug)
+      let results = [];
       
       if (slug === '*') {
         results = newBlocks
@@ -202,13 +201,14 @@ class ContentGrid extends Component {
        * the DOM elements are removed and re-inserted
        */
       this.flickity.destroy()
-      
+      console.log(slug)
       this.setState({
           blocks: results,
           panelIsOpen: false,
-          catSelected: true,
+          catSelected: slug,
       }, () => {
           this.initFlickity()
+          console.log(this.state.catSelected)
       })
     }
     
@@ -221,7 +221,8 @@ class ContentGrid extends Component {
             blocks,
             categories,
             sliderRow,
-            active
+            active,
+            catSelected
         } = this.state
         
         const {
@@ -290,6 +291,7 @@ class ContentGrid extends Component {
                     <FilterPanel
                         categories={categories}
                         isOpen={this.state.filterOpen}
+                        selected={catSelected}
                         refHandler={(el) => this.filterPanel = el}
                         selectionHandler={this.filterContentSelection}
                         panelHandler={this.filterHeightToggle}
