@@ -50,7 +50,6 @@ class VideoPlayer extends Component {
     const { 
       videoId,
     } = this.props
-    
 
     this.player = new Player(this.video.current, {
         id: videoId,
@@ -63,35 +62,31 @@ class VideoPlayer extends Component {
   }
   
   handlePlayEvent() {
-    this.player.play().then(() => {
-      this.setState({
-        isPlaying: true
-      })
-    })
+    this.player.play().then(() => this.setState({isPlaying: true}))
   }
   
   handlePauseEvent() {
-    this.player.pause().then(() => {
-      this.setState({
-        isPlaying: false
-      })
-    })
+    this.player.pause().then(() => this.setState({isPlaying: false}))
   }
   
   render() {
     const {
-      caption,
-      slideIndex
+      caption
     } = this.props
+    
+    const {
+      isPlaying
+    } = this.state
       
     return (
-      <div className={cx(styles.block)} >
+      <div className={cx(styles.block)}>
+        
         <div className={cx(styles.video)} ref={this.video}>
           
           <span 
             ref={this.play}
             className={cx(styles.play, {
-              [styles.isVisible]: !this.state.play
+              [styles.isVisible]: !isPlaying
             })}
             onClick={() => {
               this.handlePlayEvent()
@@ -103,7 +98,7 @@ class VideoPlayer extends Component {
           <span
             ref={this.play}
             className={cx(styles.pause, {
-              [styles.isVisible]: this.state.play
+              [styles.isVisible]: isPlaying
             })}
             onClick={() => {
               this.handlePauseEvent()

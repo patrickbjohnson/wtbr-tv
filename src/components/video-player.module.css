@@ -29,8 +29,9 @@
 }
 
 .playIcon {
-width: 25px;
+    width: 25px;
 }
+
 .playIcon,
 .pauseIcon {
     position: relative;

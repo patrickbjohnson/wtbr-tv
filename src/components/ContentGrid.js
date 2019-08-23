@@ -138,7 +138,6 @@ class ContentGrid extends Component {
     }
 
     initCategories = (blocks) => {
-      console.log('init cats: ', blocks)
         if (!this.props.displayCategory) return;
 
         const cats = blocks.map((block) => {

@@ -1,5 +1,6 @@
 import React, { Component, createRef } from 'react'
 import ReactFullpage from '@fullpage/react-fullpage'
+import Img from 'gatsby-image'
 import cx from 'classnames'
 import Player from '@vimeo/player'
 import styles from './home-hero.module.css'
@@ -15,6 +16,7 @@ class HomeHero extends Component {
         this.video = createRef()
         this.player = null
         this.state = {
+            loading: true,
             isLast: null,
             activePanel: null,
             sections: [
@@ -81,16 +83,34 @@ class HomeHero extends Component {
             controls: false,
             background: true,
         });
+        
+        this.player.ready().then(() => this.setState({loading: false}));
     }
 
 
     render() {
         const slides = this.state.sections
         const lastSlide = slides[slides.length - 1]
-        const classNames = this.props.classNames
+        
+        const {
+            classNames,
+            image,
+            videoHeroTitle
+        } = this.props
+        
         return (
             <div className={cx(styles.block, classNames)}>
-                <div className={styles.videoWrapper} ref={this.video}></div>
+                <div className={styles.videoWrapper} ref={this.video}>
+                    <Img 
+                        // className={cx(styles.media)}
+                        fluid={image.fluid}
+                        durationFadeIn={500}
+                        title={videoHeroTitle}
+                        alt={videoHeroTitle}
+                        fadeIn
+                    />
+                    
+                </div>
                 {!this.state.isLast &&
                     <ReactFullpage
                         licenseKey={key}

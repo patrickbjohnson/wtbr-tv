@@ -84,12 +84,9 @@ export const pageQuery = graphql`
             id
             videoHeroTitle
             videoId
-            videoBackground {
-              id
-              file {
-                url
-                fileName
-                contentType
+            image {
+              fluid {
+                ...GatsbyContentfulFluid
               }
             }
           }
