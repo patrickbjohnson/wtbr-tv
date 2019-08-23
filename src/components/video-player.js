@@ -1,6 +1,7 @@
 import React, { Component, createRef } from 'react';
 import cx from 'classnames'
 import Player from '@vimeo/player'
+import Img from 'gatsby-image'
 
 import styles from '../components/video-player.module.css'
 
@@ -42,7 +43,9 @@ class VideoPlayer extends Component {
     this.pause = createRef()
     this.player = null
     this.state = {
-      isPlaying: false
+      isPlaying: false,
+      loading: true,
+      image: false
     }
   }
   
@@ -50,6 +53,10 @@ class VideoPlayer extends Component {
     const { 
       videoId,
     } = this.props
+    
+    fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
+      .then(r => r.json())
+      .then(data => this.setState({image: data.thumbnail_large}))
 
     this.player = new Player(this.video.current, {
         id: videoId,
@@ -59,6 +66,8 @@ class VideoPlayer extends Component {
         title: false,
         controls: false,
     });
+    
+    this.player.ready().then(() => this.setState({loading: false}));
   }
   
   handlePlayEvent() {
@@ -75,14 +84,23 @@ class VideoPlayer extends Component {
     } = this.props
     
     const {
-      isPlaying
+      isPlaying,
+      image
     } = this.state
       
     return (
       <div className={cx(styles.block)}>
         
         <div className={cx(styles.video)} ref={this.video}>
-          
+          {image &&
+            <Img 
+              fluid={image.fluid}
+              durationFadeIn={500}
+              title={videoHeroTitle}
+              alt={videoHeroTitle}
+              fadeIn
+            />
+          }
           <span 
             ref={this.play}
             className={cx(styles.play, {
