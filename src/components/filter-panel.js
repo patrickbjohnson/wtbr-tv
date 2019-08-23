@@ -11,16 +11,16 @@ class FilterPanel extends Component {
       }
     }
 
-    getColorScheme(color, hovered) {
-      if(hovered) {
+    getColorScheme(color, hovered, selected) {
+      if (hovered || selected) {
         return {
-          backgroundColor: color || '#999',
-          color: '#FFF'
+            backgroundColor: color || '#999',
+            color: '#FFF'
         }
       } else {
         return {
-          backgroundColor: '#000',
-          color: color || '#FFF'
+            backgroundColor: '#000',
+            color: color || '#FFF'
         }
       }
     }
@@ -32,11 +32,13 @@ class FilterPanel extends Component {
             refHandler,
             selectionHandler,
             panelHandler,
-            resetHandler
+            resetHandler,
+            selected
         } = this.props
 
         const { hover } = this.state
 
+        console.log(selected)
         return (
             <div
                 className={cx(
@@ -45,7 +47,7 @@ class FilterPanel extends Component {
                 ref={refHandler}
             >
                 {categories.map((cat, i) => {
-                    const style = this.getColorScheme(cat.color, hover === cat.slug)
+                    const style = this.getColorScheme(cat.color, hover === cat.slug, selected === cat.slug)
 
                     return (
                         <span
@@ -54,7 +56,8 @@ class FilterPanel extends Component {
                             key={i}
                             onMouseOver={() => this.setState({ hover: cat.slug })}
                             onMouseOut={() => this.setState({ hover: null })}
-                            onClick={() => selectionHandler(cat.slug)}>
+                            onClick={() => selectionHandler(cat.slug)}
+                            >
                                 {cat.title}
                         </span>
                     )

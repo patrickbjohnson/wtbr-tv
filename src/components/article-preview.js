@@ -1,8 +1,10 @@
 import React from 'react'
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
+import Markdown from 'react-markdown'
 
 import styles from './article-preview.module.css'
+
 
 const formatDate = (date) => {
   const d = new Date(date);
@@ -18,18 +20,20 @@ const formatDate = (date) => {
 
 export default ({ article }) => {
   const { node } = article
+
   return (
   <article className={styles.article} id={node.slug}>
     <div className={styles.meta}>
       <h2 className={styles.title}>{node.title}</h2>
       <small>{formatDate(node.publishDate)}</small>
     </div>
-    <Img className={styles.image} alt={node.title} fluid={node.heroImage.fluid} />
+    <Img className={styles.image} alt={node.title} fluid={node.image.fluid} />
     <div className={styles.content}>
-    <div dangerouslySetInnerHTML={{
-      __html: node.body.childMarkdownRemark.html
-    }}></div>
+    <Markdown 
+      className={styles.body} 
+      source={node.body.body} 
+      escapeHtml={false}
+    />
     </div>
-
   </article>
 )}

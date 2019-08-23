@@ -1,3 +1,7 @@
+if (typeof window !== `undefined`) {
+  const Flickity = require('flickity');
+}
+
 import React, { Component, createRef } from 'react';
 import { Image, Link } from 'gatsby'
 import '../../node_modules/flickity/dist/flickity.css'
@@ -28,8 +32,6 @@ class FlickityGridSlider extends Component {
   }
   
   componentDidMount() {
-    const Flickity  = require('flickity')
-    
     this.setState({
       slides: this.props.posts ? this.props.posts : this.props.slides
     }, () => {
@@ -45,10 +47,6 @@ class FlickityGridSlider extends Component {
         })
       })
     })
-  }
-  
-  componentDidUpdate(prevProps, prevState, snapshot) {
-    console.log(prevProps, prevState, snapshot)
   }
   
   render() {
