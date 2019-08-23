@@ -102,14 +102,12 @@ class HomeHero extends Component {
             <div className={cx(styles.block, classNames)}>
                 <div className={styles.videoWrapper} ref={this.video}>
                     <Img 
-                        // className={cx(styles.media)}
                         fluid={image.fluid}
                         durationFadeIn={500}
                         title={videoHeroTitle}
                         alt={videoHeroTitle}
                         fadeIn
                     />
-                    
                 </div>
                 {!this.state.isLast &&
                     <ReactFullpage
