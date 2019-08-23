@@ -83,14 +83,7 @@ export const pageQuery = graphql`
           }
           image {
             fluid {
-              base64
-              tracedSVG
-              aspectRatio
-              src
-              srcSet
-              srcWebp
-              srcSetWebp
-              sizes
+              ...GatsbyContentfulFluid
             }
           }
         }

@@ -11,7 +11,9 @@ import JobList from '../components/job-list'
 import FeaturedPosts from '../components/featured-posts'
 import HomeHero from '../components/home-hero'
 import HeroSlider from '../components/multi-slide-hero'
-import FlickitySlider from '../components/flickity-slider'
+
+
+
 
 import base from '../components/base.css'
 
@@ -19,59 +21,57 @@ const cleanComponentName = (component) => {
     return component.replace('Contentful', '');
 }
 
+
 const Page = (props) => {
     const { components, slug } = props.data.contentfulPage;
-
     const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
 
     return (
-        <ParallaxProvider>
-            <Container>
-                <Navigation />
-                <div style={{'paddingTop': '70px'}}>
-                  
-                    {(slug === 'home' && hasVideo) &&
-                        <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
-                    }
+      <ParallaxProvider>
+        <Container>
+          <Navigation />
+            <div style={{'paddingTop': '70px'}}>                  
+              {(slug === 'home' && hasVideo) &&
+                <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
+              }
 
-                    {components && components.map(component => {
-                        const type = cleanComponentName( component.__typename );
-
-                        switch ( type ) {
-                          
-                            case 'FeaturedPosts':
-                              return <FeaturedPosts
-                                key={component.id}
-                                {...component} />
-                            case 'ContentBlockGrid':
-                                return <ContentBlockGrid
-                                    key={component.id}
-                                    {...component} />
-                            case 'TextBlockGrid':
-                                return <TextBlockGrid
-                                    key={component.id}
-                                    {...component} />
-                            case 'ContentHero':
-                                return <ContentHero
-                                    key={component.id}
-                                    {...component} />
-                            case 'JobList':
-                                return <JobList
-                                    key={component.id}
-                                    {...component} />
-                            case 'HeroSlider':
-                                return <HeroSlider
-                                    key={component.id}
-                                    {...component} />
-                            default:
-                              return false
-                        }
-                    })}
-                </div>
-                <Footer />
-            </Container>
-        </ParallaxProvider>
-    )
+              {components && components.map(component => {
+                const type = cleanComponentName( component.__typename );
+                
+                switch ( type ) {
+                  case 'FeaturedPosts':
+                    return <FeaturedPosts
+                      key={component.id}
+                      {...component} />
+                  case 'ContentBlockGrid':
+                      return <ContentBlockGrid
+                          key={component.id}
+                          {...component} />
+                  case 'TextBlockGrid':
+                      return <TextBlockGrid
+                          key={component.id}
+                          {...component} />
+                  case 'ContentHero':
+                      return <ContentHero
+                          key={component.id}
+                          {...component} />
+                  case 'JobList':
+                      return <JobList
+                          key={component.id}
+                          {...component} />
+                  case 'HeroSlider':
+                      return <HeroSlider
+                          key={component.id}
+                          {...component} />
+                  default:
+                    return false
+                }
+            })}
+          </div>
+        <Footer />
+      </Container>
+    </ParallaxProvider>
+  )
 }
 export const pageQuery = graphql`
   query PostBySlug($slug:String!) {

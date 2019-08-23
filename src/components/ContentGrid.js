@@ -1,9 +1,3 @@
-// if (typeof window !== `undefined`) {
-//     const Flickity = require('flickity');
-// }
-
-import Flickity from 'flickity'
-
 import React, { Component, createRef } from 'react';
 import uniqBy from 'lodash.uniqby'
 import cx from 'classnames'
@@ -12,7 +6,27 @@ import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
 import FilterPanel from './filter-panel';
 
+import '../../node_modules/flickity/dist/flickity.css'
+const Flickity = typeof window !== "undefined" ? require("flickity") : () => null
+
+
 import styles from './contentGrid.module.css'
+
+
+const slugify = (string) => {
+    const a = 'àáäâãåăæąçćčđďèéěėëêęğǵḧìíïîįłḿǹńňñòóöôœøṕŕřßşśšșťțùúüûǘůűūųẃẍÿýźžż·/_,:;'
+    const b = 'aaaaaaaaacccddeeeeeeegghiiiiilmnnnnooooooprrsssssttuuuuuuuuuwxyyzzz------'
+    const p = new RegExp(a.split('').join('|'), 'g')
+  
+    return string.toString().toLowerCase()
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+      .replace(/&/g, '-and-') // Replace & with 'and'
+      .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+      .replace(/\-\-+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start of text
+      .replace(/-+$/, '') // Trim - from end of text
+}
 
 class ContentGrid extends Component {
     constructor(props) {
@@ -20,9 +34,15 @@ class ContentGrid extends Component {
         this.filterPanel = createRef()
         this.slider = createRef()
         this.initalBlocks = []
-        this.flick = null
+        this.flickity = null
         this.mq = null
         this.matches = false
+        this.flickOptions = {
+            cellAlign: 'left',
+            contain: true,
+            draggable: false
+        }
+        
         this.state = {
             base: [],
             blocks: [],
@@ -38,23 +58,31 @@ class ContentGrid extends Component {
     }
     
     componentDidMount() {
-        this.setState({
-          flickityReady: true,
-          base: this.props.contentBlocks,
-          blocks: this.props.contentBlocks
-        }, () => {
-            this.initFlickity()
-        });
-        
-        this.initCategories(this.props.contentBlocks)
+      const {
+        contentBlocks
+      } = this.props
+      
+      const sluggedBlocks = contentBlocks.slice()
+      
+      for (let i = 0; i < sluggedBlocks.length; ++i) {
+        const item = sluggedBlocks[i]
+        item.categoryTitle = item.category
+        item.category = slugify(item.category)
+        item.slug = slugify(item.category)
+      }
+      
+      this.setState({
+        base: sluggedBlocks,
+        blocks: sluggedBlocks
+      }, () => {
+          this.initFlickity()
+      });
+      
+      this.initCategories(sluggedBlocks)
     }
     
     initFlickity = () => {
-        this.flickity = new Flickity(this.slider.current, {
-            cellAlign: 'left',
-            contain: true,
-            draggable: false
-        })
+        this.flickity = new Flickity(this.slider.current, this.flickOptions)
             
         Array.from(this.slider.current.querySelectorAll('.flickity-button'), (b) => b.style.display = 'none')
         this.slider.current.querySelector('.flickity-page-dots').style.display = 'none'
@@ -94,9 +122,9 @@ class ContentGrid extends Component {
             activeSlide: block,
             panelIsOpen: true
         }, () => {
+            this.insertSlider()
             this.flickity.select(index)
             this.flickity.resize()
-            this.insertSlider()
             // this.flickityIntoView()
         })
     }
@@ -108,25 +136,21 @@ class ContentGrid extends Component {
         // const isInView  = (h/2) - dim.y
         // console.log(isInView)
     }
-    
-    sluggedCategories = (cat) => {
-        return cat ? cat.toLowerCase().replace(/\s+/g, '-') : false
-    }
 
     initCategories = (blocks) => {
+      console.log('init cats: ', blocks)
         if (!this.props.displayCategory) return;
 
         const cats = blocks.map((block) => {
-            const cat = block.category
             return {
-                title: cat,
+                title: block.categoryTitle,
                 color: block.categoryColor,
-                slug: this.sluggedCategories(cat)
+                slug: slugify(block.category)
             }
         }).filter(c => !!c.slug)
-
+        
         this.setState({
-            categories: uniqBy(cats, 'slug'),
+          categories: uniqBy(cats, 'slug'),
         })
     }
 
@@ -147,52 +171,52 @@ class ContentGrid extends Component {
     }
     
     filterReset = () => {
-        this.setState({
-            activeSlide: -1,
-            panelIsOpen: false
-        })
+      this.setState({
+        activeSlide: -1,
+        panelIsOpen: false
+      })
     }
     
     filterContentSelection = (slug) => {
-        let results = [];
-        
-        const {
-            base,
-        } = this.state
-        
-        let newBlocks = base.slice()
-        
-        if (slug === '*') {
-            results = base
-        } else {
-            results = newBlocks.filter(b => b.category === slug)
-        }
+      
+      const {
+        base,
+      } = this.state
+      
+      const newBlocks = base.slice()
+      let results = [];
+      
+      const compareSlugs = (block) => (block.slug === slug)
+      
+      if (slug === '*') {
+        results = newBlocks
+      } else {
+        results = newBlocks.filter(compareSlugs)
+      }
 
-        this.filterHeightToggle()
-        
-        /**
-         * Have to destroy flickity first
-         * then reset the slides
-         * 
-         * If set state first, flickity errors as 
-         * the DOM elements are removed and re-inserted
-         */
-        this.flickity.destroy()
-        
-        this.setState({
-            blocks: results,
-            catSelected: true,
-            panelIsOpen: slug === '*' ? false : true
-        }, () => {
-            this.initFlickity()
-        })
+      this.filterHeightToggle()      
+      /**
+       * Have to destroy flickity first
+       * then reset the slides
+       * 
+       * If set state first, flickity errors as 
+       * the DOM elements are removed and re-inserted
+       */
+      this.flickity.destroy()
+      
+      this.setState({
+          blocks: results,
+          panelIsOpen: false,
+          catSelected: true,
+      }, () => {
+          this.initFlickity()
+      })
     }
     
     isLastSlide = () => {
         return this.flickity.selectedIndex === 0 ? 'disabled' : ''
     }
     
-
     render() {
         const {
             blocks,
@@ -212,22 +236,16 @@ class ContentGrid extends Component {
                 {this.props.sectionTitle &&
                     <SectionHeader text={this.props.sectionTitle} classes='wrapper' />
                 }
-                
+                               
                 <div className={styles.grid}>
                     {blocks && blocks.map((b, i) => {
-                        return (
-                            <div
-                                className={styles.col}
-                                onClick={() => this.blockHandler(b, i)}
-                                key={b.id}
-                            >
-                                <ContentBlock 
-                                    key={b.id}
-                                    inGrid={true}
-                                    {...b}
-                                />
-                            </div>
-                        )
+                        return (<div
+                            className={styles.col}
+                            onClick={() => this.blockHandler(b, i)}
+                            key={b.id}
+                        >
+                            <ContentBlock key={b.id} inGrid={true} {...b} />
+                        </div>)
                     })}
                     
                     <div 
@@ -237,12 +255,14 @@ class ContentGrid extends Component {
                         })} 
                         style={{
                             'gridRow': sliderRow + 1,
-                        }}
-                    >
-                        <div className={styles.slider} ref={this.slider}>
-                            {blocks.map((s, i) => {
+                        }}>
+                        <div 
+                            className={styles.slider} 
+                            ref={this.slider}
+                        >
+                            {blocks && blocks.map((b, i) => {
                                 return (
-                                    <ContentPanel key={i} currentSlide={active} slideIndex={i} {...s} />
+                                    <ContentPanel key={i} currentSlide={active} slideIndex={i} {...b} />
                                 )
                             })}
                         </div>
@@ -266,6 +286,7 @@ class ContentGrid extends Component {
                 </div>
                 
                 
+                
                 {displayCategory &&
                     <FilterPanel
                         categories={categories}
@@ -276,7 +297,6 @@ class ContentGrid extends Component {
                         resetHandler={this.filterReset}
                     />
                 }
-
             </div>
         )
     }
