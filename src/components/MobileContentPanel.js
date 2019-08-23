@@ -25,8 +25,6 @@ class ContentPanel extends Component {
             slideIndex
         } = this.props;
 
-        console.log('this.props', this.props)
-
         return (
             <div className={styles.block}>
                 <div className={styles.inner}>

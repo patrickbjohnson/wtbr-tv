@@ -5,8 +5,6 @@ import cx from 'classnames'
 import ContentBlock from './ContentBlock';
 import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
-import Flickity from 'flickity';
-import MediaQuery from 'react-responsive';
 
 import FilterPanel from './filter-panel';
 
@@ -16,9 +14,7 @@ class ContentGrid extends Component {
     constructor(props) {
         super(props)
         this.filterPanel = createRef()
-        this.slider = createRef()
         this.initalBlocks = []
-        this.flick = null
         this.mq = null
         this.matches = false
         this.state = {
@@ -57,7 +53,6 @@ class ContentGrid extends Component {
             panelIsOpen: true
         }, () => {
             this.insertBlock()
-            // this.flickityIntoView()
         })
     }
 
@@ -102,8 +97,6 @@ class ContentGrid extends Component {
         this.setState({
             activeSlide: -1,
             panelIsOpen: false
-        }, ()=> {
-            console.log(this.state)
         })
     }
 
@@ -124,21 +117,10 @@ class ContentGrid extends Component {
 
         this.filterHeightToggle()
 
-        /**
-         * Have to destroy flickity first
-         * then reset the slides
-         *
-         * If set state first, flickity errors as
-         * the DOM elements are removed and re-inserted
-         */
-        this.flickity.destroy()
-
         this.setState({
             blocks: results,
             catSelected: true,
             panelIsOpen: slug === '*' ? false : true
-        }, () => {
-            this.initFlickity()
         })
     }
 
@@ -147,12 +129,15 @@ class ContentGrid extends Component {
             blocks,
             categories,
             sliderRow,
-            active
+            active,
+            activeSlide,
         } = this.state
 
         const {
             displayCategory
         } = this.props
+
+        console.log('this.state.panelIsOpen', this.state.panelIsOpen)
 
         return (
             <div className={cx(styles.layout, {
@@ -163,21 +148,19 @@ class ContentGrid extends Component {
                 }
 
                 <div className={styles.grid}>
-                    {blocks && blocks.map((b, i) => {
-                        return (
-                            <div
-                                className={styles.col}
-                                onClick={() => this.blockHandler(b, i)}
+                    { blocks && blocks.map((b, i) => (
+                        <div
+                            className={styles.col}
+                            onClick={() => this.blockHandler(b, i)}
+                            key={b.id}
+                        >
+                            <ContentBlock
                                 key={b.id}
-                            >
-                                <ContentBlock
-                                    key={b.id}
-                                    inGrid={true}
-                                    {...b}
-                                />
-                            </div>
-                        )
-                    })}
+                                inGrid={true}
+                                {...b}
+                            />
+                        </div>
+                    ))}
 
                     <div
                         className={cx(styles.full, styles.wrapper, {
@@ -188,12 +171,13 @@ class ContentGrid extends Component {
                             'gridRow': sliderRow + 1,
                         }}
                     >
-                        <div className={styles.slider} ref={this.slider}>
-                            {blocks.map((s, i) => {
-                                return (
-                                    <ContentPanel key={i} currentSlide={active} slideIndex={i} {...s} />
-                                )
-                            })}
+                        <div className={styles.slider}>
+                            <ContentPanel
+                                key={0}
+                                currentSlide={activeSlide}
+                                slideIndex={0}
+                                {...activeSlide}
+                            />
                         </div>
                     </div>
                 </div>
