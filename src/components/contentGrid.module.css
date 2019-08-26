@@ -102,3 +102,13 @@
 .block {
     display: block;
 }
+
+@media (max-width: 767px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+
+  .full {
+    grid-column: 1;
+  }
+}

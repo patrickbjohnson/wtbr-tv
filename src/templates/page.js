@@ -11,9 +11,8 @@ import JobList from '../components/job-list'
 import FeaturedPosts from '../components/featured-posts'
 import HomeHero from '../components/home-hero'
 import HeroSlider from '../components/multi-slide-hero'
-
-
-
+import MobileContentGrid from '../components/MobileContentGrid'
+import MediaQuery from 'react-responsive'
 
 import base from '../components/base.css'
 
@@ -30,23 +29,34 @@ const Page = (props) => {
       <ParallaxProvider>
         <Container>
           <Navigation />
-            <div style={{'paddingTop': '70px'}}>                  
+            <div style={{'paddingTop': '70px'}}>
               {(slug === 'home' && hasVideo) &&
                 <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
               }
 
               {components && components.map(component => {
                 const type = cleanComponentName( component.__typename );
-                
+
                 switch ( type ) {
                   case 'FeaturedPosts':
                     return <FeaturedPosts
                       key={component.id}
                       {...component} />
                   case 'ContentBlockGrid':
-                      return <ContentBlockGrid
-                          key={component.id}
-                          {...component} />
+                    return (
+                      <>
+                      <MediaQuery minWidth={768}>
+                          <ContentBlockGrid
+                              key={component.id}
+                              {...component} />
+                      </MediaQuery>
+                      <MediaQuery maxWidth={767}>
+                          <MobileContentGrid
+                              key={component.id}
+                              {...component} />
+                      </MediaQuery>
+                      </>
+                    )
                   case 'TextBlockGrid':
                       return <TextBlockGrid
                           key={component.id}

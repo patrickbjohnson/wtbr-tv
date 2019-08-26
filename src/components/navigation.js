@@ -2,6 +2,7 @@ import React from 'react'
 import { StaticQuery, graphql } from 'gatsby'
 import Desktop from './nav-desktop'
 import Mobile from './nav-mobile'
+import MediaQuery from 'react-responsive'
 
 export default () => (
   <StaticQuery
@@ -26,8 +27,12 @@ export default () => (
 
       return (
         <>
-          <Desktop nav={navItem}/>
-          <Mobile nav={navItem}/>
+          <MediaQuery minWidth={768}>
+            <Desktop nav={navItem}/>
+          </MediaQuery>
+          <MediaQuery maxWidth={767}>
+            <Mobile nav={navItem}/>
+          </MediaQuery>
         </>
       )
     }}
