@@ -38,7 +38,6 @@ class FilterPanel extends Component {
 
         const { hover } = this.state
 
-        console.log(selected)
         return (
             <div
                 className={cx(

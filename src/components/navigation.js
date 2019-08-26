@@ -12,6 +12,7 @@ export default () => (
             node {
               navItem {
                 id
+                pageName
                 slug
                 pageHeadline
                 seoPageTitle

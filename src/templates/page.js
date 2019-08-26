@@ -73,6 +73,7 @@ const Page = (props) => {
     </ParallaxProvider>
   )
 }
+
 export const pageQuery = graphql`
   query PostBySlug($slug:String!) {
     contentfulPage(slug:{eq: $slug}) {
@@ -102,6 +103,7 @@ export const pageQuery = graphql`
           }
           ... on ContentfulContentBlockGrid {
             id
+            identifier
             sectionTitle
             displayCategory
             contentBlocks {

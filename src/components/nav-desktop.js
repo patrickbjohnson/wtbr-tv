@@ -38,14 +38,14 @@ class DesktopNav extends Component {
   scrollHandler = (e) => {
     const h = window.innerHeight
     const threshold = h * .15
-    
+
     if ((window.scrollY > threshold) && !this.state.scrolledDown) {
       this.setState({
         scrolledDown: true,
         scrolledUp: false
       }, () => this.scrollAnimation('down'))
     }
-    
+
     if ((window.scrollY < threshold) && (!this.state.scrolledUp && this.state.scrolledDown)) {
       this.setState({
         scrolledUp: true,
@@ -53,8 +53,8 @@ class DesktopNav extends Component {
       }, () => this.scrollAnimation('up'))
     }
   }
-  
-  scrollAnimation = (dir) => {    
+
+  scrollAnimation = (dir) => {
     this.setState({
       largeLogo: dir === 'up',
       smallLogo: dir === 'down'
@@ -74,23 +74,23 @@ class DesktopNav extends Component {
           <a href='/' className={cx(styles.logo, {
             [styles.scrolledLogo]: this.state.pastThreshold
           })}>
-              <div 
-                className={cx(styles.logoWrap)} 
+              <div
+                className={cx(styles.logoWrap)}
                 ref={this.logoWrap}>
                   <img className={cx(styles.image, styles.w)} src={w} alt=""/>
-                  <img 
-                  src={logoSm} 
+                  <img
+                  src={logoSm}
                   className={cx(styles.image, styles.small, {
                     [styles.fade]: this.state.largeLogo
-                  })} 
+                  })}
                   alt="Where the Buffalo Roam"/>
-                
-                <img 
-                  src={logoLg} 
+
+                <img
+                  src={logoLg}
                   className={cx(styles.image, styles.large, {
                     [styles.fade]: this.state.smallLogo
-                  })} 
-                  alt="Where the Buffalo Roam"/>  
+                  })}
+                  alt="Where the Buffalo Roam"/>
               </div>
           </a>
           <ul className={cx(styles.navigation, {
@@ -98,6 +98,8 @@ class DesktopNav extends Component {
           })}>
             {nav.map((item, i) => {
               if (item.slug === 'home') return false;
+
+              console.log('item', item)
 
               return (
                 <li
@@ -109,7 +111,7 @@ class DesktopNav extends Component {
                   className={styles.link}
                   to={`/${item.slug}`}
                   activeClassName={styles.active}
-                  >{item.slug}</Link>
+                  >{item.pageName}</Link>
                 </li>
               )
             })}
