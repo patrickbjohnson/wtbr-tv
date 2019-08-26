@@ -97,21 +97,23 @@ class DesktopNav extends Component {
             [styles.scrolledNav]: this.state.pastThreshold
           })}>
             {nav.map((item, i) => {
-              if (item.slug === 'home') return false;
-
-              console.log('item', item)
-
+              if (item.slug === 'home') return
               return (
                 <li
                   ref={this.setRef}
                   key={item.id}
                   className={styles.item}
                 >
-                  <Link
-                  className={styles.link}
-                  to={`/${item.slug}`}
-                  activeClassName={styles.active}
-                  >{item.pageName}</Link>
+                  {item.slug.includes('#') && 
+                    <a className={styles.link} href={item.slug}>{item.slug.replace('#', '')}</a>
+                  }
+                  {!item.slug.includes('#') && 
+                    <Link
+                    className={styles.link}
+                    to={`/${item.slug}`}
+                    activeClassName={styles.active}
+                    >{item.slug}</Link>
+                  }
                 </li>
               )
             })}

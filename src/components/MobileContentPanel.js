@@ -4,6 +4,8 @@ import Img from 'gatsby-image'
 import Markdown from 'react-markdown'
 import styles from './content-panel.module.css'
 
+import VideoPlayer from '../components/video-player'
+
 class ContentPanel extends Component {
     constructor(props) {
         super(props)
@@ -11,33 +13,46 @@ class ContentPanel extends Component {
             isLoading: true
         }
     }
-    
+
     render() {
         const {
             title,
             slug,
-            image, 
+            image,
             body,
-            type,
-            videos
+            videos,
+            currentSlide,
+            slideIndex
         } = this.props;
 
         return (
-            <div className={cx(styles.block, styles.mobileBlock)}>
+            <div className={styles.block}>
                 <div className={styles.inner}>
                     <div className={styles.content}>
                         <h2 className={styles.title}>{title}</h2>
                         {body &&
-                            <Markdown 
-                                className={styles.body} 
-                                source={body.body} 
+                            <Markdown
+                                className={styles.body}
+                                source={body.body}
                             />
                         }
                     </div>
-                    
+
                     <div className={styles.media}>
-                        {image &&
-                            <Img 
+                        {videos &&
+                            videos.map((v,i) => {
+                                return (
+                                    <VideoPlayer
+                                        key={i}
+                                        isCurrent={currentSlide}
+                                        slideIndex={slideIndex}
+                                        {...v}
+                                        />
+                                )
+                            })
+                        }
+                        {(image && !videos) &&
+                            <Img
                                 className={cx(styles.media)}
                                 fluid={image.fluid}
                                 durationFadeIn={500}
@@ -47,10 +62,11 @@ class ContentPanel extends Component {
                             />
                         }
                     </div>
+
                 </div>
             </div>
         )
-        
+
     }
 }
 

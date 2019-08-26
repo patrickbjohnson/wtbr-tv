@@ -11,9 +11,8 @@ import JobList from '../components/job-list'
 import FeaturedPosts from '../components/featured-posts'
 import HomeHero from '../components/home-hero'
 import HeroSlider from '../components/multi-slide-hero'
-
-
-
+import MobileContentGrid from '../components/MobileContentGrid'
+import MediaQuery from 'react-responsive'
 
 import base from '../components/base.css'
 
@@ -30,43 +29,55 @@ const Page = (props) => {
       <ParallaxProvider>
         <Container>
           <Navigation />
-            <div style={{'paddingTop': '70px'}}>                  
-              {(slug === 'home' && hasVideo) &&
-                <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
-              }
-
+          
+          <div style={{'paddingTop': '70px'}}>
+            {(slug === 'home' && hasVideo) &&
+              <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
+            }
+            <div style={{'position': 'relative', 'zIndex': 2}}>
               {components && components.map(component => {
-                const type = cleanComponentName( component.__typename );
-                
-                switch ( type ) {
-                  case 'FeaturedPosts':
-                    return <FeaturedPosts
-                      key={component.id}
-                      {...component} />
-                  case 'ContentBlockGrid':
-                      return <ContentBlockGrid
-                          key={component.id}
-                          {...component} />
-                  case 'TextBlockGrid':
-                      return <TextBlockGrid
-                          key={component.id}
-                          {...component} />
-                  case 'ContentHero':
-                      return <ContentHero
-                          key={component.id}
-                          {...component} />
-                  case 'JobList':
-                      return <JobList
-                          key={component.id}
-                          {...component} />
-                  case 'HeroSlider':
-                      return <HeroSlider
-                          key={component.id}
-                          {...component} />
-                  default:
-                    return false
-                }
-            })}
+                  const type = cleanComponentName( component.__typename );
+                  switch ( type ) {
+                    case 'FeaturedPosts':
+                      return <FeaturedPosts
+                        key={component.id}
+                        {...component} />
+                    case 'ContentBlockGrid':
+                      return (
+                        <>
+                        <MediaQuery minWidth={768}>
+                            <ContentBlockGrid
+                                key={component.id}
+                                {...component} />
+                        </MediaQuery>
+                        <MediaQuery maxWidth={767}>
+                            <MobileContentGrid
+                                key={component.id}
+                                {...component} />
+                        </MediaQuery>
+                        </>
+                      )
+                    case 'TextBlockGrid':
+                        return <TextBlockGrid
+                            key={component.id}
+                            {...component} />
+                    case 'ContentHero':
+                        return <ContentHero
+                            key={component.id}
+                            {...component} />
+                    case 'JobList':
+                        return <JobList
+                            key={component.id}
+                            {...component} />
+                    case 'HeroSlider':
+                        return <HeroSlider
+                            key={component.id}
+                            {...component} />
+                    default:
+                      return false
+                  }
+              })}
+            </div>
           </div>
         <Footer />
       </Container>
@@ -120,6 +131,11 @@ export const pageQuery = graphql`
                   ...GatsbyContentfulFluid
                 }
               }
+              hoverImage {
+                fluid {
+                  ...GatsbyContentfulFluid
+                }
+              }
               videos {
                 title
                 videoId
@@ -140,6 +156,11 @@ export const pageQuery = graphql`
                 title
                 type
                 image {
+                  fluid {
+                    ...GatsbyContentfulFluid
+                  }
+                }
+                hoverImage {
                   fluid {
                     ...GatsbyContentfulFluid
                   }

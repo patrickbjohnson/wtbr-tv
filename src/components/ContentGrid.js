@@ -51,6 +51,7 @@ class ContentGrid extends Component {
             catSelected: false,
             sliderRow: -1,
             active: 0,
+            activeSlide: {},
             panelIsOpen: false,
             isFirst: false,
             isLast: false
@@ -228,6 +229,7 @@ class ContentGrid extends Component {
             categories,
             sliderRow,
             active,
+            activeSlide,
             catSelected
         } = this.state
 
@@ -235,8 +237,6 @@ class ContentGrid extends Component {
             displayCategory,
             identifier,
         } = this.props
-
-        console.log('this.props', this.props)
 
         return (
             <div ref="wrapper" id={identifier} className={cx(styles.layout, {
@@ -248,13 +248,20 @@ class ContentGrid extends Component {
 
                 <div className={styles.grid}>
                     {blocks && blocks.map((b, i) => {
-                        return (<div
-                            className={styles.col}
-                            onClick={() => this.blockHandler(b, i)}
-                            key={b.id}
-                        >
-                            <ContentBlock key={b.id} inGrid={true} {...b} />
-                        </div>)
+                        return (
+                            <div
+                                className={styles.col}
+                                onClick={() => this.blockHandler(b, i)}
+                                key={b.id}
+                            >
+                                <ContentBlock
+                                    key={b.id}
+                                    active={activeSlide.id === b.id}
+                                    inGrid={true}
+                                    {...b}
+                                />
+                            </div>
+                        )
                     })}
 
                     <div
@@ -293,8 +300,6 @@ class ContentGrid extends Component {
                         </div>
                     </div>
                 </div>
-
-
 
                 {displayCategory &&
                     <FilterPanel

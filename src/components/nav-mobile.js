@@ -44,13 +44,22 @@ class MobileNav extends Component {
                 {nav.map((item) => {
                   return (
                     <li className={styles.item} key={item.id}>
-                      <Link
+                      {item.slug.includes('#') && 
+                        <a 
+                          className={styles.link} 
+                          href={item.slug}
+                          onClick={() => {
+                            this.toggleMenu()
+                          }}
+                        >{item.slug.replace('#', '')}</a>
+                      }
+                      {!item.slug.includes('#') && 
+                        <Link
                         className={styles.link}
                         to={`/${item.slug}`}
                         activeClassName={styles.active}
-                        >
-                          {item.slug}
-                      </Link>
+                        >{item.slug}</Link>
+                      }
                     </li>
                   )
                 })}

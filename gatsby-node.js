@@ -38,6 +38,7 @@ exports.createPages = ({ graphql, actions }) => {
 
         pages.forEach((page, index) => {
           const slug = page.node.slug.toLowerCase();
+          
           createPage({
             path: (slug === 'home') ? '/' : `/${slug}`,
             component: (slug === 'happenings') ? blog : pageTemplate,
