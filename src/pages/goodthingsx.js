@@ -115,9 +115,9 @@ class GoodThings extends React.Component {
 
                     <div className={styles.section}>
                         <SectionHeader classes="parallax-tal parallax-transparent" text="Good People"/>
+                        {/* <GoodPerson />
                         <GoodPerson />
-                        <GoodPerson />
-                        <GoodPerson />
+                        <GoodPerson /> */}
                     </div>
 
                 </div>
