@@ -7,21 +7,23 @@ import styles from './good-person.module.css'
 const GoodPerson = (props) => {
   console.log(props)
   const {
-    personBio, 
+    personBio,
     personImage
   } = props
 
   return (
     <div className={styles.block}>
       <div className={styles.media}>
-        <Img
-          className={cx(styles.image)}
-          fluid={personImage.fluid}
-          durationFadeIn={500}
-          title={personImage.title}
-          alt={personImage.title}
-          fadeIn
-        />
+        { personImage && (
+          <Img
+            className={cx(styles.image)}
+            fluid={personImage.fluid}
+            durationFadeIn={500}
+            title={personImage.title}
+            alt={personImage.title}
+            fadeIn
+          />
+        )}
       </div>
       <div className={styles.body}>
         <h3 className={styles.title}>Mercer Brockenbrough</h3>
