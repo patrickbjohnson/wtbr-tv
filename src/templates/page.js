@@ -7,11 +7,12 @@ import Footer from '../components/site-footer'
 import ContentBlockGrid from '../components/ContentGrid'
 import ContentHero from '../components/content-hero'
 import TextBlockGrid from '../components/text-block-grid'
-import JobList from '../components/job-list'
+import AccordionList from '../components/accordion-list'
 import FeaturedPosts from '../components/featured-posts'
 import HomeHero from '../components/home-hero'
 import HeroSlider from '../components/multi-slide-hero'
 import MobileContentGrid from '../components/MobileContentGrid'
+import GoodPeople from '../components/GoodPeople'
 import MediaQuery from 'react-responsive'
 
 import base from '../components/base.css'
@@ -36,7 +37,12 @@ const Page = (props) => {
             <div style={{'position': 'relative', 'zIndex': 2}}>
               {components && components.map(component => {
                   const type = cleanComponentName( component.__typename );
+                  console.log(type, component)
                   switch ( type ) {
+                    case 'GoodPeople' :
+                      return <GoodPeople
+                        key={component.id}
+                        {...component} />
                     case 'FeaturedPosts':
                       return <FeaturedPosts
                         key={component.id}
@@ -65,7 +71,11 @@ const Page = (props) => {
                             key={component.id}
                             {...component} />
                     case 'JobList':
-                        return <JobList
+                        return <AccordionList
+                            key={component.id}
+                            {...component} />
+                    case 'AccordionList':
+                        return <AccordionList
                             key={component.id}
                             {...component} />
                     case 'HeroSlider':
@@ -185,15 +195,23 @@ export const pageQuery = graphql`
               }
             }
           }
-          ... on ContentfulJobList {
+          ... on ContentfulAccordionList {
             id
             sectionTitle
             activeJobs {
-              id
-              title
-              description {
+              ... on ContentfulJob {
                 id
-                description
+                description {
+                  description
+                }
+                title
+              }
+              ... on ContentfulTextBlock {
+                id
+                description {
+                  description
+                }
+                title
               }
             }
           }
@@ -207,7 +225,21 @@ export const pageQuery = graphql`
               }
               slideImage {
                 fluid {
-                    ...GatsbyContentfulFluid
+                  ...GatsbyContentfulFluid
+                }
+              }
+            }
+          }
+          ... on ContentfulGoodPeople {
+            title
+            id
+            blocks {
+              personBio {
+                personBio
+              }
+              personImage {
+                fluid {
+                  ...GatsbyContentfulFluid
                 }
               }
             }
