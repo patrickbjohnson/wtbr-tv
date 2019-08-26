@@ -25,7 +25,6 @@ export default () => (
     render={data => {
       const { navItem } = data.allContentfulNavigation.edges[0].node
 
-
       return (
         <>
           <Desktop nav={navItem}/>
