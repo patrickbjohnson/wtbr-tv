@@ -82,8 +82,8 @@ class ContentGrid extends Component {
       this.initCategories(sluggedBlocks)
 
       if(window.location.hash && window.location.hash.replace('#', '') === identifier) {
-        console.log('yup')
-        window.scrollTo(0, 500)
+        const { scrollHeight } = this.refs.wrapper
+        window.scroll(0, scrollHeight)
       }
     }
 
@@ -239,7 +239,7 @@ class ContentGrid extends Component {
         console.log('this.props', this.props)
 
         return (
-            <div id={identifier} className={cx(styles.layout, {
+            <div ref="wrapper" id={identifier} className={cx(styles.layout, {
                 [styles.gridSpace]: displayCategory
             })}>
                 {this.props.sectionTitle &&
