@@ -36,6 +36,7 @@ const Page = (props) => {
             <div style={{'position': 'relative', 'zIndex': 2}}>
               {components && components.map(component => {
                   const type = cleanComponentName( component.__typename );
+                  console.log(type)
                   switch ( type ) {
                     case 'FeaturedPosts':
                       return <FeaturedPosts
@@ -185,17 +186,8 @@ export const pageQuery = graphql`
               }
             }
           }
-          ... on ContentfulJobList {
+          ... on ContentfulAccordionList {
             id
-            sectionTitle
-            activeJobs {
-              id
-              title
-              description {
-                id
-                description
-              }
-            }
           }
           ... on ContentfulHeroSlider {
             id
