@@ -37,7 +37,7 @@ const Page = (props) => {
             <div style={{'position': 'relative', 'zIndex': 2}}>
               {components && components.map(component => {
                   const type = cleanComponentName( component.__typename );
-                  console.log(type, component)
+
                   switch ( type ) {
                     case 'GoodPeople' :
                       return <GoodPeople

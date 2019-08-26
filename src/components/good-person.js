@@ -5,7 +5,7 @@ import Img from 'gatsby-image'
 import styles from './good-person.module.css'
 
 const GoodPerson = (props) => {
-  console.log(props)
+
   const {
     personBio, 
     personImage
