@@ -104,10 +104,10 @@ class DesktopNav extends Component {
                   key={item.id}
                   className={styles.item}
                 >
-                  {item.slug.includes('#') && 
-                    <a className={styles.link} href={item.slug}>{item.slug.replace('#', '')}</a>
+                  { item === 'work' &&
+                    <a className={styles.link} href={`/${item.slug}`}>{item.slug.replace('#', '')}</a>
                   }
-                  {!item.slug.includes('#') && 
+                  { item !== 'work' &&
                     <Link
                     className={styles.link}
                     to={`/${item.slug}`}
