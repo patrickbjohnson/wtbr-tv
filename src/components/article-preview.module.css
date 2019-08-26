@@ -1,5 +1,7 @@
 .article {
   border-top: 1px solid #000;
+  border-bottom: 1px solid #000;
+  border-left: 1px solid #000;
   padding-top: 50px;
   padding-bottom: 40px;
 }
@@ -45,6 +47,7 @@
   list-style: none;
 }
 
+
 .tag {
   color: #A0A0A0;
   text-decoration: none;
@@ -61,10 +64,10 @@
     border-top: 0;
     padding-left: 10%;
     padding-right: 10%;
-  }
-
-  .article:nth-child(1n) {
-    border-right: 1px solid #000;
+    -webkit-column-break-inside: avoid;
+    page-break-inside: avoid;
+    break-inside: avoid;
+    overflow:hidden;
   }
 
   .title {

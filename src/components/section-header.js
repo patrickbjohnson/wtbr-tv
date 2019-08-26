@@ -13,7 +13,7 @@ class SectionHeader extends Component {
         const { text, classes } = this.props
 
         return (
-            <>
+            <div>
                 <MediaQuery minWidth={768}>
                     <Parallax className={classes} y={[20, -40]}>
                         <div className={styles.block}>
@@ -28,7 +28,7 @@ class SectionHeader extends Component {
                       </div>
                   </div>
                 </MediaQuery>
-            </>
+            </div>
         )
     }
 }
