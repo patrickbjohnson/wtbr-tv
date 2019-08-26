@@ -9,20 +9,19 @@ import styles from '../components/flickity-slider.module.css'
 import cx from 'classnames'
 import ContentBlock from './ContentBlock'
 import ContentPanel from './content-panel'
-import ContentPanelMobile from './content-panel-mobile'
 
 /**
- * 
- * May Need to have a separate "Featured Image" field for mobile. 
+ *
+ * May Need to have a separate "Featured Image" field for mobile.
  * Desktop can show whatever media content is on the right side as necessary.
  * May need to also have a radio select options for "type" of Slide/Card
- * 
+ *
  */
 
 class FlickityGridSlider extends Component {
   constructor(props) {
     super(props)
-    
+
     this.flick = createRef()
     this.flkty = null
     this.state = {
@@ -30,7 +29,7 @@ class FlickityGridSlider extends Component {
       active: 0
     }
   }
-  
+
   componentDidMount() {
     this.setState({
       slides: this.props.posts ? this.props.posts : this.props.slides
@@ -40,7 +39,7 @@ class FlickityGridSlider extends Component {
         contain: true,
         draggable: false
       });
-      
+
       this.flkty.on('change', (i) => {
         this.setState({
           active: i
@@ -48,7 +47,7 @@ class FlickityGridSlider extends Component {
       })
     })
   }
-  
+
   render() {
     return (
       <div className={styles.slider} ref={this.flick}>
@@ -56,10 +55,9 @@ class FlickityGridSlider extends Component {
           if (s.type !== 'panel') {
             return (
               <div className={styles.slide} key={s.id}>
-                <ContentPanelMobile {...s} currentSlide={this.state.active} slideIndex={i}/>
                 <ContentPanel {...s} currentSlide={this.state.active} slideIndex={i}/>
               </div>
-            )            
+            )
           }
         })}
       </div>

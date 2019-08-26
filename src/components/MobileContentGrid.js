@@ -137,8 +137,6 @@ class ContentGrid extends Component {
             displayCategory
         } = this.props
 
-        console.log('this.state.panelIsOpen', this.state.panelIsOpen)
-
         return (
             <div className={cx(styles.layout, {
                 [styles.gridSpace]: displayCategory

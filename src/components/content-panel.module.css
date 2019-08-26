@@ -1,15 +1,22 @@
 .block {
     display: none;
     width: 100%;
+    max-width: 100vw;
+    box-sizing: border-box;
 }
 
 .mobileBlock.block {
     display: block;
+    padding: 0 24px;
 }
 
 .inner {
     display: flex;
     flex-direction: column;
+}
+
+.mobileBlock .inner {
+    display: block;
 }
 
 .media {
@@ -19,6 +26,10 @@
 .content {
     order: 3;
     padding: 48px 30px 20px;
+}
+
+.mobileBlock .content {
+    padding: 32px 0 0;
 }
 
 .title {
@@ -79,7 +90,7 @@
     .block.mobileBlock {
         display: none;
     }
-    
+
     .mobilePagination {
         display: none;
     }
