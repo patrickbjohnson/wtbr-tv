@@ -29,7 +29,7 @@ const Page = (props) => {
       <ParallaxProvider>
         <Container>
           <Navigation />
-          <div className={base.pageContainer}>
+          <div className='pageContainer'>
             {(slug === 'home' && hasVideo) &&
               <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
             }
