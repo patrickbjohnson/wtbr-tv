@@ -51,12 +51,13 @@ class ContentGrid extends Component {
             catSelected: false,
             sliderRow: -1,
             active: 0,
+            activeSlide: {},
             panelIsOpen: false,
             isFirst: false,
             isLast: false
         }
     }
-    
+
     componentDidMount() {
       const {
         contentBlocks
@@ -80,43 +81,43 @@ class ContentGrid extends Component {
       
       this.initCategories(sluggedBlocks)
     }
-    
+
     initFlickity = () => {
         this.flickity = new Flickity(this.slider.current, this.flickOptions)
             
         Array.from(this.slider.current.querySelectorAll('.flickity-button'), (b) => b.style.display = 'none')
         this.slider.current.querySelector('.flickity-page-dots').style.display = 'none'
-        
+
         this.setDisabledStates()
         this.flickityChangeEvent()
     }
-    
+
     setDisabledStates = () => {
         this.setState({
             isFirst: this.flickity.selectedIndex === 0,
-            isLast: this.flickity.selectedIndex === (this.flickity.cells.length - 1) 
+            isLast: this.flickity.selectedIndex === (this.flickity.cells.length - 1)
         })
     }
-    
+
     flickityChangeEvent = () => {
         this.flickity.on('change', (e) => {
             this.setDisabledStates()
         })
     }
-    
+
     getCurrentIndex = () => {
         const blocks = this.state.base
         const current = this.state.activeSlide
         return blocks.findIndex((b) => b.id === current.id)
     }
-    
+
     insertSlider = () => {
         const COL_COUNT = 4
         this.setState({
             sliderRow: Math.ceil((this.getCurrentIndex() + 1) / COL_COUNT)
         })
     }
-    
+
     blockHandler = (block, index) => {
         this.setState({
             activeSlide: block,
@@ -128,7 +129,7 @@ class ContentGrid extends Component {
             // this.flickityIntoView()
         })
     }
-    
+
     flickityIntoView = () => {
         // const h = window.innerHeight
         // const dim = this.slider.current.getBoundingClientRect()
@@ -168,7 +169,7 @@ class ContentGrid extends Component {
             filterOpen: !cs
         })
     }
-    
+
     filterReset = () => {
       this.setState({
         activeSlide: -1,
@@ -176,7 +177,7 @@ class ContentGrid extends Component {
         catSelected: false
       })
     }
-    
+
     filterContentSelection = (slug) => {
       const {
         base,
@@ -211,7 +212,7 @@ class ContentGrid extends Component {
           console.log(this.state.catSelected)
       })
     }
-    
+
     isLastSlide = () => {
         return this.flickity.selectedIndex === 0 ? 'disabled' : ''
     }
@@ -222,13 +223,14 @@ class ContentGrid extends Component {
             categories,
             sliderRow,
             active,
+            activeSlide,
             catSelected
         } = this.state
-        
+
         const {
             displayCategory
         } = this.props
-        
+
         return (
             <div className={cx(styles.layout, {
                 [styles.gridSpace]: displayCategory
@@ -236,23 +238,30 @@ class ContentGrid extends Component {
                 {this.props.sectionTitle &&
                     <SectionHeader text={this.props.sectionTitle} classes='wrapper' />
                 }
-                               
+
                 <div className={styles.grid}>
                     {blocks && blocks.map((b, i) => {
-                        return (<div
-                            className={styles.col}
-                            onClick={() => this.blockHandler(b, i)}
-                            key={b.id}
-                        >
-                            <ContentBlock key={b.id} inGrid={true} {...b} />
-                        </div>)
+                        return (
+                            <div
+                                className={styles.col}
+                                onClick={() => this.blockHandler(b, i)}
+                                key={b.id}
+                            >
+                                <ContentBlock
+                                    key={b.id}
+                                    active={activeSlide.id === b.id}
+                                    inGrid={true}
+                                    {...b}
+                                />
+                            </div>
+                        )
                     })}
-                    
-                    <div 
+
+                    <div
                         className={cx(styles.full, styles.wrapper, {
                             [styles.hidden]: !this.state.panelIsOpen,
                             [styles.block]: this.state.panelIsOpen
-                        })} 
+                        })}
                         style={{
                             'gridRow': sliderRow + 1,
                         }}>
@@ -266,16 +275,16 @@ class ContentGrid extends Component {
                                 )
                             })}
                         </div>
-                        
+
                         <div className={styles.pagination}>
-                            <button 
+                            <button
                             className={cx(styles.prev, styles.btn)}
                             disabled={this.state.isFirst}
                             onClick={() => {
                                 this.flickity.previous()
                             }}>Prev</button>
-                            
-                            <button 
+
+                            <button
                             className={cx(styles.next, styles.btn)}
                             disabled={this.state.isLast}
                             onClick={() => {
@@ -284,9 +293,8 @@ class ContentGrid extends Component {
                         </div>
                     </div>
                 </div>
-                
-                
-                
+
+
                 {displayCategory &&
                     <FilterPanel
                         categories={categories}

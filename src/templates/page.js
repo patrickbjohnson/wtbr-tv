@@ -128,6 +128,11 @@ export const pageQuery = graphql`
                   ...GatsbyContentfulFluid
                 }
               }
+              hoverImage {
+                fluid {
+                  ...GatsbyContentfulFluid
+                }
+              }
               videos {
                 title
                 videoId
@@ -148,6 +153,11 @@ export const pageQuery = graphql`
                 title
                 type
                 image {
+                  fluid {
+                    ...GatsbyContentfulFluid
+                  }
+                }
+                hoverImage {
                   fluid {
                     ...GatsbyContentfulFluid
                   }

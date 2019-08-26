@@ -1,5 +1,6 @@
 .block {
     position: relative;
+    cursor: pointer;
 }
 
 .title {
@@ -15,15 +16,42 @@
     color: #fff; */
 }
 
+.title,
 .subtitle,
 .desc {
-    display: none;
+    opacity: 0;
+    transition: opacity 150ms ease;
 }
 
 
 .media {
     height: 0;
     padding-bottom: 56.25%;
+    transition: filter 150ms ease;
+}
+
+.image {
+    display: block;
+}
+
+.active .title, .active .subtitle, .block:hover .title, .block:hover .subtitle {
+    opacity: 1;
+}
+
+.active .media, .block:hover .media {
+  filter: brightness(50%);
+}
+
+.active .image, .block:hover .image {
+    display: none;
+}
+
+.hoverImage {
+    display: none;
+}
+
+.active .hoverImage, .block:hover .hoverImage {
+    display: block;
 }
 
 .inGrid .body {
