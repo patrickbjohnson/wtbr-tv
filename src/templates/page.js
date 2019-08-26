@@ -195,27 +195,23 @@ export const pageQuery = graphql`
               }
             }
           }
-          ... on ContentfulJobList {
+          ... on ContentfulAccordionList {
             id
             sectionTitle
             activeJobs {
-              id
-              title
-              description {
+              ... on ContentfulJob {
                 id
-                description
+                description {
+                  description
+                }
+                title
               }
-            }
-          }
-          
-          ... on ContentfulAccordionList {
-            id
-            activeJobs {
-              id
-              title
-              description {
+              ... on ContentfulTextBlock {
                 id
-                description
+                description {
+                  description
+                }
+                title
               }
             }
           }
