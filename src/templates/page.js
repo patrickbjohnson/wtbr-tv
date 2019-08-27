@@ -24,15 +24,15 @@ const cleanComponentName = (component) => {
 
 const Page = (props) => {
   const { components, slug } = props.data.contentfulPage;
-    
+
   const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
-  
+
   return (
     <ParallaxProvider>
       <PageHead data={props.data.contentfulPage} location={props.location}/>
       <Container>
         <Navigation />
-        <div className={pageContainer}>
+        <div className="pageContainer">
           {(slug === 'home' && hasVideo) &&
             <NewHomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
           }
