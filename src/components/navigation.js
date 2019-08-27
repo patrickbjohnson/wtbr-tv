@@ -13,7 +13,6 @@ export default () => (
             node {
               navItem {
                 id
-                pageName
                 slug
                 pageHeadline
                 seoPageTitle
@@ -25,6 +24,7 @@ export default () => (
     `}
     render={data => {
       const { navItem } = data.allContentfulNavigation.edges[0].node
+
 
       return (
         <div>

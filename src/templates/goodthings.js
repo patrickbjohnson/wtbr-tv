@@ -11,6 +11,7 @@ import SectionHeader from '../components/section-header'
 import FeaturedPosts from '../components/featured-posts'
 import GoodPerson from '../components/good-person'
 import logo from '../components/goodthings-logo.svg'
+import Footer from '../components/site-footer'
 
 
 import styles from './goodthings.module.css'
@@ -35,12 +36,12 @@ class GoodThings extends React.Component {
         this.scrollHandler(e)
     ), 100)
     
-    this.hero.current.style.height = `${document.body.scrollHeight}px`
-    
     this.setState({
       people: this.getComponentsByType('ContentfulGoodPeople', components),
       accordion: this.getComponentsByType('ContentfulAccordionList', components),
       features: this.getComponentsByType('ContentfulFeaturedPosts', components)
+    }, () => {
+      this.hero.current.style.height = `${document.body.scrollHeight}px`
     })
   }
 
@@ -108,6 +109,7 @@ class GoodThings extends React.Component {
               )
             })}
           </div>
+          <Footer />
         </Container>
       </ParallaxProvider>
     )
