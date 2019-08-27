@@ -64,14 +64,14 @@ class MobileNav extends Component {
                           onClick={() => {
                             this.toggleMenu()
                           }}
-                        >{item.slug.replace('#', '')}</a>
+                        >{item.pageName.replace('#', '')}</a>
                       }
                       {!item.slug.includes('#') && 
                         <Link
                         className={styles.link}
                         to={`/${item.slug}`}
                         activeClassName={styles.active}
-                        >{item.slug}</Link>
+                        >{item.pageName}</Link>
                       }
                     </li>
                   )
