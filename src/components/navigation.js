@@ -15,7 +15,6 @@ export default () => (
                 id
                 slug
                 pageHeadline
-                seoPageTitle
               }
             }
           }

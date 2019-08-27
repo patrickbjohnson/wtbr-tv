@@ -7,6 +7,8 @@ import Layout from "../components/layout"
 import Ticker from '../components/article-ticker'
 import ArticlePreview from '../components/article-preview'
 import HomeHero from '../components/home-hero'
+import PageHead from '../components/PageHead'
+
 
 class BlogIndex extends React.Component {
   constructor(props) {
@@ -19,10 +21,10 @@ class BlogIndex extends React.Component {
     
     const components = get(this, 'props.data.contentfulPage.components')
     const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
-    
+    console.log()
     return (
-      <Layout location={this.props.location} >
-          <Helmet title={siteTitle} />
+      <Layout>
+          <PageHead data={this.props.data.contentfulPage} />
           {(hasVideo) &&
             <HomeHero classNames={styles.blogHero} key={hasVideo[0].id} {...hasVideo[0]}/>
           }
@@ -51,7 +53,13 @@ export const pageQuery = graphql`
     contentfulPage(slug: {eq: "happenings"}) {
       slug
       pageName
-      seoPageTitle
+      metaDescription
+      metaImage {
+        title
+        fluid {
+          ...GatsbyContentfulFluid
+        }
+      }
       components {
         __typename
         ... on ContentfulVideoHero {

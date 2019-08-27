@@ -3,7 +3,7 @@ import { Link, graphql } from 'gatsby'
 import { ParallaxProvider } from 'react-scroll-parallax'
 import throttle from 'lodash.throttle'
 import get from 'lodash/get'
-import Helmet from 'react-helmet'
+import PageHead from '../components/PageHead'
 import Navigation from '../components/navigation'
 import Container from "../components/container"
 import Accordion from '../components/accordion'
@@ -68,6 +68,7 @@ class GoodThings extends React.Component {
     } = this.state
     return (
       <ParallaxProvider>
+        <PageHead data={this.props.data.contentfulPage} location={this.props.location} />
         <Container>
           <Navigation />
           <div className={styles.hero} ref={this.hero}></div>
@@ -121,8 +122,15 @@ class GoodThings extends React.Component {
 export const pageQuery = graphql`
   query PageBySlug($slug:String!) {
     contentfulPage(slug:{eq: $slug}) {
-      seoPageTitle
       slug
+      pageName
+      metaDescription
+      metaImage {
+        title
+        fluid {
+          ...GatsbyContentfulFluid
+        }
+      }
       components {
         __typename
           ... on ContentfulFeaturedPosts {

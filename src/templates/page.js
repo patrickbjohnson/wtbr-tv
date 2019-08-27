@@ -13,6 +13,7 @@ import HomeHero from '../components/home-hero'
 import HeroSlider from '../components/multi-slide-hero'
 import MobileContentGrid from '../components/MobileContentGrid'
 import MediaQuery from 'react-responsive'
+import PageHead from '../components/PageHead'
 
 import base from '../components/base.css'
 
@@ -26,9 +27,9 @@ const Page = (props) => {
     
   const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
   
-  console.log(slug)
   return (
     <ParallaxProvider>
+      <PageHead data={props.data.contentfulPage} location={props.location}/>
       <Container>
         <Navigation />
         <div className={base.pageContainer}>
@@ -94,8 +95,15 @@ const Page = (props) => {
 export const pageQuery = graphql`
   query PostBySlug($slug:String!) {
     contentfulPage(slug:{eq: $slug}) {
-      seoPageTitle
       slug
+      pageName
+      metaDescription
+      metaImage {
+        title
+        fluid {
+          ...GatsbyContentfulFluid
+        }
+      }
       components {
         __typename
         ... on ContentfulVideoHero {
@@ -103,6 +111,7 @@ export const pageQuery = graphql`
           videoHeroTitle
           videoId
           image {
+            title
             fluid {
               ...GatsbyContentfulFluid
             }
@@ -133,11 +142,13 @@ export const pageQuery = graphql`
             title
             type
             image {
+              title
               fluid {
                 ...GatsbyContentfulFluid
               }
             }
             hoverImage {
+              title
               fluid {
                 ...GatsbyContentfulFluid
               }
@@ -162,11 +173,13 @@ export const pageQuery = graphql`
               title
               type
               image {
+                title
                 fluid {
                   ...GatsbyContentfulFluid
                 }
               }
               hoverImage {
+                title
                 fluid {
                   ...GatsbyContentfulFluid
                 }
@@ -185,6 +198,7 @@ export const pageQuery = graphql`
                 body
               }
               image {
+                title
                 fluid {
                   ...GatsbyContentfulFluid
                 }
@@ -221,6 +235,7 @@ export const pageQuery = graphql`
               title
             }
             slideImage {
+              title
               fluid {
                 ...GatsbyContentfulFluid
               }
@@ -235,6 +250,7 @@ export const pageQuery = graphql`
               personBio
             }
             personImage {
+              title
               fluid {
                 ...GatsbyContentfulFluid
               }

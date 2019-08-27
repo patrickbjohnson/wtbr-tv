@@ -29,7 +29,6 @@ class HomeHero extends Component {
   }
     
   componentDidMount() {
-    console.log(this.props)
     const { videoId } = this.props
       
     this.player = new Player(this.video.current, {
