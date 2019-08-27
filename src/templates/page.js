@@ -25,7 +25,8 @@ const Page = (props) => {
   const { components, slug } = props.data.contentfulPage;
     
   const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
-
+  
+  console.log(slug)
   return (
     <ParallaxProvider>
       <Container>
@@ -45,18 +46,18 @@ const Page = (props) => {
                       {...component} />
                   case 'ContentBlockGrid':
                     return (
-                      <>
-                      <MediaQuery minWidth={768}>
+                      <div id={(slug === 'home' ? 'work': '')}>
+                        <MediaQuery minWidth={768}>
                           <ContentBlockGrid
                               key={component.id}
                               {...component} />
-                      </MediaQuery>
-                      <MediaQuery maxWidth={767}>
+                        </MediaQuery>
+                        <MediaQuery maxWidth={767}>
                           <MobileContentGrid
                               key={component.id}
                               {...component} />
-                      </MediaQuery>
-                      </>
+                        </MediaQuery>
+                      </div>
                     )
                   case 'TextBlockGrid':
                       return <TextBlockGrid
