@@ -14,6 +14,7 @@ export default () => (
               navItem {
                 id
                 slug
+                pageName
                 pageHeadline
               }
             }

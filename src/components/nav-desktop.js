@@ -110,7 +110,6 @@ class DesktopNav extends Component {
             </li>
             {nav.map((item, i) => {
               if (item.slug === 'home' || item.slug === 'work') return
-
               return (
                 <li
                   ref={this.setRef}
@@ -118,14 +117,14 @@ class DesktopNav extends Component {
                   className={styles.item}
                 >
                   {item.slug.includes('#') && 
-                    <a className={styles.link} href={item.slug}>{item.slug.replace('#', '')}</a>
+                    <a className={styles.link} href={item.slug}>{item.pageName.replace('#', '')}</a>
                   }
                   {!item.slug.includes('#') && 
                     <Link
                     className={styles.link}
                     to={`/${item.slug}`}
                     activeClassName={styles.active}
-                    >{item.slug}</Link>
+                    >{item.pageName}</Link>
                   }
                 </li>
               )
