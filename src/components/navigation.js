@@ -25,15 +25,16 @@ export default () => (
     render={data => {
       const { navItem } = data.allContentfulNavigation.edges[0].node
 
+
       return (
-        <>
+        <div>
           <MediaQuery minWidth={768}>
             <Desktop nav={navItem}/>
           </MediaQuery>
           <MediaQuery maxWidth={767}>
             <Mobile nav={navItem}/>
           </MediaQuery>
-        </>
+        </div>
       )
     }}
   />

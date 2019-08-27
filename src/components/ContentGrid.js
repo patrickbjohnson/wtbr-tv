@@ -208,14 +208,12 @@ class ContentGrid extends Component {
        * the DOM elements are removed and re-inserted
        */
       this.flickity.destroy()
-      console.log(slug)
       this.setState({
           blocks: results,
           panelIsOpen: false,
           catSelected: slug,
       }, () => {
           this.initFlickity()
-          console.log(this.state.catSelected)
       })
     }
 
