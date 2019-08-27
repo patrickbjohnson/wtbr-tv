@@ -15,7 +15,6 @@ export default () => (
                 id
                 slug
                 pageHeadline
-                seoPageTitle
               }
             }
           }
@@ -26,10 +25,14 @@ export default () => (
       const { navItem } = data.allContentfulNavigation.edges[0].node
 
       return (
-        <>
-          <Desktop nav={navItem}/>
-          <Mobile nav={navItem}/>
-        </>
+        <div>
+          <MediaQuery minWidth={768}>
+            <Desktop nav={navItem}/>
+          </MediaQuery>
+          <MediaQuery maxWidth={767}>
+            <Mobile nav={navItem}/>
+          </MediaQuery>
+        </div>
       )
     }}
   />

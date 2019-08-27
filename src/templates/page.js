@@ -12,8 +12,8 @@ import FeaturedPosts from '../components/featured-posts'
 import NewHomeHero from '../components/new-home-hero'
 import HeroSlider from '../components/multi-slide-hero'
 import MobileContentGrid from '../components/MobileContentGrid'
-import GoodPeople from '../components/GoodPeople'
 import MediaQuery from 'react-responsive'
+import PageHead from '../components/PageHead'
 
 import base from '../components/base.css'
 
@@ -23,71 +23,72 @@ const cleanComponentName = (component) => {
 
 
 const Page = (props) => {
-    const { components, slug } = props.data.contentfulPage;
-    const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
-
-    return (
-      <ParallaxProvider>
-        <Container>
-          <Navigation />
-          <div className='pageContainer'>
-            {(slug === 'home' && hasVideo) &&
-              <NewHomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
-            }
-            <div style={{backgroundColor: '#fff', position: 'relative', zIndex: 2}}>
-              {components && components.map(component => {
-                  const type = cleanComponentName( component.__typename );
-                  console.log(type, component)
-                  switch ( type ) {
-                    case 'GoodPeople' :
-                      return <GoodPeople
-                        key={component.id}
-                        {...component} />
-                    case 'FeaturedPosts':
-                      return <FeaturedPosts
-                        key={component.id}
-                        {...component} />
-                    case 'ContentBlockGrid':
-                      return (
-                        <>
+  const { components, slug } = props.data.contentfulPage;
+    
+  const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
+  
+  return (
+    <ParallaxProvider>
+      <PageHead data={props.data.contentfulPage} location={props.location}/>
+      <Container>
+        <Navigation />
+        <div className={pageContainer}>
+          {(slug === 'home' && hasVideo) &&
+            <NewHomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
+          }
+          <div style={{backgroundColor: '#fff', 'position': 'relative', 'zIndex': 2, 'paddingTop': '70px'}}>
+            {components && components.map(component => {
+                const type = cleanComponentName( component.__typename );
+                switch ( type ) {
+                  case 'GoodPeople' :
+                    return <GoodPeople
+                      key={component.id}
+                      {...component} />
+                  case 'FeaturedPosts':
+                    return <FeaturedPosts
+                      key={component.id}
+                      {...component} />
+                  case 'ContentBlockGrid':
+                    return (
+                      <div id={(slug === 'home' ? 'work': '')}>
                         <MediaQuery minWidth={768}>
-                            <ContentBlockGrid
-                                key={component.id}
-                                {...component} />
+                          <ContentBlockGrid
+                              key={component.id}
+                              {...component} />
                         </MediaQuery>
                         <MediaQuery maxWidth={767}>
-                            <MobileContentGrid
-                                key={component.id}
-                                {...component} />
+                          <MobileContentGrid
+                              key={component.id}
+                              {...component} />
                         </MediaQuery>
-                        </>
-                      )
-                    case 'TextBlockGrid':
-                        return <TextBlockGrid
-                            key={component.id}
-                            {...component} />
-                    case 'ContentHero':
-                        return <ContentHero
-                            key={component.id}
-                            {...component} />
-                    case 'JobList':
-                        return <AccordionList
-                            key={component.id}
-                            {...component} />
-                    case 'AccordionList':
-                        return <AccordionList
-                            key={component.id}
-                            {...component} />
-                    case 'HeroSlider':
-                        return <HeroSlider
-                            key={component.id}
-                            {...component} />
-                    default:
-                      return false
-                  }
-              })}
-            </div>
+                      </div>
+                    )
+                  case 'TextBlockGrid':
+                      return <TextBlockGrid
+                          key={component.id}
+                          {...component} />
+                  case 'ContentHero':
+                      return <ContentHero
+                          key={component.id}
+                          {...component} />
+                  case 'JobList':
+                      return <AccordionList
+                          key={component.id}
+                          {...component} />
+                  case 'AccordionList':
+                      return <AccordionList
+                          key={component.id}
+                          {...component} />
+                  case 'HeroSlider':
+                      return <HeroSlider
+                          key={component.id}
+                          {...component} />
+                  default:
+                    return false
+                }
+            })}
           </div>
+        </div>
         <Footer />
       </Container>
     </ParallaxProvider>
@@ -97,36 +98,75 @@ const Page = (props) => {
 export const pageQuery = graphql`
   query PostBySlug($slug:String!) {
     contentfulPage(slug:{eq: $slug}) {
-      seoPageTitle
       slug
+      pageName
+      metaDescription
+      metaImage {
+        title
+        fluid {
+          ...GatsbyContentfulFluid
+        }
+      }
       components {
         __typename
         ... on ContentfulVideoHero {
+          id
+          videoHeroTitle
+          videoId
+          image {
+            title
+            fluid {
+              ...GatsbyContentfulFluid
+            }
+          }
+        }
+        ... on ContentfulTextBlockGrid {
+          id
+          textBlocks {
             id
-            videoHeroTitle
-            videoId
+            title
+            description {
+              description
+            }
+          }
+        }
+        ... on ContentfulContentBlockGrid {
+          id
+          identifier
+          sectionTitle
+          displayCategory
+          contentBlocks {
+            id
+            body {
+              body
+            }
+            category
+            categoryColor
+            title
+            type
             image {
+              title
               fluid {
                 ...GatsbyContentfulFluid
               }
             }
-          }
-          ... on ContentfulTextBlockGrid {
-            id
-            textBlocks {
-              id
+            hoverImage {
               title
-              description {
-                description
+              fluid {
+                ...GatsbyContentfulFluid
               }
             }
+            videos {
+              title
+              videoId
+              caption
+            }
           }
-          ... on ContentfulContentBlockGrid {
-            id
-            identifier
-            sectionTitle
-            displayCategory
-            contentBlocks {
+        }
+        ... on ContentfulFeaturedPosts {
+          id
+          posts {
+            ... on ContentfulContentBlock {
               id
               body {
                 body
@@ -136,11 +176,13 @@ export const pageQuery = graphql`
               title
               type
               image {
+                title
                 fluid {
                   ...GatsbyContentfulFluid
                 }
               }
               hoverImage {
+                title
                 fluid {
                   ...GatsbyContentfulFluid
                 }
@@ -151,114 +193,88 @@ export const pageQuery = graphql`
                 caption
               }
             }
-          }
-          ... on ContentfulFeaturedPosts {
-            id
-            posts {
-              ... on ContentfulContentBlock {
-                id
-                body {
-                  body
-                }
-                category
-                categoryColor
-                title
-                type
-                image {
-                  fluid {
-                    ...GatsbyContentfulFluid
-                  }
-                }
-                hoverImage {
-                  fluid {
-                    ...GatsbyContentfulFluid
-                  }
-                }
-                videos {
-                  title
-                  videoId
-                  caption
-                }
-              }
-              ... on ContentfulBlogPost {
-                id
-                slug
-                title
-                body {
-                  body
-                }
-                image {
-                  fluid {
-                    ...GatsbyContentfulFluid
-                  }
-                }
-              }
-            }
-          }
-          ... on ContentfulAccordionList {
-            id
-            sectionTitle
-            activeJobs {
-              ... on ContentfulJob {
-                id
-                description {
-                  description
-                }
-                title
-              }
-              ... on ContentfulTextBlock {
-                id
-                description {
-                  description
-                }
-                title
-              }
-            }
-          }
-          ... on ContentfulHeroSlider {
-            id
-            heroSlides {
+            ... on ContentfulBlogPost {
               id
-              heroSlug
-              title {
-                title
+              slug
+              title
+              body {
+                body
               }
-              slideImage {
+              image {
+                title
                 fluid {
                   ...GatsbyContentfulFluid
                 }
               }
-            }
-          }
-          ... on ContentfulGoodPeople {
-            title
-            id
-            blocks {
-              personBio {
-                personBio
-              }
-              personImage {
-                fluid {
-                  ...GatsbyContentfulFluid
-                }
-              }
-            }
-          }
-          ... on ContentfulContentHero {
-            id
-            backgroundColor
-            layoutSelection
-            heroTitle {
-              id
-              heroTitle
-            }
-            heroContent {
-              id
-              heroContent
             }
           }
         }
-     }
- }
+        ... on ContentfulAccordionList {
+          id
+          sectionTitle
+          activeJobs {
+            ... on ContentfulJob {
+              id
+              description {
+                description
+              }
+              title
+            }
+            ... on ContentfulTextBlock {
+              id
+              description {
+                description
+              }
+              title
+            }
+          }
+        }
+        ... on ContentfulHeroSlider {
+          id
+          heroSlides {
+            id
+            heroSlug
+            title {
+              title
+            }
+            slideImage {
+              title
+              fluid {
+                ...GatsbyContentfulFluid
+              }
+            }
+          }
+        }
+        ... on ContentfulGoodPeople {
+          title
+          id
+          blocks {
+            personBio {
+              personBio
+            }
+            personImage {
+              title
+              fluid {
+                ...GatsbyContentfulFluid
+              }
+            }
+          }
+        }
+        ... on ContentfulContentHero {
+          id
+          backgroundColor
+          layoutSelection
+          heroTitle {
+            id
+            heroTitle
+          }
+          heroContent {
+            id
+            heroContent
+          }
+        }
+      }
+    }
+  }
 `
 export default Page
