@@ -10,21 +10,25 @@ class SectionHeader extends Component {
     }
 
     render() {
-        const { text, classes } = this.props
+        const { 
+            text, 
+            classes,
+            uniqueID
+        } = this.props
 
         return (
             <div>
                 <MediaQuery minWidth={768}>
                     <Parallax className={classes} y={[20, -40]}>
                         <div className={styles.block}>
-                            <h2 className={styles.text}>{text}</h2>
+                            <h2 className={styles.text} data-id={uniqueID}>{text}</h2>
                         </div>
                     </Parallax>
                 </MediaQuery>
                 <MediaQuery maxWidth={767}>
                   <div className={classes}>
                       <div className={styles.block}>
-                          <h2 className={styles.text}>{text}</h2>
+                          <h2 className={styles.text} data-id={uniqueID}>{text}</h2>
                       </div>
                   </div>
                 </MediaQuery>
