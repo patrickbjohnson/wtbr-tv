@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'gatsby'
+import { navigate } from '@reach/router';
 import cx from 'classnames'
 
 import logoSm from './wordmark-sm.svg'
@@ -41,7 +42,19 @@ class MobileNav extends Component {
             </div>
             <nav className={cx(styles.navWrap, { [styles.isOpen]: this.state.isOpen })} role="navigation">
               <ul className={cx(styles.navigation, 'list-inline')}>
+                <li className={styles.item}>
+                  <a 
+                    className={styles.link} 
+                    href="/#work"
+                    onClick={() => {
+                      navigate('#work')
+                    }}
+                    >
+                      Work</a>
+                </li>
                 {nav.map((item) => {
+                  if (item.slug === 'home' || item.slug === 'work') return
+                  
                   return (
                     <li className={styles.item} key={item.id}>
                       {item.slug.includes('#') && 

@@ -109,7 +109,6 @@ class DesktopNav extends Component {
                   Work</a>
             </li>
             {nav.map((item, i) => {
-
               if (item.slug === 'home' || item.slug === 'work') return
 
               return (
