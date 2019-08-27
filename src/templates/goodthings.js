@@ -4,7 +4,8 @@ import { ParallaxProvider } from 'react-scroll-parallax'
 import throttle from 'lodash.throttle'
 import get from 'lodash/get'
 import Helmet from 'react-helmet'
-import Layout from "../components/layout"
+import Navigation from '../components/navigation'
+import Container from "../components/container"
 import Accordion from '../components/accordion'
 import SectionHeader from '../components/section-header'
 import FeaturedPosts from '../components/featured-posts'
@@ -28,15 +29,19 @@ class GoodThings extends React.Component {
   }
 
   componentDidMount() {
-    Array.from(document.querySelectorAll('[data-id="mission"]'), (title) => {
-      this.titles.push(title)
-    })
+    const components = get(this, 'props.data.contentfulPage.components')
     
     window.addEventListener('scroll', throttle((e) =>
         this.scrollHandler(e)
     ), 100)
     
     this.hero.current.style.height = `${document.body.scrollHeight}px`
+    
+    this.setState({
+      people: this.getComponentsByType('ContentfulGoodPeople', components),
+      accordion: this.getComponentsByType('ContentfulAccordionList', components),
+      features: this.getComponentsByType('ContentfulFeaturedPosts', components)
+    })
   }
 
   scrollHandler = (e) => {
@@ -55,60 +60,59 @@ class GoodThings extends React.Component {
 
   render() {
     const components = get(this, 'props.data.contentfulPage.components')
-    const people = this.getComponentsByType('ContentfulGoodPeople', components)
-    const accordion = this.getComponentsByType('ContentfulAccordionList', components)
-    const features = this.getComponentsByType('ContentfulFeaturedPosts', components)
-    
+    const {
+      people,
+      accordion,
+      features
+    } = this.state
     return (
       <ParallaxProvider>
-        <Layout>
-          <div className={styles.hero} ref={this.hero}>
-          </div>
-
+        <Container>
+          <Navigation />
+          <div className={styles.hero} ref={this.hero}></div>
           <div className={styles.layout}>
             <div className={styles.col}>
                 <img className={styles.sticky} src={logo} alt="Good Things"/>
             </div>
             <div className={styles.col}>
               <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
+              
               <div className={styles.section}>
                 <SectionHeader classes="parallax-tal parallax-transparent" text="Mission" uniqueID='mission'/>
                 <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
               </div>
-
-
-              <div className={styles.section}>
-                <SectionHeader classes="parallax-tal parallax-transparent" text="Good People" />  
-                {people && people.map((p, i) => {
-                  return p.blocks.map((v) => {
-                    return (<GoodPerson key={v.id} {...v} />)
-                  })
-                })}
-              </div>
               
+              {people &&
+                <div className={styles.section}>
+                  <SectionHeader classes="parallax-tal parallax-transparent" text="Good People" />  
+                  {people.map((p, i) => {
+                    return p.blocks.map((v) => {
+                      return (<GoodPerson key={v.id} {...v} />)
+                    })
+                  })}
+                </div>
+              }
             </div>
           </div>
 
-          <div className="wrapper">
-            {accordion && accordion.map((a, i) => {
+          <div>
+            {accordion && accordion.map((a) => {
               return (
                 <Accordion key={Math.random()} fullwidth={true} set={a.activeJobs}/>
               )
             })}
             
-            {features && features.map((f, i) => {
+            {features && features.map((f) => {
               return (
                 <FeaturedPosts key={Math.random()} {...f}/>
               )
             })}
           </div>
-        </Layout>
+        </Container>
       </ParallaxProvider>
     )
   }
 }
-
-
 
 export const pageQuery = graphql`
   query PageBySlug($slug:String!) {
