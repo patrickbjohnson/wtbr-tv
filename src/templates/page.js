@@ -34,7 +34,7 @@ const Page = (props) => {
           {(slug === 'home' && hasVideo) &&
             <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
           }
-          <div style={{'position': 'relative', 'zIndex': 2}}>
+          <div style={{'position': 'relative', 'zIndex': 2, 'paddingTop': '70px'}}>
             {components && components.map(component => {
                 const type = cleanComponentName( component.__typename );
 

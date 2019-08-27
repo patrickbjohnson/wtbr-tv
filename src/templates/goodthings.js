@@ -71,7 +71,9 @@ class GoodThings extends React.Component {
         <Container>
           <Navigation />
           <div className={styles.hero} ref={this.hero}></div>
-          <div className={styles.layout}>
+          <div className={styles.layout}
+            style={{'position': 'relative', 'zIndex': 2, 'paddingTop': '150px'}}
+          >
             <div className={styles.col}>
                 <img className={styles.sticky} src={logo} alt="Good Things"/>
             </div>
