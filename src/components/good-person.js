@@ -4,16 +4,14 @@ import Img from 'gatsby-image'
 
 import styles from './good-person.module.css'
 
-const GoodPerson = (props) => {
-
-  const {
-    personBio, 
+const GoodPerson = ({
+  personBio, 
+    personName,
     personImage
-  } = props
-
-  return (
-    <div className={styles.block}>
-      <div className={styles.media}>
+}) => (
+  <div className={styles.block}>
+    <div className={styles.media}>
+      {personImage && (
         <Img
           className={cx(styles.image)}
           fluid={personImage.fluid}
@@ -22,17 +20,17 @@ const GoodPerson = (props) => {
           alt={personImage.title}
           fadeIn
         />
-      </div>
-      <div className={styles.body}>
-        <h3 className={styles.title}>Mercer Brockenbrough</h3>
-        {personBio &&
-          <div className={styles.text}>
-            <p>{personBio.personBio}</p>
-          </div>
-        }
-      </div>
+      )}
     </div>
-  )
-}
+    <div className={styles.body}>
+      <h3 className={styles.title}>{personName}</h3>
+      {personBio &&
+        <div className={styles.text}>
+          <p>{personBio.personBio}</p>
+        </div>
+      }
+    </div>
+  </div>
+)
 
 export default GoodPerson;

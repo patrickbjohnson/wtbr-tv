@@ -12,7 +12,6 @@ import FeaturedPosts from '../components/featured-posts'
 import HomeHero from '../components/home-hero'
 import HeroSlider from '../components/multi-slide-hero'
 import MobileContentGrid from '../components/MobileContentGrid'
-import GoodPeople from '../components/GoodPeople'
 import MediaQuery from 'react-responsive'
 
 import base from '../components/base.css'
@@ -23,71 +22,68 @@ const cleanComponentName = (component) => {
 
 
 const Page = (props) => {
-    const { components, slug } = props.data.contentfulPage;
-    const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
+  const { components, slug } = props.data.contentfulPage;
+    
+  const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
 
-    return (
-      <ParallaxProvider>
-        <Container>
-          <Navigation />
-          <div className='pageContainer'>
-            {(slug === 'home' && hasVideo) &&
-              <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
-            }
-            <div style={{'position': 'relative', 'zIndex': 2}}>
-              {components && components.map(component => {
-                  const type = cleanComponentName( component.__typename );
+  return (
+    <ParallaxProvider>
+      <Container>
+        <Navigation />
+        <div className={base.pageContainer}>
+          {(slug === 'home' && hasVideo) &&
+            <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
+          }
+          <div style={{'position': 'relative', 'zIndex': 2}}>
+            {components && components.map(component => {
+                const type = cleanComponentName( component.__typename );
 
-                  switch ( type ) {
-                    case 'GoodPeople' :
-                      return <GoodPeople
-                        key={component.id}
-                        {...component} />
-                    case 'FeaturedPosts':
-                      return <FeaturedPosts
-                        key={component.id}
-                        {...component} />
-                    case 'ContentBlockGrid':
-                      return (
-                        <>
-                        <MediaQuery minWidth={768}>
-                            <ContentBlockGrid
-                                key={component.id}
-                                {...component} />
-                        </MediaQuery>
-                        <MediaQuery maxWidth={767}>
-                            <MobileContentGrid
-                                key={component.id}
-                                {...component} />
-                        </MediaQuery>
-                        </>
-                      )
-                    case 'TextBlockGrid':
-                        return <TextBlockGrid
-                            key={component.id}
-                            {...component} />
-                    case 'ContentHero':
-                        return <ContentHero
-                            key={component.id}
-                            {...component} />
-                    case 'JobList':
-                        return <AccordionList
-                            key={component.id}
-                            {...component} />
-                    case 'AccordionList':
-                        return <AccordionList
-                            key={component.id}
-                            {...component} />
-                    case 'HeroSlider':
-                        return <HeroSlider
-                            key={component.id}
-                            {...component} />
-                    default:
-                      return false
-                  }
-              })}
-            </div>
+                switch ( type ) {
+                  case 'FeaturedPosts':
+                    return <FeaturedPosts
+                      key={component.id}
+                      {...component} />
+                  case 'ContentBlockGrid':
+                    return (
+                      <>
+                      <MediaQuery minWidth={768}>
+                          <ContentBlockGrid
+                              key={component.id}
+                              {...component} />
+                      </MediaQuery>
+                      <MediaQuery maxWidth={767}>
+                          <MobileContentGrid
+                              key={component.id}
+                              {...component} />
+                      </MediaQuery>
+                      </>
+                    )
+                  case 'TextBlockGrid':
+                      return <TextBlockGrid
+                          key={component.id}
+                          {...component} />
+                  case 'ContentHero':
+                      return <ContentHero
+                          key={component.id}
+                          {...component} />
+                  case 'JobList':
+                      return <AccordionList
+                          key={component.id}
+                          {...component} />
+                  case 'AccordionList':
+                      return <AccordionList
+                          key={component.id}
+                          {...component} />
+                  case 'HeroSlider':
+                      return <HeroSlider
+                          key={component.id}
+                          {...component} />
+                  default:
+                    return false
+                }
+            })}
           </div>
+        </div>
         <Footer />
       </Container>
     </ParallaxProvider>
@@ -102,31 +98,60 @@ export const pageQuery = graphql`
       components {
         __typename
         ... on ContentfulVideoHero {
+          id
+          videoHeroTitle
+          videoId
+          image {
+            fluid {
+              ...GatsbyContentfulFluid
+            }
+          }
+        }
+        ... on ContentfulTextBlockGrid {
+          id
+          textBlocks {
             id
-            videoHeroTitle
-            videoId
+            title
+            description {
+              description
+            }
+          }
+        }
+        ... on ContentfulContentBlockGrid {
+          id
+          identifier
+          sectionTitle
+          displayCategory
+          contentBlocks {
+            id
+            body {
+              body
+            }
+            category
+            categoryColor
+            title
+            type
             image {
               fluid {
                 ...GatsbyContentfulFluid
               }
             }
-          }
-          ... on ContentfulTextBlockGrid {
-            id
-            textBlocks {
-              id
-              title
-              description {
-                description
+            hoverImage {
+              fluid {
+                ...GatsbyContentfulFluid
               }
             }
+            videos {
+              title
+              videoId
+              caption
+            }
           }
-          ... on ContentfulContentBlockGrid {
-            id
-            identifier
-            sectionTitle
-            displayCategory
-            contentBlocks {
+        }
+        ... on ContentfulFeaturedPosts {
+          id
+          posts {
+            ... on ContentfulContentBlock {
               id
               body {
                 body
@@ -151,114 +176,85 @@ export const pageQuery = graphql`
                 caption
               }
             }
-          }
-          ... on ContentfulFeaturedPosts {
-            id
-            posts {
-              ... on ContentfulContentBlock {
-                id
-                body {
-                  body
-                }
-                category
-                categoryColor
-                title
-                type
-                image {
-                  fluid {
-                    ...GatsbyContentfulFluid
-                  }
-                }
-                hoverImage {
-                  fluid {
-                    ...GatsbyContentfulFluid
-                  }
-                }
-                videos {
-                  title
-                  videoId
-                  caption
-                }
-              }
-              ... on ContentfulBlogPost {
-                id
-                slug
-                title
-                body {
-                  body
-                }
-                image {
-                  fluid {
-                    ...GatsbyContentfulFluid
-                  }
-                }
-              }
-            }
-          }
-          ... on ContentfulAccordionList {
-            id
-            sectionTitle
-            activeJobs {
-              ... on ContentfulJob {
-                id
-                description {
-                  description
-                }
-                title
-              }
-              ... on ContentfulTextBlock {
-                id
-                description {
-                  description
-                }
-                title
-              }
-            }
-          }
-          ... on ContentfulHeroSlider {
-            id
-            heroSlides {
+            ... on ContentfulBlogPost {
               id
-              heroSlug
-              title {
-                title
+              slug
+              title
+              body {
+                body
               }
-              slideImage {
+              image {
                 fluid {
                   ...GatsbyContentfulFluid
                 }
               }
-            }
-          }
-          ... on ContentfulGoodPeople {
-            title
-            id
-            blocks {
-              personBio {
-                personBio
-              }
-              personImage {
-                fluid {
-                  ...GatsbyContentfulFluid
-                }
-              }
-            }
-          }
-          ... on ContentfulContentHero {
-            id
-            backgroundColor
-            layoutSelection
-            heroTitle {
-              id
-              heroTitle
-            }
-            heroContent {
-              id
-              heroContent
             }
           }
         }
-     }
- }
+        ... on ContentfulAccordionList {
+          id
+          sectionTitle
+          activeJobs {
+            ... on ContentfulJob {
+              id
+              description {
+                description
+              }
+              title
+            }
+            ... on ContentfulTextBlock {
+              id
+              description {
+                description
+              }
+              title
+            }
+          }
+        }
+        ... on ContentfulHeroSlider {
+          id
+          heroSlides {
+            id
+            heroSlug
+            title {
+              title
+            }
+            slideImage {
+              fluid {
+                ...GatsbyContentfulFluid
+              }
+            }
+          }
+        }
+        ... on ContentfulGoodPeople {
+          title
+          id
+          blocks {
+            personBio {
+              personBio
+            }
+            personImage {
+              fluid {
+                ...GatsbyContentfulFluid
+              }
+            }
+          }
+        }
+        ... on ContentfulContentHero {
+          id
+          backgroundColor
+          layoutSelection
+          heroTitle {
+            id
+            heroTitle
+          }
+          heroContent {
+            id
+            heroContent
+          }
+        }
+      }
+    }
+  }
 `
 export default Page

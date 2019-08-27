@@ -208,7 +208,6 @@ class ContentGrid extends Component {
        * the DOM elements are removed and re-inserted
        */
       this.flickity.destroy()
-
       this.setState({
           blocks: results,
           panelIsOpen: false,
