@@ -99,14 +99,7 @@ class DesktopNav extends Component {
           })}>
 
             <li className={styles.item}>
-              <a
-                className={styles.link}
-                href="/#work"
-                onClick={() => {
-                  navigate('#work')
-                }}
-                >
-                  Work</a>
+              <Link className={styles.link} to="/#work">Work</Link>
             </li>
             {nav.map((item, i) => {
               if (item.slug === 'home' || item.slug === 'work') return
