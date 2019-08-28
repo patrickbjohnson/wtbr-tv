@@ -14,9 +14,9 @@ const Footer = (props) => {
                 <div className={styles.content}>
                     <div className={styles.links}>
                         <a href="#">Twitter</a>
-                        <a href="#">Instagram</a>
-                        <a href="#">Facebook</a>
-                        <a href="#">Email</a>
+                        <a href="https://instagram.com/wtbr.tv" target="_blank" rel="noopener">Instagram</a>
+                        <a href="#" target="_blank" rel="noopener">Facebook</a>
+                        <a href="#" target="_blank" rel="noopener">Email</a>
                         <a href="#">123-456-7890</a>
                         <Link to="/jobs">Jobs</Link>
                     </div>

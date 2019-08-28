@@ -7,6 +7,7 @@ exports.createPages = ({ graphql, actions }) => {
   return new Promise((resolve, reject) => {
     const pageTemplate = require.resolve('./src/templates/page.js')
     const postTemplate = require.resolve('./src/templates/blog-post.js')
+    const goodThings = require.resolve('./src/templates/goodthings.js')
     const blog = require.resolve('./src/pages/blog.js')
     
     resolve(
@@ -39,22 +40,32 @@ exports.createPages = ({ graphql, actions }) => {
         pages.forEach((page, index) => {
           const slug = page.node.slug.toLowerCase();
           
+          if (slug === 'happenings') {
+            template = blog
+          } else if (slug === 'goodthings') {
+            template = goodThings
+          } else {
+            template = pageTemplate
+          }
+          
           createPage({
             path: (slug === 'home') ? '/' : `/${slug}`,
-            component: (slug === 'happenings') ? blog : pageTemplate,
+            component: template,
             context: {
-              slug: page.node.slug
+              slug: slug
             },
           })
         })
 
         const posts = result.data.allContentfulBlogPost.edges
         posts.forEach((post, index) => {
+          const slug = post.node.slug.toLowerCase();
+          
           createPage({
-            path: `/happenings/${post.node.slug}/`,
+            path: `/happenings/${slug}/`,
             component: postTemplate,
             context: {
-              slug: post.node.slug
+              slug: slug
             },
           })
         })

@@ -70,17 +70,12 @@
         height: 100vh;
     }
 
-    .singlePanel {
-        height: 100vh;
-    }
-
     .content {
         left: 100px;
         right: 100px;
         margin-left: 0;
         width: 75%;
         z-index: 2;
-        opacity: 0;
         transition: .5s ease-out;
     }
 
