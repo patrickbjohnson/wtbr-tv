@@ -27,10 +27,10 @@ export default () => (
 
       return (
         <div>
-          <MediaQuery minWidth={768}>
+          <MediaQuery minWidth={1024}>
             <Desktop nav={navItem}/>
           </MediaQuery>
-          <MediaQuery maxWidth={767}>
+          <MediaQuery maxWidth={1024}>
             <Mobile nav={navItem}/>
           </MediaQuery>
         </div>

@@ -103,10 +103,3 @@
 .active {
   background-color: #F8D377;
 }
-
-
-@media (min-width: 1024px) {
-  .block {
-    display: none;
-  }
-}

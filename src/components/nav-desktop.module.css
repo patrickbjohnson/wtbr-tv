@@ -1,5 +1,4 @@
 .block {
-  display: none;
   position: fixed;
   z-index: 9999;
   top: 0;
@@ -47,7 +46,7 @@
   height: 15px;
 }
 
-.small, 
+.small,
 .large {
   left: 20px;
   opacity: 1;
@@ -59,13 +58,13 @@
   .w {
     height: 19px;
   }
-  
+
   .small,
   .large {
     height: 20px;
     left: 27px;
   }
-  
+
   .logo,
   .logo-wrap {
     width: 350px;
@@ -97,10 +96,6 @@
 
 
 @media (min-width: 1024px) {
-  .block {
-    display: block;
-  }
-
   .navWrap {
     display: flex;
     flex-direction: row;
