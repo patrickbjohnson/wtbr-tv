@@ -97,10 +97,10 @@ class DesktopNav extends Component {
           <ul className={cx(styles.navigation, {
             [styles.scrolledNav]: this.state.pastThreshold
           })}>
-            
+
             <li className={styles.item}>
-              <a 
-                className={styles.link} 
+              <a
+                className={styles.link}
                 href="/#work"
                 onClick={() => {
                   navigate('#work')
@@ -110,22 +110,21 @@ class DesktopNav extends Component {
             </li>
             {nav.map((item, i) => {
               if (item.slug === 'home' || item.slug === 'work') return
-
               return (
                 <li
                   ref={this.setRef}
                   key={item.id}
                   className={styles.item}
                 >
-                  { item === 'work' &&
-                    <a className={styles.link} href={`/${item.slug}`}>{item.slug.replace('#', '')}</a>
+                  {item.slug.includes('#') &&
+                    <a className={styles.link} href={item.slug}>{item.pageName.replace('#', '')}</a>
                   }
                   { item !== 'work' &&
                     <Link
                     className={styles.link}
                     to={`/${item.slug}`}
                     activeClassName={styles.active}
-                    >{item.slug}</Link>
+                    >{item.pageName}</Link>
                   }
                 </li>
               )
