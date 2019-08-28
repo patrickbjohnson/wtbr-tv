@@ -24,9 +24,9 @@ const cleanComponentName = (component) => {
 
 const Page = (props) => {
   const { components, slug } = props.data.contentfulPage;
-    
+
   const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
-  
+
   return (
     <ParallaxProvider>
       <PageHead data={props.data.contentfulPage} location={props.location}/>
@@ -53,7 +53,7 @@ const Page = (props) => {
                               key={component.id}
                               {...component} />
                         </MediaQuery>
-                        <MediaQuery maxWidth={767}>
+                        <MediaQuery maxWidth={768}>
                           <MobileContentGrid
                               key={component.id}
                               {...component} />
