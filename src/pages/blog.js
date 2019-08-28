@@ -18,23 +18,25 @@ class BlogIndex extends React.Component {
   render() {
     const siteTitle = get(this, 'props.data.site.siteMetadata.title')
     const posts = get(this, 'props.data.allContentfulBlogPost.edges')
-    
+
     const components = get(this, 'props.data.contentfulPage.components')
     const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
-    console.log()
+
     return (
       <Layout>
           <PageHead data={this.props.data.contentfulPage} />
           {(hasVideo) &&
             <HomeHero classNames={styles.blogHero} key={hasVideo[0].id} {...hasVideo[0]}/>
           }
-          <Ticker articles={posts} />
-          <div className="wrapper">
-            <ul className="article-list">
-              {posts.map( (post, i) => {
-                return <ArticlePreview key={post.node.id} article={post} />
-              })}
-            </ul>
+          <div className={styles.wrapper}>
+            <Ticker articles={posts} />
+            <div className="wrapper">
+              <ul className="article-list">
+                {posts.map( (post, i) => {
+                  return <ArticlePreview key={post.node.id} article={post} />
+                })}
+              </ul>
+            </div>
           </div>
       </Layout>
     )

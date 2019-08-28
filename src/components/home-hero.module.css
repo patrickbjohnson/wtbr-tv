@@ -16,7 +16,7 @@
 }
 
 .videoWrapper {
-    position: absolute;
+    position: fixed;
     height: 100vh;
     width: 100vw;
     z-index: 0;
@@ -28,7 +28,7 @@
     height: 56.25vw; /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
     min-height: 100vh;
     min-width: 177.77vh; /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
-    position: fixed;
+    position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -40,8 +40,6 @@
     padding-top: calc(100vh - 70px);
     display: flex;
     align-items: center;
-    position: sticky;
-    top: calc(100vw + 400px);
 }
 
 .singlePanel {
@@ -58,12 +56,13 @@
     }
 
     .content {
-        margin-left: 0;
-        width: 75%;
+        margin-left: 128px;
+        width: 768px;
         z-index: 2;
         transition: .5s ease-out;
         position: sticky;
-        top: 300px;
+        top: 320px;
+        margin-bottom: 320px;
     }
 
     .title {

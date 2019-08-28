@@ -31,11 +31,11 @@ class GoodThings extends React.Component {
 
   componentDidMount() {
     const components = get(this, 'props.data.contentfulPage.components')
-    
-    window.addEventListener('scroll', throttle((e) =>
-        this.scrollHandler(e)
-    ), 100)
-    
+
+    window.addEventListener('scroll', throttle((e) => {
+      this.scrollHandler(e)
+    }, 100))
+
     this.setState({
       people: this.getComponentsByType('ContentfulGoodPeople', components),
       accordion: this.getComponentsByType('ContentfulAccordionList', components),
@@ -45,14 +45,19 @@ class GoodThings extends React.Component {
     })
   }
 
+  componentWillUnmount() {
+    window.removeEventListener('scroll', this.scrollHandler)
+  }
+
   scrollHandler = (e) => {
     const hero = this.hero.current
+    if(!hero) return
     const dims = hero.getBoundingClientRect()
     const top = Math.abs(dims.top)
 
     hero.style.opacity = 1 - (top/600)
   }
-  
+
   getComponentsByType = (type, comp) => {
     return comp.filter(obj => {
       return obj.__typename === type
@@ -73,22 +78,22 @@ class GoodThings extends React.Component {
           <Navigation />
           <div className={styles.hero} ref={this.hero}></div>
           <div className={styles.layout}
-            style={{'position': 'relative', 'zIndex': 2, 'paddingTop': '150px'}}
+            style={{position: 'relative', 'zIndex': 2, 'paddingTop': '150px'}}
           >
             <div className={styles.col}>
                 <img className={styles.sticky} src={logo} alt="Good Things"/>
             </div>
             <div className={styles.col}>
               <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
-              
+
               <div className={styles.section}>
                 <SectionHeader classes="parallax-tal parallax-transparent" text="Mission" uniqueID='mission'/>
                 <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
               </div>
-              
+
               {people &&
                 <div className={styles.section}>
-                  <SectionHeader classes="parallax-tal parallax-transparent" text="Good People" />  
+                  <SectionHeader classes="parallax-tal parallax-transparent" text="Good People" />
                   {people.map((p, i) => {
                     return p.blocks.map((v) => {
                       return (<GoodPerson key={v.id} {...v} />)
@@ -105,7 +110,7 @@ class GoodThings extends React.Component {
                 <Accordion key={Math.random()} fullwidth={true} set={a.activeJobs}/>
               )
             })}
-            
+
             {features && features.map((f) => {
               return (
                 <FeaturedPosts key={Math.random()} {...f}/>
