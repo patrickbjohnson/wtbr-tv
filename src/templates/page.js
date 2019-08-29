@@ -56,7 +56,7 @@ const Page = (props) => {
                               key={component.id}
                               {...component} />
                         </MediaQuery>
-                        <MediaQuery maxWidth={767}>
+                        <MediaQuery maxWidth={768}>
                           <MobileContentGrid
                               key={component.id}
                               {...component} />
