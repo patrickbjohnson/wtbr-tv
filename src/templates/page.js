@@ -9,7 +9,7 @@ import ContentHero from '../components/content-hero'
 import TextBlockGrid from '../components/text-block-grid'
 import AccordionList from '../components/accordion-list'
 import FeaturedPosts from '../components/featured-posts'
-import HomeHero from '../components/home-hero'
+import NewHomeHero from '../components/new-home-hero'
 import HeroSlider from '../components/multi-slide-hero'
 import MobileContentGrid from '../components/MobileContentGrid'
 import MediaQuery from 'react-responsive'
@@ -24,23 +24,26 @@ const cleanComponentName = (component) => {
 
 const Page = (props) => {
   const { components, slug } = props.data.contentfulPage;
-    
+
   const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
-  
+
   return (
     <ParallaxProvider>
       <PageHead data={props.data.contentfulPage} location={props.location}/>
       <Container>
         <Navigation />
-        <div className={base.pageContainer}>
+        <div className="pageContainer">
           {(slug === 'home' && hasVideo) &&
-            <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
+            <NewHomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
           }
-          <div style={{'position': 'relative', 'zIndex': 2, 'paddingTop': '70px'}}>
+          <div style={{backgroundColor: '#fff', 'position': 'relative', 'zIndex': 2, 'paddingTop': '70px'}}>
             {components && components.map(component => {
                 const type = cleanComponentName( component.__typename );
-
                 switch ( type ) {
+                  case 'GoodPeople' :
+                    return <GoodPeople
+                      key={component.id}
+                      {...component} />
                   case 'FeaturedPosts':
                     return <FeaturedPosts
                       key={component.id}

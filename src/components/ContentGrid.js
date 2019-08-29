@@ -60,8 +60,7 @@ class ContentGrid extends Component {
 
   componentDidMount() {
     const {
-      contentBlocks,
-      identifier
+      contentBlocks
     } = this.props
 
     const sluggedBlocks = contentBlocks.slice()
@@ -81,11 +80,6 @@ class ContentGrid extends Component {
     });
 
     this.initCategories(sluggedBlocks)
-
-    if (window.location.hash && window.location.hash.replace('#', '') === identifier) {
-      const { scrollHeight } = this.refs.wrapper
-      window.scroll(0, scrollHeight)
-    }
   }
 
   initFlickity = () => {
