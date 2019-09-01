@@ -113,6 +113,7 @@ export const pageQuery = graphql`
           id
           videoHeroTitle
           videoId
+          videoUrl
           image {
             title
             fluid {

@@ -35,6 +35,16 @@
     transform: translate(-50%, -50%);
  }
 
+ .video {
+    opacity: 0;
+    transform: scale(1);
+    transition: opacity 1000ms ease;
+ }
+
+ .loaded {
+    opacity: 1;
+ }
+
 .section {
     height: calc(200vh - 70px);
     min-width: 100vw;
