@@ -39,15 +39,7 @@ class HomeHero extends Component {
 
         return (
             <div className={cx(styles.block, classNames)}>
-                <div className={styles.videoWrapper} ref={this.video}>
-                    <Img
-                        fluid={image.fluid}
-                        durationFadeIn={500}
-                        title={videoHeroTitle}
-                        alt={videoHeroTitle}
-                        fadeIn
-                    />
-                </div>
+                <div className={styles.videoWrapper} ref={this.video} />
                 <div className={styles.section} >
                     <div className={styles.content}>
                         <p className={styles.title}>{this.props.videoHeroTitle}</p>

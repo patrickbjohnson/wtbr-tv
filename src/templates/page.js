@@ -9,7 +9,7 @@ import ContentHero from '../components/content-hero'
 import TextBlockGrid from '../components/text-block-grid'
 import AccordionList from '../components/accordion-list'
 import FeaturedPosts from '../components/featured-posts'
-import NewHomeHero from '../components/new-home-hero'
+import HomeHero from '../components/home-hero'
 import HeroSlider from '../components/multi-slide-hero'
 import MobileContentGrid from '../components/MobileContentGrid'
 import MediaQuery from 'react-responsive'
@@ -34,7 +34,7 @@ const Page = (props) => {
         <Navigation />
         <div className="pageContainer">
           {(slug === 'home' && hasVideo) &&
-            <NewHomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
+            <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
           }
           <div style={{backgroundColor: '#fff', 'position': 'relative', 'zIndex': 2, 'paddingTop': '70px'}}>
             {components && components.map(component => {
