@@ -2,7 +2,7 @@ import React from 'react';
 import Markdown from 'react-markdown'
 import styles from './content-hero.module.css'
 
-import Transition from './Transition'
+import Transition from './transition'
 
 function ContentHero(props) {
     const {

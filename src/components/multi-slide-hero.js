@@ -2,7 +2,7 @@ import React, { Component, createRef } from 'react'
 import * as Markdown from 'react-markdown'
 import cx from 'classnames'
 
-import Transition from './Transition'
+import Transition from './transition'
 import styles from './multi-slide-hero.module.css'
 
 
