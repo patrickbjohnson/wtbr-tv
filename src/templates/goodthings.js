@@ -12,7 +12,7 @@ import FeaturedPosts from '../components/featured-posts'
 import GoodPerson from '../components/good-person'
 import logo from '../components/goodthings-logo.svg'
 import Footer from '../components/site-footer'
-import Transition from '../components/Transition'
+import Transition from '../components/transition'
 
 
 import styles from './goodthings.module.css'
