@@ -24,8 +24,14 @@ class HomeHero extends Component {
         return (
             <div className={cx(styles.block, classNames)}>
                 <div className={styles.videoWrapper}>
-                  <video onCanPlay={(e) => this.setState({ loaded: true })} className={cx(styles.video, { [styles.loaded]: this.state.loaded })} autoPlay loop>
-                    <source src={videoUrl} type="video/mp4" />
+                  <video
+                    onCanPlay={(e) => this.setState({ loaded: true })}
+                    className={cx(styles.video, { [styles.loaded]: this.state.loaded })}
+                    autoPlay
+                    loop
+                    muted
+                  >
+                    <source src={`${videoUrl}#t=40`} type="video/mp4" />
                   </video>
                 </div>
                 <div className={styles.section} >
