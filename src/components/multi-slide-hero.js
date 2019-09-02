@@ -2,6 +2,7 @@ import React, { Component, createRef } from 'react'
 import * as Markdown from 'react-markdown'
 import cx from 'classnames'
 
+import Transition from './Transition'
 import styles from './multi-slide-hero.module.css'
 
 
@@ -52,7 +53,9 @@ class SlideHero extends Component {
                     [styles.fadingOut]: this.state.fadingOut
                 })}>
                     {title &&
-                        <Markdown className={styles.title} source={title.title} />
+                        <Transition className={styles.title}>
+                          <Markdown source={title.title} />
+                        </Transition>
                     }
 
                     {slideImage &&

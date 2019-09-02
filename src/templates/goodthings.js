@@ -12,6 +12,7 @@ import FeaturedPosts from '../components/featured-posts'
 import GoodPerson from '../components/good-person'
 import logo from '../components/goodthings-logo.svg'
 import Footer from '../components/site-footer'
+import Transition from '../components/Transition'
 
 
 import styles from './goodthings.module.css'
@@ -80,10 +81,10 @@ class GoodThings extends React.Component {
           <div className={styles.layout}
             style={{position: 'relative', 'zIndex': 2, 'paddingTop': '150px'}}
           >
-            <div className={styles.col}>
+            <Transition className={styles.col}>
                 <img className={styles.sticky} src={logo} alt="Good Things"/>
-            </div>
-            <div className={styles.col}>
+            </Transition>
+            <Transition delay={250} className={styles.col}>
               <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
 
               <div className={styles.section}>
@@ -101,7 +102,7 @@ class GoodThings extends React.Component {
                   })}
                 </div>
               }
-            </div>
+            </Transition>
           </div>
 
           <div>

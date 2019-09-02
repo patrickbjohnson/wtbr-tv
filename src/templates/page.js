@@ -36,7 +36,7 @@ const Page = (props) => {
           {(slug === 'home' && hasVideo) &&
             <NewHomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
           }
-          <div style={{backgroundColor: '#fff', 'position': 'relative', 'zIndex': 2, 'paddingTop': '70px'}}>
+          <div style={{backgroundColor: '#fff', 'position': 'relative', 'zIndex': 2}}>
             {components && components.map(component => {
                 const type = cleanComponentName( component.__typename );
                 switch ( type ) {

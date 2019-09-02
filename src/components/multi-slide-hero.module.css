@@ -26,6 +26,8 @@
     margin-right: auto;
     opacity: 1;
     transition: opacity .25s ease-out;
+    display: flex;
+    align-items: center;
 }
 
 .title {
@@ -108,8 +110,6 @@
     .title {
         width: 70%;
         position: relative;
-        top: 50%;
-        transform: translateY(-50%);
     }
 
     .title h1,
