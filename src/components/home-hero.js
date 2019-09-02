@@ -7,46 +7,26 @@ import styles from './home-hero.module.css'
 class HomeHero extends Component {
     constructor(props) {
         super(props)
-        this.api = null
-        this.video = createRef()
-        this.player = null
+
+        this.state = {
+            loaded: false
+        }
     }
-
-    componentDidMount() {
-        const { videoId } = this.props
-
-        this.player = new Player(this.video.current, {
-            id: videoId,
-            width: '100%',
-            autoplay: true,
-            title: false,
-            muted: true,
-            loop: true,
-            controls: false,
-            background: true,
-        });
-
-        this.player.ready().then(() => this.setState({loading: false}));
-    }
-
 
     render() {
         const {
             classNames,
             image,
-            videoHeroTitle
+            videoHeroTitle,
+            videoUrl,
         } = this.props
 
         return (
             <div className={cx(styles.block, classNames)}>
-                <div className={styles.videoWrapper} ref={this.video}>
-                    <Img
-                        fluid={image.fluid}
-                        durationFadeIn={500}
-                        title={videoHeroTitle}
-                        alt={videoHeroTitle}
-                        fadeIn
-                    />
+                <div className={styles.videoWrapper}>
+                  <video onCanPlay={(e) => this.setState({ loaded: true })} className={cx(styles.video, { [styles.loaded]: this.state.loaded })} autoPlay loop>
+                    <source src={videoUrl} type="video/mp4" />
+                  </video>
                 </div>
                 <div className={styles.section} >
                     <div className={styles.content}>
