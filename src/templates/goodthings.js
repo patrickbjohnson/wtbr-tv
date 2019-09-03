@@ -1,8 +1,9 @@
-  import React, { createRef }from 'react'
+import React, { createRef }from 'react'
 import { Link, graphql } from 'gatsby'
 import { ParallaxProvider } from 'react-scroll-parallax'
 import throttle from 'lodash.throttle'
 import get from 'lodash/get'
+import cx from 'classnames'
 import PageHead from '../components/PageHead'
 import Navigation from '../components/navigation'
 import Container from "../components/container"
@@ -16,8 +17,17 @@ import Transition from '../components/transition'
 
 
 import styles from './goodthings.module.css'
+import header from '../components/section-header.module.css'
 
 const BGColor = '#6E98F0'
+
+const Header = ({text}) => {
+  return (
+    <div className={header.block}>
+      <h2 className={cx(header.text, header.tac)}>{text}</h2>
+    </div> 
+  )
+}
 
 class GoodThings extends React.Component {
   constructor(props) {
@@ -88,13 +98,14 @@ class GoodThings extends React.Component {
               <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
 
               <div className={styles.section}>
-                <SectionHeader classes="parallax-tal parallax-transparent" text="Mission" uniqueID='mission'/>
+                <Header text="Mission"/> 
                 <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
               </div>
 
               {people &&
                 <div className={styles.section}>
-                  <SectionHeader classes="parallax-tal parallax-transparent" text="Good People" />
+                  <Header text="Good People"/> 
+ 
                   {people.map((p, i) => {
                     return p.blocks.map((v) => {
                       return (<GoodPerson key={v.id} {...v} />)

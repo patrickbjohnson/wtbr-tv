@@ -19,10 +19,15 @@
     font-family: Helvetica, Arial, sans-serif;
 }
 
+.tac {
+    text-align: center;
+}
+
 @supports (-webkit-text-stroke: 1px black) {
     .text {
         -webkit-text-stroke: 1px black;
         color: #fff;
+        color: transparent;
     }
 }
 
@@ -35,6 +40,12 @@
 @media (min-width: 768px) {
     .text {
         font-size: 100px;
+    }
+}
+
+@media (min-width: 1024px) {
+    .tac {
+        text-align: left;
     }
 }
 
