@@ -281,6 +281,9 @@ class ContentGrid extends Component {
                 disabled={this.state.isFirst}
                 onClick={() => {
                   this.flickity.previous()
+                  this.setState({
+                    activeSlide: blocks[this.flickity.selectedIndex]
+                  })
                 }}>Prev</button>
 
               <button
@@ -288,6 +291,9 @@ class ContentGrid extends Component {
                 disabled={this.state.isLast}
                 onClick={() => {
                   this.flickity.next()
+                  this.setState({
+                    activeSlide: blocks[this.flickity.selectedIndex]
+                  })
                 }}>Next</button>
             </div>
           </div>

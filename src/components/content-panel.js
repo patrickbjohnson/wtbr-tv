@@ -18,7 +18,6 @@ class ContentPanel extends Component {
   render() {
     const {
       title,
-      slug,
       image,
       body,
       videos,
@@ -27,8 +26,6 @@ class ContentPanel extends Component {
       categoryColor
     } = this.props;
     
-    
-    console.log(body)
 
     return (
       <MediaQuery maxWidth={767}>
@@ -49,7 +46,7 @@ class ContentPanel extends Component {
                   }
                 </div>
 
-                <div className={styles.media}>
+                <div className={styles.mediaContent}>
                   {videos &&
                     videos.map((v,i) => {
                       return (
