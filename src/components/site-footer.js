@@ -1,24 +1,83 @@
 import React, { Component } from 'react';
 import { Link } from 'gatsby'
+import get from 'lodash/get'
 
 import logo from './circle-logo.png';
 import styles from './site-footer.module.css'
 
-const Footer = (props) => {
 
-    return (
+import { StaticQuery, graphql } from "gatsby"
+export default () => (
+  <StaticQuery
+    query={graphql`
+      query FooterQuery {
+        allContentfulFooter {
+          edges {
+            node {
+              email
+              facebook
+              instagram
+              jobsLink {
+                slug
+              }
+              phoneLax
+              phoneOak
+              title
+              twitter
+            }
+          }
+        }
+      }
+    `}
+    render={data => {
+      
+      const {
+        title,
+        email, 
+        facebook, 
+        instagram, 
+        twitter, 
+        jobsLink, 
+        phoneLax, 
+        phoneOak
+      } = data.allContentfulFooter.edges[0].node
+      
+      return (
+      
         <footer className={styles.footer}>
-            <h3 className={styles.title}>Be good people, make good things.</h3>
+            <h3 className={styles.title}>{title}</h3>
 
             <div className={styles.flex}>
                 <div className={styles.content}>
                     <div className={styles.links}>
-                        <a href="#">Twitter</a>
-                        <a href="https://instagram.com/wtbr.tv" target="_blank" rel="noopener">Instagram</a>
-                        <a href="#" target="_blank" rel="noopener">Facebook</a>
-                        <a href="#" target="_blank" rel="noopener">Email</a>
-                        <a href="#">123-456-7890</a>
-                        <Link to="/jobs">Jobs</Link>
+                        {twitter && 
+                          <a href={twitter} target="_blank" rel="noopener">Twitter</a>
+                        }
+                        
+                        {instagram &&
+                          <a href={instagram} target="_blank" rel="noopener">Instagram</a>
+                        }
+                        
+                        {facebook &&
+                          <a href={facebook} target="_blank" rel="noopener">Facebook</a>
+                        }
+                        
+                        {email &&
+                          <a href={`mailto:${email}`} target="_blank" rel="noopener">Email</a>
+                        }
+                        
+                        {phoneLax &&
+                          <a href="#">LAX: {phoneLax}</a>
+                        }
+                        
+                        {phoneOak &&
+                          <a href="#">OAK: {phoneOak}</a>
+                        }
+                        
+                        {jobsLink &&
+                          <Link to={jobsLink.slug}>Jobs</Link>
+                        }
+                        
                     </div>
                 </div>               
                 <div className={styles.logo}>
@@ -27,7 +86,6 @@ const Footer = (props) => {
                 <p className={styles.copyright}>&copy; WTBR {new Date().getFullYear()}</p>
             </div>
         </footer>
-    )
-}
-
-export default Footer
+    )}}
+  />
+)
