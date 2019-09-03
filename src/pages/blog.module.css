@@ -6,3 +6,22 @@
   background: #fff;
   transform: scale(1);
 }
+
+@media (min-width: 1024px) {
+  .blogHero {
+    max-height: 600px;
+  }
+}
+
+@media (min-width: 1200px) {
+  .blogHero {
+    max-height: 700px;
+  }
+}
+
+
+@media (min-width: 1400px) {
+  .blogHero {
+    max-height: 800px;
+  }
+}
