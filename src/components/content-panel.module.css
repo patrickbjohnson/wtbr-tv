@@ -117,6 +117,7 @@
 }
 
 @media (min-width: 768px) {
+    
     .block.mobileBlock {
         display: none;
     }

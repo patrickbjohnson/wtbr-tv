@@ -119,15 +119,25 @@ class ContentGrid extends Component {
   }
 
   blockHandler = (block, index) => {
-    this.setState({
-      activeSlide: block,
-      panelIsOpen: true
-    }, () => {
-      this.insertSlider()
-      this.flickity.select(index)
-      this.flickity.resize()
-      // this.flickityIntoView()
-    })
+    
+    const {
+      panelIsOpen,
+      activeSlide
+    } = this.state
+    
+    if ((block === activeSlide) && panelIsOpen) {
+      this.setState({panelIsOpen: false})
+    } else {
+      this.setState({
+        activeSlide: block,
+        panelIsOpen: true
+      }, () => {
+        this.insertSlider()
+        this.flickity.select(index)
+        this.flickity.resize()
+        // this.flickityIntoView()
+      })
+    }
   }
 
   flickityIntoView = () => {
@@ -264,6 +274,13 @@ class ContentGrid extends Component {
             style={{
               'gridRow': sliderRow + 1,
             }}>
+              <button 
+              className={cx(styles.closeBtn)}
+              onClick={() => {
+                this.setState({
+                  panelIsOpen: false
+                })
+              }} />
             <div
               className={styles.slider}
               ref={this.slider}
