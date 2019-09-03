@@ -86,6 +86,30 @@
     margin: auto;
 }
 
+
+.body,
+.title {
+    color: #000;
+}
+
+.body h1,
+.body h2,
+.body h3 {
+    font-family: Helvetica, Arial, sans-serif;
+    font-size: 13px;
+    line-height: 16px;
+    text-transform: uppercase;
+}
+
+.body p {
+    font-size: 12px;
+    line-height: 19px;
+}
+
+.body a {
+    text-decoration: underline;
+}
+
 @media (min-width: 768px) {
     .block.mobileBlock {
         display: none;
@@ -139,6 +163,18 @@
     .image + .image {
         margin-top: 30px;
     }
+    
+    .body h1,
+    .body h2,
+    .body h3 {
+        font-size: 13px;
+        line-height: 22px;
+    }
+
+    .body p {
+        font-size: 15px;
+        line-height: 25px;
+    }
 }
 
 @media (min-width: 1440px) {
@@ -151,6 +187,4 @@
 
 .media {
     position: relative;
-    /* height: 0;
-    padding-bottom: 56.25%; */
 }

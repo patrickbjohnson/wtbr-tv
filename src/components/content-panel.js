@@ -26,6 +26,9 @@ class ContentPanel extends Component {
       slideIndex,
       categoryColor
     } = this.props;
+    
+    
+    console.log(body)
 
     return (
       <MediaQuery maxWidth={767}>
