@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
 import { ParallaxProvider } from 'react-scroll-parallax'
+import cx from 'classnames'
 import Container from '../components/container'
 import Navigation from '../components/navigation'
 import Footer from '../components/site-footer'
@@ -32,7 +33,7 @@ const Page = (props) => {
       <PageHead data={props.data.contentfulPage} location={props.location}/>
       <Container>
         <Navigation />
-        <div className="pageContainer">
+        <div className={cx('pageContainer', slug)}>
           {(slug === 'home' && hasVideo) &&
             <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
           }
@@ -160,6 +161,7 @@ export const pageQuery = graphql`
             videos {
               title
               videoId
+              videoUrl
               caption
             }
           }
@@ -192,20 +194,6 @@ export const pageQuery = graphql`
                 title
                 videoId
                 caption
-              }
-            }
-            ... on ContentfulBlogPost {
-              id
-              slug
-              title
-              body {
-                body
-              }
-              image {
-                title
-                fluid {
-                  ...GatsbyContentfulFluid
-                }
               }
             }
           }

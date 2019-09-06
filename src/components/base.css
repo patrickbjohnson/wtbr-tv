@@ -57,6 +57,10 @@ a {
   padding-top: 80px;
 }
 
+.pageContainer.jobs {
+  padding-bottom: 80px;
+}
+
 /**
  * article grid
  */

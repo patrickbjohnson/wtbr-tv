@@ -35,100 +35,18 @@ const Pause = () => {
   );
 }
 
-class VideoPlayer extends Component {
-  constructor(props) {
-    super(props)
-    this.video = createRef()
-    this.play = createRef()
-    this.pause = createRef()
-    this.player = null
-    this.state = {
-      isPlaying: false,
-      loading: true,
-      image: false
-    }
-  }
-  
-  componentDidMount() {
-    const { 
-      videoId,
-    } = this.props
-    
-    fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
-      .then(r => r.json())
-      .then(data => this.setState({image: data.thumbnail_large}))
+function VideoPlayer({ caption, videoUrl, ...rest }) {
+  console.log('videoUrl', videoUrl)
+  console.log('...rest', rest)
 
-    this.player = new Player(this.video.current, {
-        id: videoId,
-        responsive: true,
-        muted: true,
-        autoplay: false,
-        title: false,
-        controls: false,
-    });
-    
-    this.player.ready().then(() => this.setState({loading: false}));
-  }
-  
-  handlePlayEvent() {
-    this.player.play().then(() => this.setState({isPlaying: true}))
-  }
-  
-  handlePauseEvent() {
-    this.player.pause().then(() => this.setState({isPlaying: false}))
-  }
-  
-  render() {
-    const {
-      caption
-    } = this.props
-    
-    const {
-      isPlaying,
-      image
-    } = this.state
-      
-    return (
-      <div className={cx(styles.block)}>
-        
-        <div className={cx(styles.video)} ref={this.video}>
-          {image &&
-            <Img 
-              fluid={image.fluid}
-              durationFadeIn={500}
-              title={videoHeroTitle}
-              alt={videoHeroTitle}
-              fadeIn
-            />
-          }
-          <span 
-            ref={this.play}
-            className={cx(styles.play, {
-              [styles.isVisible]: !isPlaying
-            })}
-            onClick={() => {
-              this.handlePlayEvent()
-            }}
-          >
-            <Play />
-          </span>
-          
-          <span
-            ref={this.play}
-            className={cx(styles.pause, {
-              [styles.isVisible]: isPlaying
-            })}
-            onClick={() => {
-              this.handlePauseEvent()
-            }}
-          >
-            <Pause />
-          </span>
-        </div>
-        <p className={styles.caption}>{caption}</p>
-      </div>
-    )
-  }
+  return (
+    <div className={cx(styles.block)}>
+      <video controls className={cx(styles.video)}>
+        <source src={videoUrl} />
+      </video>
+      <p className={styles.caption}>{caption}</p>
+    </div>
+  )
 }
 
 export default VideoPlayer

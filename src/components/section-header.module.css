@@ -23,6 +23,10 @@
     text-align: center;
 }
 
+.domaine { 
+    font-family: "Domaine", Georgia, 'Times New Roman', Times, serif;
+}
+
 @supports (-webkit-text-stroke: 1px black) {
     .text {
         -webkit-text-stroke: 1px black;

@@ -24,8 +24,8 @@ const BGColor = '#6E98F0'
 const Header = ({text}) => {
   return (
     <div className={header.block}>
-      <h2 className={cx(header.text, header.tac)}>{text}</h2>
-    </div> 
+      <h2 className={cx(header.text, header.tac, header.domaine)}>{text}</h2>
+    </div>
   )
 }
 
@@ -98,14 +98,14 @@ class GoodThings extends React.Component {
               <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
 
               <div className={styles.section}>
-                <Header text="Mission"/> 
+                <Header text="Mission"/>
                 <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
               </div>
 
               {people &&
                 <div className={styles.section}>
-                  <Header text="Good People"/> 
- 
+                  <Header text="Good People"/>
+
                   {people.map((p, i) => {
                     return p.blocks.map((v) => {
                       return (<GoodPerson key={v.id} {...v} />)
@@ -176,19 +176,6 @@ export const pageQuery = graphql`
                   title
                   videoId
                   caption
-                }
-              }
-              ... on ContentfulBlogPost {
-                id
-                slug
-                title
-                body {
-                  body
-                }
-                image {
-                  fluid {
-                    ...GatsbyContentfulFluid
-                  }
                 }
               }
             }
