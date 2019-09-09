@@ -287,7 +287,7 @@ class ContentGrid extends Component {
             >
               {blocks && blocks.map((b, i) => {
                 return (
-                  <ContentPanel key={i} currentSlide={active} slideIndex={i} {...b} />
+                  <ContentPanel key={i} isFilterable={displayCategory} currentSlide={active} slideIndex={i} {...b} />
                 )
               })}
             </div>

@@ -23,16 +23,16 @@ class ContentPanel extends Component {
       videos,
       currentSlide,
       slideIndex,
-      categoryColor
+      categoryColor,
+      isFilterable
     } = this.props;
-    
 
     return (
       <MediaQuery maxWidth={767}>
           {(isMobile) => (
             <div className={cx(styles.block, {[styles.mobileBlock]: isMobile})}
               style={{
-                'backgroundColor' : categoryColor ? categoryColor : '#fff'
+                'backgroundColor' : (categoryColor && !isFilterable) ? categoryColor : '#fff'
               }}
             >
               <div className={styles.inner}>

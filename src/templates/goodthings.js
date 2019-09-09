@@ -174,8 +174,6 @@ export const pageQuery = graphql`
                 }
                 videos {
                   title
-                  videoId
-                  caption
                 }
               }
             }

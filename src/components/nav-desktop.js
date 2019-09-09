@@ -7,7 +7,6 @@ import throttle from 'lodash.throttle'
 
 import logoLg from './wordmark-lg.svg'
 import logoSm from './wordmark-sm.svg'
-import w from './logo-w.svg'
 
 
 class DesktopNav extends Component {
@@ -20,9 +19,10 @@ class DesktopNav extends Component {
     this.state = {
       pastThreshold: null,
       isAnimatingLogo: false,
-      scrolledDown: false
+      scrolledDown: false,
+      smallLogo: false, 
+      largeLogo: true
     }
-
   }
 
   componentDidMount() {
@@ -78,7 +78,6 @@ class DesktopNav extends Component {
               <div
                 className={cx(styles.logoWrap)}
                 ref={this.logoWrap}>
-                  <img className={cx(styles.image, styles.w)} src={w} alt=""/>
                   <img
                   src={logoSm}
                   className={cx(styles.image, styles.small, {

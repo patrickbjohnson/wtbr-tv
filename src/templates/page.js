@@ -113,7 +113,6 @@ export const pageQuery = graphql`
         ... on ContentfulVideoHero {
           id
           videoHeroTitle
-          videoId
           videoUrl
           image {
             title
@@ -159,10 +158,13 @@ export const pageQuery = graphql`
               }
             }
             videos {
+              id
               title
-              videoId
               videoUrl
-              caption
+              caption {
+                id
+                caption
+              }
             }
           }
         }
@@ -192,8 +194,6 @@ export const pageQuery = graphql`
               }
               videos {
                 title
-                videoId
-                caption
               }
             }
           }

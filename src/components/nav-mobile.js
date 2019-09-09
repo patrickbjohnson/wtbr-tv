@@ -28,7 +28,7 @@ class MobileNav extends Component {
         return (
           <div className={styles.block}>
             <div className={styles.navBar}>
-              <a href="/">
+              <a className={styles.logo} href="/">
                 <img src={logoSm} alt="Where the Buffalo Roam"/>
               </a>
 
