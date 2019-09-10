@@ -8,12 +8,11 @@ import SectionHeader from './section-header'
 import FilterPanel from './filter-panel';
 
 import '../../node_modules/flickity/dist/flickity.css'
-const Flickity = typeof window !== "undefined" ? require("flickity") : () => null
-
-
 import styles from './contentGrid.module.css'
 
-function flatten(arr) {
+const Flickity = typeof window !== "undefined" ? require("flickity") : () => null
+
+const flatten = (arr) => {
   return arr.reduce(function (flat, toFlatten) {
     return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
   }, []);
@@ -167,7 +166,7 @@ class ContentGrid extends Component {
     
     this.setState({
       categories: uniqBy(flatten(cats), 'slug'),
-    }, () => console.log(this.state.categories))
+    })
   }
 
   filterHeightToggle = () => {
