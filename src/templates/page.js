@@ -141,7 +141,7 @@ export const pageQuery = graphql`
             body {
               body
             }
-            category
+            categoryTags
             categoryColor
             title
             type
@@ -176,7 +176,6 @@ export const pageQuery = graphql`
               body {
                 body
               }
-              category
               categoryColor
               title
               type

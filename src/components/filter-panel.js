@@ -37,6 +37,9 @@ class FilterPanel extends Component {
         } = this.props
 
         const { hover } = this.state
+        
+        console.log('cats: ', categories)
+        console.log('selected: ', selected)
 
         return (
             <div
@@ -46,7 +49,7 @@ class FilterPanel extends Component {
                 ref={refHandler}
             >
                 {categories.map((cat, i) => {
-                    const style = this.getColorScheme(cat.color, hover === cat.slug, selected === cat.slug)
+                    const style = this.getColorScheme(cat.color, hover === cat.slug, selected.includes(cat.slug))
 
                     return (
                         <span

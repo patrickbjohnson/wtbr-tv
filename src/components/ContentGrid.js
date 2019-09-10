@@ -1,4 +1,5 @@
 import React, { Component, createRef } from 'react';
+import uniq from 'lodash.uniq'
 import uniqBy from 'lodash.uniqby'
 import cx from 'classnames'
 import ContentBlock from './ContentBlock';
@@ -12,6 +13,11 @@ const Flickity = typeof window !== "undefined" ? require("flickity") : () => nul
 
 import styles from './contentGrid.module.css'
 
+function flatten(arr) {
+  return arr.reduce(function (flat, toFlatten) {
+    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+  }, []);
+}
 
 const slugify = (string) => {
   const a = 'àáäâãåăæąçćčđďèéěėëêęğǵḧìíïîįłḿǹńňñòóöôœøṕŕřßşśšșťțùúüûǘůűūųẃẍÿýźžż·/_,:;'
@@ -34,6 +40,7 @@ class ContentGrid extends Component {
     this.filterPanel = createRef()
     this.slider = createRef()
     this.initalBlocks = []
+    this.activeSlugs = []
     this.flickity = null
     this.mq = null
     this.matches = false
@@ -47,14 +54,14 @@ class ContentGrid extends Component {
       base: [],
       blocks: [],
       categories: [],
+      catSelected: [],
       filterOpen: false,
-      catSelected: false,
       sliderRow: -1,
       active: 0,
       activeSlide: {},
       panelIsOpen: false,
       isFirst: false,
-      isLast: false
+      isLast: false,
     }
   }
 
@@ -64,13 +71,6 @@ class ContentGrid extends Component {
     } = this.props
 
     const sluggedBlocks = contentBlocks.slice()
-
-    for (let i = 0; i < sluggedBlocks.length; ++i) {
-      const item = sluggedBlocks[i]
-      item.categoryTitle = item.category
-      item.category = slugify(item.category)
-      item.slug = slugify(item.category)
-    }
 
     this.setState({
       base: sluggedBlocks,
@@ -149,19 +149,25 @@ class ContentGrid extends Component {
   }
 
   initCategories = (blocks) => {
+    
     if (!this.props.displayCategory) return;
 
     const cats = blocks.map((block) => {
-      return {
-        title: block.categoryTitle,
-        color: block.categoryColor,
-        slug: slugify(block.category)
-      }
-    }).filter(c => !!c.slug)
-
-    this.setState({
-      categories: uniqBy(cats, 'slug'),
+      const color = block.categoryColor
+      const cs = flatten(block.categoryTags);
+      
+      return cs.map((cat) => {
+        return {
+          title: cat,
+          color: color,
+          slug: slugify(cat)
+        }
+      })
     })
+    
+    this.setState({
+      categories: uniqBy(flatten(cats), 'slug'),
+    }, () => console.log(this.state.categories))
   }
 
   filterHeightToggle = () => {
@@ -184,7 +190,7 @@ class ContentGrid extends Component {
     this.setState({
       activeSlide: -1,
       panelIsOpen: false,
-      catSelected: false
+      catSelected: []
     })
   }
 
@@ -192,16 +198,21 @@ class ContentGrid extends Component {
     const {
       base,
     } = this.state
-
-    const newBlocks = base.slice()
-    const compareSlugs = (block) => (block.slug === slug)
-    let results = [];
-
-    if (slug === '*') {
-      results = newBlocks
+    
+    const slugIndex = this.activeSlugs.indexOf(slug);
+    const shouldResetResults = slug === '*'
+    
+    if (shouldResetResults) {
+      this.activeSlugs = []
+    } else if (slugIndex > -1) {
+      this.activeSlugs.splice(slugIndex, 1)
     } else {
-      results = newBlocks.filter(compareSlugs)
+      this.activeSlugs.push(slugify(slug))
     }
+    
+    this.activeSlugs = uniq(this.activeSlugs)
+    
+    const results = shouldResetResults ? base : base.filter(b => b.categoryTags.some((r) => this.activeSlugs.indexOf(slugify(r)) > -1));
 
     this.filterHeightToggle()
     /**
@@ -215,7 +226,7 @@ class ContentGrid extends Component {
     this.setState({
       blocks: results,
       panelIsOpen: false,
-      catSelected: slug,
+      catSelected: this.activeSlugs,
     }, () => {
       this.initFlickity()
     })
