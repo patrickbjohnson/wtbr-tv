@@ -1,7 +1,6 @@
 import React from 'react'
-import { Link, graphql } from 'gatsby'
+import { graphql } from 'gatsby'
 import get from 'lodash/get'
-import Helmet from 'react-helmet'
 import styles from './blog.module.css'
 import Layout from "../components/layout"
 import Ticker from '../components/article-ticker'
@@ -10,16 +9,30 @@ import HomeHero from '../components/home-hero'
 import PageHead from '../components/PageHead'
 
 
+const ScrollToTop = ({clickHandler}) => {
+  return (
+    <button className={styles.scroll} onClick={() => clickHandler()}>  
+      <span>Top</span>
+    </button>
+  )
+}
+
 class BlogIndex extends React.Component {
   constructor(props) {
     super(props)
   }
-
+  
+  clickToScrollHandler = () => {
+    if (typeof window !== `undefined`) {
+      window.scrollTo(0, 0);  
+    }
+  }
+  
   render() {
     const posts = get(this, 'props.data.allContentfulBlogPost.edges')
-
     const components = get(this, 'props.data.contentfulPage.components')
     const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
+    
     return (
       <Layout>
         <PageHead data={this.props.data.contentfulPage} />
@@ -37,7 +50,11 @@ class BlogIndex extends React.Component {
               })}
             </ul>
           </div>
+          
+          <ScrollToTop clickHandler={this.clickToScrollHandler}/>
         </div>
+        
+        
       </Layout>
     )
   }
