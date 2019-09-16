@@ -196,12 +196,14 @@ class ContentGrid extends Component {
   filterContentSelection = (slug) => {
     const {
       base,
+      categories
     } = this.state
     
-    const slugIndex = this.activeSlugs.indexOf(slug);
-    const shouldResetResults = slug === '*'
+    console.log()
+    const slugIndex = this.activeSlugs.indexOf(slug)
+    let shouldResetResults = slug === '*'
     
-    if (shouldResetResults) {
+    if (shouldResetResults || categories.length === this.activeSlugs.length) {
       this.activeSlugs = []
     } else if (slugIndex > -1) {
       this.activeSlugs.splice(slugIndex, 1)
@@ -210,6 +212,11 @@ class ContentGrid extends Component {
     }
     
     this.activeSlugs = uniq(this.activeSlugs)
+    
+    if (categories.length === this.activeSlugs.length) {
+      shouldResetResults = true
+      this.activeSlugs = []
+    }
     
     const results = shouldResetResults ? base : base.filter(b => b.categoryTags.some((r) => this.activeSlugs.indexOf(slugify(r)) > -1));
 
@@ -242,7 +249,8 @@ class ContentGrid extends Component {
       sliderRow,
       active,
       activeSlide,
-      catSelected
+      catSelected,
+      panelIsOpen
     } = this.state
 
     const {
@@ -267,6 +275,7 @@ class ContentGrid extends Component {
                 key={b.id}
               >
                 <ContentBlock
+                  panelIsOpen={panelIsOpen}
                   key={b.id}
                   active={activeSlide.id === b.id}
                   inGrid={true}

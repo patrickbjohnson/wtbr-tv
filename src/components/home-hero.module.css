@@ -85,3 +85,14 @@
         margin-bottom: 0;
     }
 }
+
+@media (min-width: 1200px) {
+    .title {
+        font-size: 150px;
+    }
+    
+    .content {
+        margin-left: 128px;
+        width: 1000px;
+    }
+}

@@ -37,9 +37,6 @@ class FilterPanel extends Component {
         } = this.props
 
         const { hover } = this.state
-        
-        console.log('cats: ', categories)
-        console.log('selected: ', selected)
 
         return (
             <div

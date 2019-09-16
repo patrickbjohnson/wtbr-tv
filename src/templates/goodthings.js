@@ -172,7 +172,24 @@ export const pageQuery = graphql`
                   }
                 }
                 videos {
-                  title
+                  __typename
+                  ... on ContentfulImageBlock {
+                    media {
+                      description
+                      fluid {
+                        ...GatsbyContentfulFluid
+                      }
+                    }
+                  }
+                  ... on ContentfulVideoBlock {
+                    id
+                    title
+                    videoUrl
+                    caption {
+                      id
+                      caption
+                    }
+                  }
                 }
               }
             }

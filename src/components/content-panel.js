@@ -49,14 +49,29 @@ class ContentPanel extends Component {
                 <div className={styles.mediaContent}>
                   {videos &&
                     videos.map((v,i) => {
-                      return (
-                        <VideoPlayer
-                          key={i}
-                          isCurrent={currentSlide}
-                          slideIndex={slideIndex}
-                          {...v}
-                        />
-                      )
+                      if (v.__typename === 'ContentfulVideoBlock') {
+                        return (
+                          <VideoPlayer
+                            key={i}
+                            isCurrent={currentSlide}
+                            slideIndex={slideIndex}
+                            {...v}
+                          />
+                        )
+                      } 
+                      
+                      if (v.__typename === 'ContentfulImageBlock') {
+                        return (
+                          <Img
+                            className={cx(styles.media)}
+                            fluid={v.media.fluid}
+                            durationFadeIn={500}
+                            title={image.title}
+                            alt={image.title}
+                            fadeIn
+                          />
+                        )
+                      }
                     })
                   }
                   {(image && !videos && !isMobile) &&

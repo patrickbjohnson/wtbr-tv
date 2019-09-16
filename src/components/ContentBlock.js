@@ -12,6 +12,7 @@ export default ({
   inGrid,
   subTitle,
   title,
+  panelIsOpen,
 }) => (
     <div className={cx(styles.block, {
         [styles.inGrid]: inGrid,
