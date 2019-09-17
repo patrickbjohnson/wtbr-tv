@@ -113,7 +113,7 @@ class ContentGrid extends Component {
     return blocks.findIndex((b) => b.id === current.id)
   }
 
-  insertSlider = (currentRow, block) => {
+  insertSlider = (currentRow) => {
     const COL_COUNT = 4
     const nextRow = Math.ceil((this.getCurrentIndex() + 1) / COL_COUNT)
     
@@ -125,24 +125,9 @@ class ContentGrid extends Component {
       if (currentRow === nextRow) return
       this.flickityIntoView()
     })
-    //   console.log(this.state.sliderRow)
-    // })
-    
-    // , () => {
-    //   // This feels hacky. 
-    //   this.contentPanel.current.style.display = `block`
-      
-    //   setTimeout(() => {
-    //     this.setState({
-    //       panelIsOpen: true,
-    //     }, () => {
-    
-    //     })
-    //   }, isOpen ? 850 : 0)
-    // })
   }
 
-  blockHandler = (block, index) => {
+  blockHandler = (block) => {
     const {
       panelIsOpen,
       sliderRow
@@ -178,7 +163,7 @@ class ContentGrid extends Component {
     })
   }
   
-  openPanel = (row, index) => {
+  openPanel = () => {
     this.setState({
       panelIsOpen: true
     }, () => {
