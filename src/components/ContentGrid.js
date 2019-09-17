@@ -2,6 +2,8 @@ import React, { Component, createRef } from 'react';
 import uniq from 'lodash.uniq'
 import uniqBy from 'lodash.uniqby'
 import cx from 'classnames'
+import scrollIntoView from 'scroll-into-view-if-needed'
+import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
 import ContentBlock from './ContentBlock';
 import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
@@ -38,6 +40,7 @@ class ContentGrid extends Component {
     super(props)
     this.filterPanel = createRef()
     this.slider = createRef()
+    this.contentPanel = createRef()
     this.initalBlocks = []
     this.activeSlugs = []
     this.flickity = null
@@ -110,41 +113,88 @@ class ContentGrid extends Component {
     return blocks.findIndex((b) => b.id === current.id)
   }
 
-  insertSlider = () => {
+  insertSlider = (currentRow, block) => {
     const COL_COUNT = 4
+    const nextRow = Math.ceil((this.getCurrentIndex() + 1) / COL_COUNT)
+    
     this.setState({
-      sliderRow: Math.ceil((this.getCurrentIndex() + 1) / COL_COUNT)
+      sliderRow: nextRow,
+    }, () => {
+      this.flickity.select(this.getCurrentIndex())
+      this.flickity.resize()
+      if (currentRow === nextRow) return
+      this.flickityIntoView()
     })
+    //   console.log(this.state.sliderRow)
+    // })
+    
+    // , () => {
+    //   // This feels hacky. 
+    //   this.contentPanel.current.style.display = `block`
+      
+    //   setTimeout(() => {
+    //     this.setState({
+    //       panelIsOpen: true,
+    //     }, () => {
+    
+    //     })
+    //   }, isOpen ? 850 : 0)
+    // })
   }
 
   blockHandler = (block, index) => {
-    
     const {
       panelIsOpen,
-      activeSlide
+      sliderRow
     } = this.state
     
-    if ((block === activeSlide) && panelIsOpen) {
-      this.setState({panelIsOpen: false})
-    } else {
-      this.setState({
-        activeSlide: block,
-        panelIsOpen: true
-      }, () => {
-        this.insertSlider()
-        this.flickity.select(index)
-        this.flickity.resize()
-        // this.flickityIntoView()
-      })
+    const currentSlide = this.state.activeSlide
+    const isSameSlide = block === currentSlide
+    
+    if (isSameSlide && panelIsOpen)  {
+      this.closePanel()
+    } else if (!isSameSlide && panelIsOpen) {
+      this.openPanel()
+    } else if (!panelIsOpen) {
+      this.openPanel()
     }
+    
+    this.setState({
+      activeSlide: block,
+    }, () => {
+      this.insertSlider(sliderRow, block)  
+    })
+  }
+  
+  closePanel = () => {
+    this.setState({
+      panelIsOpen: false
+    }, () => {
+      this.contentPanel.current.style.height = `0`
+    
+      setTimeout(() => {
+        this.contentPanel.current.style.display = `none`
+      }, 850)  
+    })
+  }
+  
+  openPanel = (row, index) => {
+    this.setState({
+      panelIsOpen: true
+    }, () => {
+      this.contentPanel.current.style.display = `block`
+    
+      setTimeout(() => {
+        this.contentPanel.current.style.height = `675px`
+      }, 0)
+    })
   }
 
   flickityIntoView = () => {
-    // const h = window.innerHeight
-    // const dim = this.slider.current.getBoundingClientRect()
-    // console.log(h, dim)
-    // const isInView  = (h/2) - dim.y
-    // console.log(isInView)
+    smoothScrollIntoView(this.contentPanel.current, { 
+      behavior: 'smooth',
+      duration: 100
+    })
   }
 
   initCategories = (blocks) => {
@@ -199,7 +249,6 @@ class ContentGrid extends Component {
       categories
     } = this.state
     
-    console.log()
     const slugIndex = this.activeSlugs.indexOf(slug)
     let shouldResetResults = slug === '*'
     
@@ -287,26 +336,28 @@ class ContentGrid extends Component {
 
           <div
             className={cx(styles.full, styles.wrapper, {
-              [styles.hidden]: !this.state.panelIsOpen,
-              [styles.block]: this.state.panelIsOpen
+              [styles.fullHeight]: this.state.panelIsOpen,
             })}
             style={{
               'gridRow': sliderRow + 1,
-            }}>
+            }}
+            ref={this.contentPanel}
+            >
               <button 
               className={cx(styles.closeBtn)}
-              onClick={() => {
-                this.setState({
-                  panelIsOpen: false
-                })
-              }} />
+              onClick={() => this.closePanel()} />
             <div
               className={styles.slider}
               ref={this.slider}
             >
               {blocks && blocks.map((b, i) => {
                 return (
-                  <ContentPanel key={i} isFilterable={displayCategory} currentSlide={active} slideIndex={i} {...b} />
+                  <ContentPanel 
+                    key={i} 
+                    isFilterable={displayCategory} 
+                    currentSlide={active} 
+                    slideIndex={i} {...b} 
+                  />
                 )
               })}
             </div>

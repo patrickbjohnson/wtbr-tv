@@ -10,9 +10,6 @@ import VideoPlayer from '../components/video-player'
 class ContentPanel extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      isLoading: true
-    }
   }
 
   render() {

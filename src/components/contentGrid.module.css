@@ -59,6 +59,9 @@
 .full {
     position: relative;
     grid-column: 1 / span 4;
+    overflow: hidden;
+    transition: height .25s ease-out;
+    height: 0;
 }
 
 .wrapper {
@@ -84,7 +87,6 @@
     cursor: not-allowed;
 }
 
-
 .prev {
     left: 10px;
     transform: rotate(-90deg);
@@ -101,6 +103,13 @@
 
 .block {
     display: block;
+}
+
+.fullHeight {
+    height: 600px;
+    overflow: hidden;
+    opacity: 1;
+    transition: height .25s ease-out, opacity .5s ease-out .45s;
 }
 
 .closeBtn {
