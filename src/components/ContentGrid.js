@@ -108,7 +108,7 @@ class ContentGrid extends Component {
   }
 
   getCurrentIndex = () => {
-    const blocks = this.state.base
+    const blocks = this.state.blocks
     const current = this.state.activeSlide
     return blocks.findIndex((b) => b.id === current.id)
   }
@@ -127,7 +127,7 @@ class ContentGrid extends Component {
     })
   }
 
-  blockHandler = (block) => {
+  blockHandler = (block, index) => {
     const {
       panelIsOpen,
       sliderRow
@@ -147,7 +147,7 @@ class ContentGrid extends Component {
     this.setState({
       activeSlide: block,
     }, () => {
-      this.insertSlider(sliderRow, block)  
+      this.insertSlider(sliderRow, block, index)  
     })
   }
   
@@ -254,6 +254,7 @@ class ContentGrid extends Component {
     
     const results = shouldResetResults ? base : base.filter(b => b.categoryTags.some((r) => this.activeSlugs.indexOf(slugify(r)) > -1));
 
+    console.log(results)
     this.filterHeightToggle()
     /**
      * Have to destroy flickity first
@@ -269,6 +270,7 @@ class ContentGrid extends Component {
       catSelected: this.activeSlugs,
     }, () => {
       this.initFlickity()
+      this.closePanel()
     })
   }
 
