@@ -24,7 +24,7 @@ const BGColor = '#6E98F0'
 const Header = ({text}) => {
   return (
     <div className={header.block}>
-      <h2 className={cx(header.text, header.tac, header.domaine)}>{text}</h2>
+      <h2 className={cx(header.text, header.noOutline, header.tac, header.domaine)}>{text}</h2>
     </div>
   )
 }
