@@ -23,6 +23,12 @@
     display: block;
 }
 
+.body h1:first-of-type, 
+.body h2:first-of-type, 
+.body h3:first-of-type {
+    margin-top: 0;
+}
+
 .body {
     align-items: center;
     font-size: 16px;
@@ -56,7 +62,7 @@
 
     .inner {
         flex-direction: row;
-        align-items: center;
+        align-items: flex-start;
         justify-content: space-between;
         margin-left: auto;
         margin-right: auto;
