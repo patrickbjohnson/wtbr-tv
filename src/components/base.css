@@ -161,6 +161,14 @@ a {
   text-align: left;
 }
 
+.tac {
+  text-align: center;
+}
+
+.tar {
+  text-align: right;
+}
+
 .parallax-tal h2 {
   text-align: left;
 }

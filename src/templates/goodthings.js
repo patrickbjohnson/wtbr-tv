@@ -118,8 +118,9 @@ class GoodThings extends React.Component {
 
           <div>
             {accordion && accordion.map((a) => {
+              console.log(a)
               return (
-                <Accordion key={Math.random()} fullwidth={true} set={a.activeJobs}/>
+                <Accordion key={Math.random()} set={a.activeJobs} alignment={a.textAlignment}/>
               )
             })}
 
@@ -197,6 +198,7 @@ export const pageQuery = graphql`
           ... on ContentfulAccordionList {
             id
             sectionTitle
+            textAlignment
             activeJobs {
               ... on ContentfulJob {
                 id

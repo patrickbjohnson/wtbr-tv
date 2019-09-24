@@ -225,6 +225,7 @@ export const pageQuery = graphql`
         ... on ContentfulAccordionList {
           id
           sectionTitle
+          textAlignment
           activeJobs {
             ... on ContentfulJob {
               id
