@@ -31,9 +31,7 @@ class Accordion extends Component {
         const set = this.state.accordion;
         const { fullwidth } = this.props
         return (
-            <div className={cx(styles.accordion, {
-                [styles.fullwidth]: fullwidth
-            })}>
+            <div className={cx(styles.accordion)}>
                 {set && set.map(item => (
                     <div
                         className={cx(styles.item, {
