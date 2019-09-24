@@ -33,6 +33,11 @@
         color: #fff;
         color: transparent;
     }
+    
+    .noOutline {
+        -webkit-text-stroke: initial;
+        color: black;
+    }
 }
 
 @media (min-width: 375px) {
