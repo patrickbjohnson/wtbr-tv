@@ -4,11 +4,16 @@
 }
 
 .footer {
-    position: relative;
+    position: sticky;
+    bottom: 0;
     padding: 70px 16% 30px;
     background-image: radial-gradient(circle at 59% 0, #f6c561, #c2217d);
     color: white;
     text-align: left;
+}
+
+.unfixed {
+    position: relative;
 }
 
 .title {
@@ -75,15 +80,15 @@
         margin-right: 74px;
         flex-shrink: 0;
     }
-    
+
     .logo svg {
         transform: rotate(0);
         transition: transform 1s ease-out;
     }
-    
+
     .logo:hover svg {
-        animation-name: rotate; 
-        animation-duration: 15s; 
+        animation-name: rotate;
+        animation-duration: 15s;
         animation-iteration-count: infinite;
         animation-timing-function: linear;
     }

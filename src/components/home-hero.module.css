@@ -1,6 +1,5 @@
 .block {
     width: 100vw;
-    margin-bottom: 60px;
 }
 
 .title {
@@ -16,12 +15,13 @@
 }
 
 .videoWrapper {
-    position: fixed;
-    height: calc(100vh - 80px);
+    position: sticky;
+    height: 100vh;
     width: 100vw;
-    z-index: 0;
+    z-index: 1;
     overflow: hidden;
     background: #000;
+    top: 0;
 }
 
 .videoWrapper iframe {
@@ -65,7 +65,6 @@
 @media (min-width: 1024px) {
     .block {
         position: relative;
-        margin-bottom: 110px;
     }
 
     .content {
@@ -90,7 +89,7 @@
     .title {
         font-size: 150px;
     }
-    
+
     .content {
         margin-left: 128px;
         width: 1000px;

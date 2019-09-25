@@ -9,6 +9,10 @@
     opacity: 1;
 }
 
+.wrapper {
+  position: relative;
+}
+
 .layout {
     padding-top: 140px;
     position: relative;

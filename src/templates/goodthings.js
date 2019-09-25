@@ -88,49 +88,51 @@ class GoodThings extends React.Component {
         <Container>
           <Navigation />
           <div className={styles.hero} ref={this.hero}></div>
-          <div className={styles.layout}
-            style={{position: 'relative', 'zIndex': 2, 'paddingTop': '150px'}}
-          >
-            <Transition className={styles.col}>
-                <img className={styles.sticky} src={logo} alt="Good Things"/>
-            </Transition>
-            <Transition delay={250} className={styles.col}>
-              <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
+          <div className={styles.wrapper}>
+            <div className={styles.layout}
+              style={{position: 'relative', 'zIndex': 2, 'paddingTop': '150px'}}
+            >
+              <Transition className={styles.col}>
+                  <img className={styles.sticky} src={logo} alt="Good Things"/>
+              </Transition>
+              <Transition delay={250} className={styles.col}>
+                <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
 
-              <div className={styles.section}>
-                <Header text="Mission"/>
-                <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
-              </div>
-
-              {people &&
                 <div className={styles.section}>
-                  <Header text="Good People"/>
-
-                  {people.map((p, i) => {
-                    return p.blocks.map((v) => {
-                      return (<GoodPerson key={v.id} {...v} />)
-                    })
-                  })}
+                  <Header text="Mission"/>
+                  <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
                 </div>
-              }
-            </Transition>
-          </div>
 
-          <div>
-            {accordion && accordion.map((a) => {
-              console.log(a)
-              return (
-                <Accordion key={Math.random()} set={a.activeJobs} alignment={a.textAlignment}/>
-              )
-            })}
+                {people &&
+                  <div className={styles.section}>
+                    <Header text="Good People"/>
 
-            {features && features.map((f) => {
-              return (
-                <FeaturedPosts key={Math.random()} {...f}/>
-              )
-            })}
+                    {people.map((p, i) => {
+                      return p.blocks.map((v) => {
+                        return (<GoodPerson key={v.id} {...v} />)
+                      })
+                    })}
+                  </div>
+                }
+              </Transition>
+            </div>
+
+            <div>
+              {accordion && accordion.map((a) => {
+                console.log(a)
+                return (
+                  <Accordion key={Math.random()} set={a.activeJobs} alignment={a.textAlignment}/>
+                )
+              })}
+
+              {features && features.map((f) => {
+                return (
+                  <FeaturedPosts key={Math.random()} {...f}/>
+                )
+              })}
+            </div>
           </div>
-          <Footer />
+          <Footer unfixed />
         </Container>
       </ParallaxProvider>
     )
