@@ -1,6 +1,6 @@
 import React from 'react'
 import Helmet from 'react-helmet'
-
+import socialShareImage from '../../static/wtbr-social-share.jpg'
 export default ({data, location}) => {
 
   const {
@@ -11,9 +11,10 @@ export default ({data, location}) => {
   } = data
 
   const name = metaTitle ? metaTitle : `${pageName} - WTBR` 
-  const image = metaImage ? metaImage.fluid.src : 'http://static1.squarespace.com/static/5704437f27d4bd14a1d66aff/t/5705460a59827e7cad77b66d/1459963403823/LogoLong_001.png?format=1500w'
+  const image = metaImage ? metaImage.fluid.src : socialShareImage
   const description = metaDescription ? metaDescription : 'Where the Buffalo Roam is a group of friends, filmmakers, and get-it-done-with-a-smile type folks, who have been in the business for over ten years and love every aspect of the production process.'
   const url = location ? location.href : 'https://wtbr.tv'
+
   return (
     <Helmet>
       <title>{name}</title>
