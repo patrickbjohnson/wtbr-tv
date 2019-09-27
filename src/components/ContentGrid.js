@@ -151,11 +151,20 @@ class ContentGrid extends Component {
     })
   }
 
+  pauseVideos = () => {
+    var videos = document.getElementsByTagName("video");
+    for (let video of videos) {
+        video.pause();
+    }
+  }
+
   closePanel = () => {
     this.setState({
       panelIsOpen: false
     }, () => {
       this.contentPanel.current.style.height = `0`
+
+      this.pauseVideos()
 
       setTimeout(() => {
         this.contentPanel.current.style.display = `none`
@@ -168,6 +177,8 @@ class ContentGrid extends Component {
       panelIsOpen: true
     }, () => {
       this.contentPanel.current.style.display = `block`
+
+      this.pauseVideos()
 
       setTimeout(() => {
         this.contentPanel.current.style.height = `675px`
