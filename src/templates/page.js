@@ -51,7 +51,7 @@ const Page = (props) => {
                       {...component} />
                   case 'ContentBlockGrid':
                     return (
-                      <div id={(slug === 'home' ? 'work': '')}>
+                      <div>
                         <MediaQuery minWidth={768}>
                           <ContentBlockGrid
                               key={component.id}

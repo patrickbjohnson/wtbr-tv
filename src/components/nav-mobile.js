@@ -43,8 +43,8 @@ class MobileNav extends Component {
             <nav className={cx(styles.navWrap, { [styles.isOpen]: this.state.isOpen })} role="navigation">
               <ul className={cx(styles.navigation, 'list-inline')}>
                 <li className={styles.item}>
-                  <a 
-                    className={styles.link} 
+                  <a
+                    className={styles.link}
                     href="/#work"
                     onClick={() => {
                       navigate('#work')
@@ -54,25 +54,16 @@ class MobileNav extends Component {
                 </li>
                 {nav.map((item) => {
                   if (item.slug === 'home' || item.slug === 'work') return
-                  
+
                   return (
                     <li className={styles.item} key={item.id}>
-                      {item.slug.includes('#') && 
-                        <a 
-                          className={styles.link} 
-                          href={item.slug}
-                          onClick={() => {
-                            this.toggleMenu()
-                          }}
-                        >{item.pageName.replace('#', '')}</a>
-                      }
-                      {!item.slug.includes('#') && 
-                        <Link
+                      <Link
                         className={styles.link}
                         to={`/${item.slug}`}
                         activeClassName={styles.active}
-                        >{item.pageName}</Link>
-                      }
+                      >
+                        {item.pageName}
+                      </Link>
                     </li>
                   )
                 })}
