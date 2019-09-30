@@ -116,7 +116,7 @@ class ContentGrid extends Component {
   insertSlider = (currentRow) => {
     const COL_COUNT = 4
     const nextRow = Math.ceil((this.getCurrentIndex() + 1) / COL_COUNT)
-    
+
     this.setState({
       sliderRow: nextRow,
     }, () => {
@@ -132,10 +132,10 @@ class ContentGrid extends Component {
       panelIsOpen,
       sliderRow
     } = this.state
-    
+
     const currentSlide = this.state.activeSlide
     const isSameSlide = block === currentSlide
-    
+
     if (isSameSlide && panelIsOpen)  {
       this.closePanel()
     } else if (!isSameSlide && panelIsOpen) {
@@ -143,32 +143,43 @@ class ContentGrid extends Component {
     } else if (!panelIsOpen) {
       this.openPanel()
     }
-    
+
     this.setState({
       activeSlide: block,
     }, () => {
-      this.insertSlider(sliderRow, block, index)  
+      this.insertSlider(sliderRow, block, index)
     })
   }
-  
+
+  pauseVideos = () => {
+    var videos = document.getElementsByTagName("video");
+    for (let video of videos) {
+        video.pause();
+    }
+  }
+
   closePanel = () => {
     this.setState({
       panelIsOpen: false
     }, () => {
       this.contentPanel.current.style.height = `0`
-    
+
+      this.pauseVideos()
+
       setTimeout(() => {
         this.contentPanel.current.style.display = `none`
-      }, 850)  
+      }, 850)
     })
   }
-  
+
   openPanel = () => {
     this.setState({
       panelIsOpen: true
     }, () => {
       this.contentPanel.current.style.display = `block`
-    
+
+      this.pauseVideos()
+
       setTimeout(() => {
         this.contentPanel.current.style.height = `675px`
       }, 0)
@@ -176,20 +187,20 @@ class ContentGrid extends Component {
   }
 
   flickityIntoView = () => {
-    smoothScrollIntoView(this.contentPanel.current, { 
+    smoothScrollIntoView(this.contentPanel.current, {
       behavior: 'smooth',
       duration: 100
     })
   }
 
   initCategories = (blocks) => {
-    
+
     if (!this.props.displayCategory) return;
 
     const cats = blocks.map((block) => {
       const color = block.categoryColor
       const cs = flatten(block.categoryTags);
-      
+
       return cs.map((cat) => {
         return {
           title: cat,
@@ -198,7 +209,7 @@ class ContentGrid extends Component {
         }
       })
     })
-    
+
     this.setState({
       categories: uniqBy(flatten(cats), 'slug'),
     })
@@ -233,10 +244,10 @@ class ContentGrid extends Component {
       base,
       categories
     } = this.state
-    
+
     const slugIndex = this.activeSlugs.indexOf(slug)
     let shouldResetResults = slug === '*'
-    
+
     if (shouldResetResults || categories.length === this.activeSlugs.length) {
       this.activeSlugs = []
     } else if (slugIndex > -1) {
@@ -244,14 +255,14 @@ class ContentGrid extends Component {
     } else {
       this.activeSlugs.push(slugify(slug))
     }
-    
+
     this.activeSlugs = uniq(this.activeSlugs)
-    
+
     if (categories.length === this.activeSlugs.length) {
       shouldResetResults = true
       this.activeSlugs = []
     }
-    
+
     const results = shouldResetResults ? base : base.filter(b => b.categoryTags.some((r) => this.activeSlugs.indexOf(slugify(r)) > -1));
 
     console.log(results)
@@ -295,9 +306,10 @@ class ContentGrid extends Component {
     } = this.props
 
     return (
-      <div ref="wrapper" id={identifier} className={cx(styles.layout, {
+      <div ref="wrapper" className={cx(styles.layout, {
         [styles.gridSpace]: displayCategory
       })}>
+        <div className={styles.scrollOffset} id={identifier} />
         {this.props.sectionTitle &&
           <SectionHeader text={this.props.sectionTitle} classes='wrapper' />
         }
@@ -330,7 +342,7 @@ class ContentGrid extends Component {
             }}
             ref={this.contentPanel}
             >
-              <button 
+              <button
               className={cx(styles.closeBtn)}
               onClick={() => this.closePanel()} />
             <div
@@ -339,11 +351,11 @@ class ContentGrid extends Component {
             >
               {blocks && blocks.map((b, i) => {
                 return (
-                  <ContentPanel 
-                    key={i} 
-                    isFilterable={displayCategory} 
-                    currentSlide={active} 
-                    slideIndex={i} {...b} 
+                  <ContentPanel
+                    key={i}
+                    isFilterable={displayCategory}
+                    currentSlide={active}
+                    slideIndex={i} {...b}
                   />
                 )
               })}
