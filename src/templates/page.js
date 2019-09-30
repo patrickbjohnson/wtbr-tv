@@ -1,20 +1,22 @@
 import React, { Component } from 'react'
 import { graphql } from 'gatsby'
 import { ParallaxProvider } from 'react-scroll-parallax'
+import MediaQuery from 'react-responsive'
 import cx from 'classnames'
+
+import AccordionList from '../components/accordion-list'
 import Container from '../components/container'
-import Navigation from '../components/navigation'
-import Footer from '../components/site-footer'
 import ContentBlockGrid from '../components/ContentGrid'
 import ContentHero from '../components/content-hero'
-import TextBlockGrid from '../components/text-block-grid'
-import AccordionList from '../components/accordion-list'
 import FeaturedPosts from '../components/featured-posts'
-import HomeHero from '../components/home-hero'
+import Footer from '../components/site-footer'
 import HeroSlider from '../components/multi-slide-hero'
+import HomeHero from '../components/home-hero'
 import MobileContentGrid from '../components/MobileContentGrid'
-import MediaQuery from 'react-responsive'
+import Navigation from '../components/navigation'
 import PageHead from '../components/PageHead'
+import StickerPicker from '../components/sticker-picker'
+import TextBlockGrid from '../components/text-block-grid'
 
 import base from '../components/base.css'
 
@@ -31,6 +33,7 @@ const Page = (props) => {
   return (
     <ParallaxProvider>
       <PageHead data={props.data.contentfulPage} location={props.location}/>
+      <StickerPicker />
       <Container>
         <Navigation />
         <div className={cx('pageContainer', slug)}>
