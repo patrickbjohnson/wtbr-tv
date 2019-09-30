@@ -4,6 +4,7 @@ import { ParallaxProvider } from 'react-scroll-parallax'
 import throttle from 'lodash.throttle'
 import get from 'lodash/get'
 import cx from 'classnames'
+import VisibilitySensor from '../components/VisibilitySensor'
 import PageHead from '../components/PageHead'
 import Navigation from '../components/navigation'
 import Container from "../components/container"
@@ -14,12 +15,10 @@ import GoodPerson from '../components/good-person'
 import logo from '../components/goodthings-logo.svg'
 import Footer from '../components/site-footer'
 import Transition from '../components/transition'
-
+import FadeUp from '../components/fade-up'
 
 import styles from './goodthings.module.css'
 import header from '../components/section-header.module.css'
-
-const BGColor = '#6E98F0'
 
 const Header = ({text}) => {
   return (
@@ -95,28 +94,37 @@ class GoodThings extends React.Component {
               <Transition className={styles.col}>
                   <img className={styles.sticky} src={logo} alt="Good Things"/>
               </Transition>
-              <Transition delay={250} className={styles.col}>
-                <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
+              <div className={styles.col}>
+                <Transition delay={250} >
+                  <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
 
-                <div className={styles.section}>
-                  <Header text="Mission"/>
-                  <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
-                </div>
-
+                  <div className={styles.section}>
+                    <Header text="Mission"/>
+                    <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
+                  </div>
+                </Transition>
                 {people &&
                   <div className={styles.section}>
                     <Header text="Good People"/>
 
                     {people.map((p, i) => {
                       return p.blocks.map((v) => {
-                        return (<GoodPerson key={v.id} {...v} />)
+                        return (
+                          <VisibilitySensor once>
+                            {({ isVisible }) => {
+                              return (
+                                <FadeUp isVisible={isVisible} delay={0}>
+                                  <GoodPerson key={v.id} {...v} />
+                                </FadeUp>
+                            )}}
+                          </VisibilitySensor>
+                        )
                       })
                     })}
                   </div>
                 }
-              </Transition>
+              </div>
             </div>
-
             <div>
               {accordion && accordion.map((a) => {
                 console.log(a)
