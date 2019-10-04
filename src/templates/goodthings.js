@@ -4,18 +4,20 @@ import { ParallaxProvider } from 'react-scroll-parallax'
 import throttle from 'lodash.throttle'
 import get from 'lodash/get'
 import cx from 'classnames'
-import VisibilitySensor from '../components/VisibilitySensor'
-import PageHead from '../components/PageHead'
-import Navigation from '../components/navigation'
-import Container from "../components/container"
+
 import Accordion from '../components/accordion'
-import SectionHeader from '../components/section-header'
-import FeaturedPosts from '../components/featured-posts'
-import GoodPerson from '../components/good-person'
-import logo from '../components/goodthings-logo.svg'
-import Footer from '../components/site-footer'
-import Transition from '../components/transition'
+import Container from "../components/container"
 import FadeUp from '../components/fade-up'
+import FeaturedPosts from '../components/featured-posts'
+import Footer from '../components/site-footer'
+import GoodPerson from '../components/good-person'
+import Layout from '../components/layout'
+import logo from '../components/goodthings-logo.svg'
+import Navigation from '../components/navigation'
+import PageHead from '../components/PageHead'
+import SectionHeader from '../components/section-header'
+import Transition from '../components/transition'
+import VisibilitySensor from '../components/VisibilitySensor'
 
 import styles from './goodthings.module.css'
 import header from '../components/section-header.module.css'
@@ -84,8 +86,7 @@ class GoodThings extends React.Component {
     return (
       <ParallaxProvider>
         <PageHead data={this.props.data.contentfulPage} location={this.props.location} />
-        <Container>
-          <Navigation />
+        <Layout unfixed>
           <div className={styles.hero} ref={this.hero}></div>
           <div className={styles.wrapper}>
             <div className={styles.layout}
@@ -140,8 +141,7 @@ class GoodThings extends React.Component {
               })}
             </div>
           </div>
-          <Footer unfixed />
-        </Container>
+        </Layout>
       </ParallaxProvider>
     )
   }
