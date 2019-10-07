@@ -27,13 +27,14 @@ class Accordion extends Component {
     }
 
     render() {
-
         const set = this.state.accordion;
-        const { fullwidth } = this.props
+        
+        const {
+            alignment
+        } = this.props
+
         return (
-            <div className={cx(styles.accordion, {
-                [styles.fullwidth]: fullwidth
-            })}>
+            <div className={cx(styles.accordion)}>
                 {set && set.map(item => (
                     <div
                         className={cx(styles.item, {
@@ -50,7 +51,11 @@ class Accordion extends Component {
                             </div>
                         </div>
 
-                        <Markdown className={styles.body} source={item.description.description} />
+                        <Markdown className={cx(styles.body, {
+                            'tal': alignment === 'Left',
+                            'tac': alignment === 'Center',
+                            'tar': alignment === 'Right'
+                        })} source={item.description.description} />
                     </div>
                 ))}
             </div>

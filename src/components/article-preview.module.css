@@ -67,8 +67,11 @@
     -webkit-column-break-inside: avoid;
     page-break-inside: avoid;
     break-inside: avoid;
-    overflow:hidden;
+    overflow: hidden;
+    border-right: 1px solid #000;
+    border-left: 0;
   }
+ 
 
   .title {
     font-size: 48px;

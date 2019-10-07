@@ -8,6 +8,10 @@
     overflow: hidden;
 }
 
+.layout {
+  position: relative;
+}
+
 .filter {
     position: absolute;
     bottom: 0;
@@ -59,6 +63,9 @@
 .full {
     position: relative;
     grid-column: 1 / span 4;
+    overflow: hidden;
+    transition: height .25s ease-out;
+    height: 0;
 }
 
 .wrapper {
@@ -84,7 +91,6 @@
     cursor: not-allowed;
 }
 
-
 .prev {
     left: 10px;
     transform: rotate(-90deg);
@@ -103,6 +109,17 @@
     display: block;
 }
 
+.fullHeight {
+    height: 600px;
+    overflow: hidden;
+    opacity: 1;
+    transition: height .25s ease-out, opacity .5s ease-out .45s;
+}
+
+.closeBtn {
+    display: none;
+}
+
 @media (max-width: 767px) {
   .grid {
     grid-template-columns: 1fr;
@@ -111,4 +128,49 @@
   .full {
     grid-column: 1;
   }
+}
+
+@media (min-width: 768px) {
+    .closeBtn {
+        display: block;
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        z-index: 1;
+        cursor: pointer;
+        width: 25px;
+        height: 25px;
+        appearance: none;
+        background-color: transparent;
+        border-radius: 0;
+        border: 0;
+        outline: 0;
+    }
+
+    .closeBtn:before,
+    .closeBtn:after {
+        content: "";
+        display: block;
+        position: absolute;
+        height: 20px;
+        width: 2px;
+        background-color: #000;
+        top: 50%;
+        left: 50%;
+    }
+
+    .closeBtn:before {
+        transform: translateY(-50%) rotate(45deg);
+    }
+
+    .closeBtn:after {
+        transform: translateY(-50%) rotate(-45deg);
+    }
+}
+
+.scrollOffset {
+  display: block;
+  position: relative;
+  top: -216px;
+  visibility: hidden;
 }

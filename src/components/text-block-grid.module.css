@@ -16,6 +16,7 @@
     .block {
         width: 45%;
         margin-right: 10%;
+        margin-bottom: 22px;
     }
 
     .block:nth-child(2n) {

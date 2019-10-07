@@ -10,21 +10,18 @@ import VideoPlayer from '../components/video-player'
 class ContentPanel extends Component {
   constructor(props) {
     super(props)
-    this.state = {
-      isLoading: true
-    }
   }
 
   render() {
     const {
       title,
-      slug,
       image,
       body,
       videos,
       currentSlide,
       slideIndex,
-      categoryColor
+      categoryColor,
+      isFilterable
     } = this.props;
 
     return (
@@ -32,7 +29,7 @@ class ContentPanel extends Component {
           {(isMobile) => (
             <div className={cx(styles.block, {[styles.mobileBlock]: isMobile})}
               style={{
-                'backgroundColor' : categoryColor ? categoryColor : '#fff'
+                'backgroundColor' : (categoryColor && !isFilterable) ? categoryColor : '#fff'
               }}
             >
               <div className={styles.inner}>
@@ -46,17 +43,32 @@ class ContentPanel extends Component {
                   }
                 </div>
 
-                <div className={styles.media}>
+                <div className={styles.mediaContent}>
                   {videos &&
                     videos.map((v,i) => {
-                      return (
-                        <VideoPlayer
-                          key={i}
-                          isCurrent={currentSlide}
-                          slideIndex={slideIndex}
-                          {...v}
-                        />
-                      )
+                      if (v.__typename === 'ContentfulVideoBlock') {
+                        return (
+                          <VideoPlayer
+                            key={i}
+                            isCurrent={currentSlide}
+                            slideIndex={slideIndex}
+                            {...v}
+                          />
+                        )
+                      } 
+                      
+                      if (v.__typename === 'ContentfulImageBlock') {
+                        return (
+                          <Img
+                            className={cx(styles.media)}
+                            fluid={v.media.fluid}
+                            durationFadeIn={500}
+                            title={image.title}
+                            alt={image.title}
+                            fadeIn
+                          />
+                        )
+                      }
                     })
                   }
                   {(image && !videos && !isMobile) &&

@@ -1,5 +1,5 @@
 import React, { Component, createRef } from 'react';
-import chunk from 'lodash.chunk'
+import uniq from 'lodash.uniq'
 import uniqBy from 'lodash.uniqby'
 import cx from 'classnames'
 import ContentBlock from './ContentBlock';
@@ -10,19 +10,39 @@ import FilterPanel from './filter-panel';
 
 import styles from './contentGrid.module.css'
 
+const flatten = (arr) => {
+    return arr.reduce(function (flat, toFlatten) {
+      return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+    }, []);
+  }
+  
+const slugify = (string) => {
+    const a = 'àáäâãåăæąçćčđďèéěėëêęğǵḧìíïîįłḿǹńňñòóöôœøṕŕřßşśšșťțùúüûǘůűūųẃẍÿýźžż·/_,:;'
+    const b = 'aaaaaaaaacccddeeeeeeegghiiiiilmnnnnooooooprrsssssttuuuuuuuuuwxyyzzz------'
+    const p = new RegExp(a.split('').join('|'), 'g')
+  
+    return string.toString().toLowerCase()
+      .replace(/\s+/g, '-') // Replace spaces with -
+      .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
+      .replace(/&/g, '-and-') // Replace & with 'and'
+      .replace(/[^\w\-]+/g, '') // Remove all non-word characters
+      .replace(/\-\-+/g, '-') // Replace multiple - with single -
+      .replace(/^-+/, '') // Trim - from start of text
+      .replace(/-+$/, '') // Trim - from end of text
+  }
+
 class ContentGrid extends Component {
     constructor(props) {
         super(props)
         this.filterPanel = createRef()
         this.initalBlocks = []
-        this.mq = null
-        this.matches = false
+        this.activeSlugs = []
         this.state = {
             base: props.contentBlocks,
             blocks: props.contentBlocks,
             categories: [],
             filterOpen: false,
-            catSelected: false,
+            catSelected: [],
             sliderRow: -1,
             active: 0,
             panelIsOpen: false,
@@ -64,16 +84,20 @@ class ContentGrid extends Component {
         if (!this.props.displayCategory) return;
 
         const cats = blocks.map((block) => {
-            const cat = block.category
+          const color = block.categoryColor
+          const cs = flatten(block.categoryTags);
+          
+          return cs.map((cat) => {
             return {
-                title: cat,
-                color: block.categoryColor,
-                slug: this.sluggedCategories(cat)
+              title: cat,
+              color: color,
+              slug: slugify(cat)
             }
-        }).filter(c => !!c.slug)
-
+          })
+        })
+        
         this.setState({
-            categories: uniqBy(cats, 'slug'),
+          categories: uniqBy(flatten(cats), 'slug'),
         })
     }
 
@@ -96,30 +120,36 @@ class ContentGrid extends Component {
     filterReset = () => {
         this.setState({
             activeSlide: -1,
-            panelIsOpen: false
+            panelIsOpen: false,
+            catSelected: []
         })
     }
 
     filterContentSelection = (slug) => {
-        let results = [];
-
         const {
             base,
         } = this.state
 
-        let newBlocks = base.slice()
+        const slugIndex = this.activeSlugs.indexOf(slug);
+        const shouldResetResults = slug === '*'
 
-        if (slug === '*') {
-            results = base
+        if (shouldResetResults) {
+            this.activeSlugs = []
+        } else if (slugIndex > -1) {
+            this.activeSlugs.splice(slugIndex, 1)
         } else {
-            results = newBlocks.filter(b => b.category === slug)
+            this.activeSlugs.push(slugify(slug))
         }
+
+        this.activeSlugs = uniq(this.activeSlugs)
+
+        const results = shouldResetResults ? base : base.filter(b => b.categoryTags.some((r) => this.activeSlugs.indexOf(slugify(r)) > -1));
 
         this.filterHeightToggle()
 
         this.setState({
             blocks: results,
-            catSelected: true,
+            catSelected: this.activeSlugs,
             panelIsOpen: slug === '*' ? false : true
         })
     }
@@ -129,8 +159,8 @@ class ContentGrid extends Component {
             blocks,
             categories,
             sliderRow,
-            active,
             activeSlide,
+            catSelected
         } = this.state
 
         const {
@@ -174,6 +204,7 @@ class ContentGrid extends Component {
                                 key={0}
                                 currentSlide={activeSlide}
                                 slideIndex={0}
+                                isFilterable={true}
                                 {...activeSlide}
                             />
                         </div>
@@ -185,6 +216,7 @@ class ContentGrid extends Component {
                     <FilterPanel
                         categories={categories}
                         isOpen={this.state.filterOpen}
+                        selected={catSelected}
                         refHandler={(el) => this.filterPanel = el}
                         selectionHandler={this.filterContentSelection}
                         panelHandler={this.filterHeightToggle}

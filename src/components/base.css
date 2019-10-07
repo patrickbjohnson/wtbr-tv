@@ -14,10 +14,20 @@
   font-display: swap;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
 body {
   font-family: Helvetica, Arial, sans-serif;
-  font-size: 1em;
-  line-height: 1.65;
+  font-size: 15px;
+  line-height: 25px;
   color: #000;
   background: #fff;
   margin: 0;
@@ -55,6 +65,10 @@ a {
 
 .pageContainer {
   padding-top: 80px;
+}
+
+.pageContainer.jobs {
+  padding-bottom: 80px;
 }
 
 /**
@@ -145,6 +159,14 @@ a {
 
 .tal {
   text-align: left;
+}
+
+.tac {
+  text-align: center;
+}
+
+.tar {
+  text-align: right;
 }
 
 .parallax-tal h2 {

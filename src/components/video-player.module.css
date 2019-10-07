@@ -9,13 +9,15 @@
 
 .video {
     position: relative;
+    outline: none;
+    width: 100%;
 }
 
 .video:hover .isVisible {
     opacity: 1
 }
 
-.play, 
+.play,
 .pause {
     position: absolute;
     top: 50%;
@@ -49,7 +51,17 @@
     z-index: 11;
 }
 
-.caption {
+.caption h1, 
+.caption h2, 
+.caption h3 {
+    font-size: 13px;
+    line-height: 22px;
+    font-family: Helvetica, Arial, sans-serif;
+    text-transform: uppercase;
+    letter-spacing: .015em;
+}
+
+.caption p {
     font-size: 15px;
     line-height: 1.6;
 }

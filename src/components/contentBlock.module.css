@@ -34,15 +34,19 @@
     display: block;
 }
 
-.active .title, .active .subtitle, .block:hover .title, .block:hover .subtitle {
+.active .title, 
+.active .subtitle, 
+.block:hover .title, 
+.block:hover .subtitle {
     opacity: 1;
 }
 
-.active .media, .block:hover .media {
+.active .media, 
+.block:hover .media {
   filter: brightness(50%);
 }
 
-.active .image, .block:hover .image {
+.block:hover .image {
     display: none;
 }
 
@@ -50,7 +54,7 @@
     display: none;
 }
 
-.active .hoverImage, .block:hover .hoverImage {
+.block:hover .hoverImage {
     display: block;
 }
 

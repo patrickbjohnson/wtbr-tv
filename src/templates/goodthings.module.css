@@ -9,6 +9,10 @@
     opacity: 1;
 }
 
+.wrapper {
+  position: relative;
+}
+
 .layout {
     padding-top: 140px;
     position: relative;
@@ -35,7 +39,7 @@
 @media (min-width: 1024px) {
     .sticky {
         position: sticky;
-        top: 100px;
+        top: 150px;
     }
 
     .layout {

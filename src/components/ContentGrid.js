@@ -1,17 +1,24 @@
 import React, { Component, createRef } from 'react';
+import uniq from 'lodash.uniq'
 import uniqBy from 'lodash.uniqby'
 import cx from 'classnames'
+import scrollIntoView from 'scroll-into-view-if-needed'
+import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
 import ContentBlock from './ContentBlock';
 import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
 import FilterPanel from './filter-panel';
 
 import '../../node_modules/flickity/dist/flickity.css'
-const Flickity = typeof window !== "undefined" ? require("flickity") : () => null
-
-
 import styles from './contentGrid.module.css'
 
+const Flickity = typeof window !== "undefined" ? require("flickity") : () => null
+
+const flatten = (arr) => {
+  return arr.reduce(function (flat, toFlatten) {
+    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
+  }, []);
+}
 
 const slugify = (string) => {
   const a = 'àáäâãåăæąçćčđďèéěėëêęğǵḧìíïîįłḿǹńňñòóöôœøṕŕřßşśšșťțùúüûǘůűūųẃẍÿýźžż·/_,:;'
@@ -33,7 +40,9 @@ class ContentGrid extends Component {
     super(props)
     this.filterPanel = createRef()
     this.slider = createRef()
+    this.contentPanel = createRef()
     this.initalBlocks = []
+    this.activeSlugs = []
     this.flickity = null
     this.mq = null
     this.matches = false
@@ -47,14 +56,14 @@ class ContentGrid extends Component {
       base: [],
       blocks: [],
       categories: [],
+      catSelected: [],
       filterOpen: false,
-      catSelected: false,
       sliderRow: -1,
       active: 0,
       activeSlide: {},
       panelIsOpen: false,
       isFirst: false,
-      isLast: false
+      isLast: false,
     }
   }
 
@@ -64,13 +73,6 @@ class ContentGrid extends Component {
     } = this.props
 
     const sluggedBlocks = contentBlocks.slice()
-
-    for (let i = 0; i < sluggedBlocks.length; ++i) {
-      const item = sluggedBlocks[i]
-      item.categoryTitle = item.category
-      item.category = slugify(item.category)
-      item.slug = slugify(item.category)
-    }
 
     this.setState({
       base: sluggedBlocks,
@@ -106,51 +108,110 @@ class ContentGrid extends Component {
   }
 
   getCurrentIndex = () => {
-    const blocks = this.state.base
+    const blocks = this.state.blocks
     const current = this.state.activeSlide
     return blocks.findIndex((b) => b.id === current.id)
   }
 
-  insertSlider = () => {
+  insertSlider = (currentRow) => {
     const COL_COUNT = 4
+    const nextRow = Math.ceil((this.getCurrentIndex() + 1) / COL_COUNT)
+
     this.setState({
-      sliderRow: Math.ceil((this.getCurrentIndex() + 1) / COL_COUNT)
+      sliderRow: nextRow,
+    }, () => {
+      this.flickity.select(this.getCurrentIndex())
+      this.flickity.resize()
+      if (currentRow === nextRow) return
+      this.flickityIntoView()
     })
   }
 
   blockHandler = (block, index) => {
+    const {
+      panelIsOpen,
+      sliderRow
+    } = this.state
+
+    const currentSlide = this.state.activeSlide
+    const isSameSlide = block === currentSlide
+
+    if (isSameSlide && panelIsOpen)  {
+      this.closePanel()
+    } else if (!isSameSlide && panelIsOpen) {
+      this.openPanel()
+    } else if (!panelIsOpen) {
+      this.openPanel()
+    }
+
     this.setState({
       activeSlide: block,
+    }, () => {
+      this.insertSlider(sliderRow, block, index)
+    })
+  }
+
+  pauseVideos = () => {
+    var videos = document.getElementsByTagName("video");
+    for (let video of videos) {
+        video.pause();
+    }
+  }
+
+  closePanel = () => {
+    this.setState({
+      panelIsOpen: false
+    }, () => {
+      this.contentPanel.current.style.height = `0`
+
+      this.pauseVideos()
+
+      setTimeout(() => {
+        this.contentPanel.current.style.display = `none`
+      }, 850)
+    })
+  }
+
+  openPanel = () => {
+    this.setState({
       panelIsOpen: true
     }, () => {
-      this.insertSlider()
-      this.flickity.select(index)
-      this.flickity.resize()
-      // this.flickityIntoView()
+      this.contentPanel.current.style.display = `block`
+
+      this.pauseVideos()
+
+      setTimeout(() => {
+        this.contentPanel.current.style.height = `675px`
+      }, 0)
     })
   }
 
   flickityIntoView = () => {
-    // const h = window.innerHeight
-    // const dim = this.slider.current.getBoundingClientRect()
-    // console.log(h, dim)
-    // const isInView  = (h/2) - dim.y
-    // console.log(isInView)
+    smoothScrollIntoView(this.contentPanel.current, {
+      behavior: 'smooth',
+      duration: 100
+    })
   }
 
   initCategories = (blocks) => {
+
     if (!this.props.displayCategory) return;
 
     const cats = blocks.map((block) => {
-      return {
-        title: block.categoryTitle,
-        color: block.categoryColor,
-        slug: slugify(block.category)
-      }
-    }).filter(c => !!c.slug)
+      const color = block.categoryColor
+      const cs = flatten(block.categoryTags);
+
+      return cs.map((cat) => {
+        return {
+          title: cat,
+          color: color,
+          slug: slugify(cat)
+        }
+      })
+    })
 
     this.setState({
-      categories: uniqBy(cats, 'slug'),
+      categories: uniqBy(flatten(cats), 'slug'),
     })
   }
 
@@ -174,25 +235,37 @@ class ContentGrid extends Component {
     this.setState({
       activeSlide: -1,
       panelIsOpen: false,
-      catSelected: false
+      catSelected: []
     })
   }
 
   filterContentSelection = (slug) => {
     const {
       base,
+      categories
     } = this.state
 
-    const newBlocks = base.slice()
-    const compareSlugs = (block) => (block.slug === slug)
-    let results = [];
+    const slugIndex = this.activeSlugs.indexOf(slug)
+    let shouldResetResults = slug === '*'
 
-    if (slug === '*') {
-      results = newBlocks
+    if (shouldResetResults || categories.length === this.activeSlugs.length) {
+      this.activeSlugs = []
+    } else if (slugIndex > -1) {
+      this.activeSlugs.splice(slugIndex, 1)
     } else {
-      results = newBlocks.filter(compareSlugs)
+      this.activeSlugs.push(slugify(slug))
     }
 
+    this.activeSlugs = uniq(this.activeSlugs)
+
+    if (categories.length === this.activeSlugs.length) {
+      shouldResetResults = true
+      this.activeSlugs = []
+    }
+
+    const results = shouldResetResults ? base : base.filter(b => b.categoryTags.some((r) => this.activeSlugs.indexOf(slugify(r)) > -1));
+
+    console.log(results)
     this.filterHeightToggle()
     /**
      * Have to destroy flickity first
@@ -205,9 +278,10 @@ class ContentGrid extends Component {
     this.setState({
       blocks: results,
       panelIsOpen: false,
-      catSelected: slug,
+      catSelected: this.activeSlugs,
     }, () => {
       this.initFlickity()
+      this.closePanel()
     })
   }
 
@@ -222,7 +296,8 @@ class ContentGrid extends Component {
       sliderRow,
       active,
       activeSlide,
-      catSelected
+      catSelected,
+      panelIsOpen
     } = this.state
 
     const {
@@ -231,9 +306,10 @@ class ContentGrid extends Component {
     } = this.props
 
     return (
-      <div ref="wrapper" id={identifier} className={cx(styles.layout, {
+      <div ref="wrapper" className={cx(styles.layout, {
         [styles.gridSpace]: displayCategory
       })}>
+        <div className={styles.scrollOffset} id={identifier} />
         {this.props.sectionTitle &&
           <SectionHeader text={this.props.sectionTitle} classes='wrapper' />
         }
@@ -247,6 +323,7 @@ class ContentGrid extends Component {
                 key={b.id}
               >
                 <ContentBlock
+                  panelIsOpen={panelIsOpen}
                   key={b.id}
                   active={activeSlide.id === b.id}
                   inGrid={true}
@@ -258,19 +335,28 @@ class ContentGrid extends Component {
 
           <div
             className={cx(styles.full, styles.wrapper, {
-              [styles.hidden]: !this.state.panelIsOpen,
-              [styles.block]: this.state.panelIsOpen
+              [styles.fullHeight]: this.state.panelIsOpen,
             })}
             style={{
               'gridRow': sliderRow + 1,
-            }}>
+            }}
+            ref={this.contentPanel}
+            >
+              <button
+              className={cx(styles.closeBtn)}
+              onClick={() => this.closePanel()} />
             <div
               className={styles.slider}
               ref={this.slider}
             >
               {blocks && blocks.map((b, i) => {
                 return (
-                  <ContentPanel key={i} currentSlide={active} slideIndex={i} {...b} />
+                  <ContentPanel
+                    key={i}
+                    isFilterable={displayCategory}
+                    currentSlide={active}
+                    slideIndex={i} {...b}
+                  />
                 )
               })}
             </div>
@@ -281,6 +367,9 @@ class ContentGrid extends Component {
                 disabled={this.state.isFirst}
                 onClick={() => {
                   this.flickity.previous()
+                  this.setState({
+                    activeSlide: blocks[this.flickity.selectedIndex]
+                  })
                 }}>Prev</button>
 
               <button
@@ -288,6 +377,9 @@ class ContentGrid extends Component {
                 disabled={this.state.isLast}
                 onClick={() => {
                   this.flickity.next()
+                  this.setState({
+                    activeSlide: blocks[this.flickity.selectedIndex]
+                  })
                 }}>Next</button>
             </div>
           </div>

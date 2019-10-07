@@ -1,23 +1,34 @@
-  import React, { createRef }from 'react'
+import React, { createRef }from 'react'
 import { Link, graphql } from 'gatsby'
 import { ParallaxProvider } from 'react-scroll-parallax'
 import throttle from 'lodash.throttle'
 import get from 'lodash/get'
-import PageHead from '../components/PageHead'
-import Navigation from '../components/navigation'
-import Container from "../components/container"
-import Accordion from '../components/accordion'
-import SectionHeader from '../components/section-header'
-import FeaturedPosts from '../components/featured-posts'
-import GoodPerson from '../components/good-person'
-import logo from '../components/goodthings-logo.svg'
-import Footer from '../components/site-footer'
-import Transition from '../components/transition'
+import cx from 'classnames'
 
+import Accordion from '../components/accordion'
+import Container from "../components/container"
+import FadeUp from '../components/fade-up'
+import FeaturedPosts from '../components/featured-posts'
+import Footer from '../components/site-footer'
+import GoodPerson from '../components/good-person'
+import Layout from '../components/layout'
+import logo from '../components/goodthings-logo.svg'
+import Navigation from '../components/navigation'
+import PageHead from '../components/PageHead'
+import SectionHeader from '../components/section-header'
+import Transition from '../components/transition'
+import VisibilitySensor from '../components/VisibilitySensor'
 
 import styles from './goodthings.module.css'
+import header from '../components/section-header.module.css'
 
-const BGColor = '#6E98F0'
+const Header = ({text}) => {
+  return (
+    <div className={header.block}>
+      <h2 className={cx(header.text, header.noOutline, header.tac, header.domaine)}>{text}</h2>
+    </div>
+  )
+}
 
 class GoodThings extends React.Component {
   constructor(props) {
@@ -75,51 +86,62 @@ class GoodThings extends React.Component {
     return (
       <ParallaxProvider>
         <PageHead data={this.props.data.contentfulPage} location={this.props.location} />
-        <Container>
-          <Navigation />
+        <Layout unfixed>
           <div className={styles.hero} ref={this.hero}></div>
-          <div className={styles.layout}
-            style={{position: 'relative', 'zIndex': 2, 'paddingTop': '150px'}}
-          >
-            <Transition className={styles.col}>
-                <img className={styles.sticky} src={logo} alt="Good Things"/>
-            </Transition>
-            <Transition delay={250} className={styles.col}>
-              <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
+          <div className={styles.wrapper}>
+            <div className={styles.layout}
+              style={{position: 'relative', 'zIndex': 2, 'paddingTop': '150px'}}
+            >
+              <Transition className={styles.col}>
+                  <img className={styles.sticky} src={logo} alt="Good Things"/>
+              </Transition>
+              <div className={styles.col}>
+                <Transition delay={250} >
+                  <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
 
-              <div className={styles.section}>
-                <SectionHeader classes="parallax-tal parallax-transparent" text="Mission" uniqueID='mission'/>
-                <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
+                  <div className={styles.section}>
+                    <Header text="Mission"/>
+                    <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
+                  </div>
+                </Transition>
+                {people &&
+                  <div className={styles.section}>
+                    <Header text="Good People"/>
+
+                    {people.map((p, i) => {
+                      return p.blocks.map((v) => {
+                        return (
+                          <VisibilitySensor once>
+                            {({ isVisible }) => {
+                              return (
+                                <FadeUp isVisible={isVisible} delay={0}>
+                                  <GoodPerson key={v.id} {...v} />
+                                </FadeUp>
+                            )}}
+                          </VisibilitySensor>
+                        )
+                      })
+                    })}
+                  </div>
+                }
               </div>
+            </div>
+            <div>
+              {accordion && accordion.map((a) => {
+                console.log(a)
+                return (
+                  <Accordion key={Math.random()} set={a.activeJobs} alignment={a.textAlignment}/>
+                )
+              })}
 
-              {people &&
-                <div className={styles.section}>
-                  <SectionHeader classes="parallax-tal parallax-transparent" text="Good People" />
-                  {people.map((p, i) => {
-                    return p.blocks.map((v) => {
-                      return (<GoodPerson key={v.id} {...v} />)
-                    })
-                  })}
-                </div>
-              }
-            </Transition>
+              {features && features.map((f) => {
+                return (
+                  <FeaturedPosts key={Math.random()} {...f}/>
+                )
+              })}
+            </div>
           </div>
-
-          <div>
-            {accordion && accordion.map((a) => {
-              return (
-                <Accordion key={Math.random()} fullwidth={true} set={a.activeJobs}/>
-              )
-            })}
-
-            {features && features.map((f) => {
-              return (
-                <FeaturedPosts key={Math.random()} {...f}/>
-              )
-            })}
-          </div>
-          <Footer />
-        </Container>
+        </Layout>
       </ParallaxProvider>
     )
   }
@@ -147,7 +169,6 @@ export const pageQuery = graphql`
                 body {
                   body
                 }
-                category
                 categoryColor
                 title
                 type
@@ -162,21 +183,23 @@ export const pageQuery = graphql`
                   }
                 }
                 videos {
-                  title
-                  videoId
-                  caption
-                }
-              }
-              ... on ContentfulBlogPost {
-                id
-                slug
-                title
-                body {
-                  body
-                }
-                image {
-                  fluid {
-                    ...GatsbyContentfulFluid
+                  __typename
+                  ... on ContentfulImageBlock {
+                    media {
+                      description
+                      fluid {
+                        ...GatsbyContentfulFluid
+                      }
+                    }
+                  }
+                  ... on ContentfulVideoBlock {
+                    id
+                    title
+                    videoUrl
+                    caption {
+                      id
+                      caption
+                    }
                   }
                 }
               }
@@ -185,6 +208,7 @@ export const pageQuery = graphql`
           ... on ContentfulAccordionList {
             id
             sectionTitle
+            textAlignment
             activeJobs {
               ... on ContentfulJob {
                 id

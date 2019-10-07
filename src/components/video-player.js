@@ -1,134 +1,20 @@
 import React, { Component, createRef } from 'react';
 import cx from 'classnames'
-import Player from '@vimeo/player'
-import Img from 'gatsby-image'
+import Markdown from 'react-markdown'
 
 import styles from '../components/video-player.module.css'
 
-const Play = () => {
+function VideoPlayer({ caption, videoUrl, ...rest }) {
   return (
-    <svg
-      xmlns='http://www.w3.org/2000/svg'
-      className={cx(styles.playIcon)}
-      viewBox='0 0 448 512'
-    >
-      <path
-        fill='currentColor'
-        d='M424.4 214.7L72.4 6.6C43.8-10.3 0 6.1 0 47.9V464c0 37.5 40.7 60.1 72.4 41.3l352-208c31.4-18.5 31.5-64.1 0-82.6z'
-      />
-    </svg>
-  );
-}
-
-const Pause = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className={cx(styles.pauseIcon)}
-      viewBox="0 0 448 512"
-    >
-      <path
-        fill="currentColor"
-        d="M144 479H48c-26.5 0-48-21.5-48-48V79c0-26.5 21.5-48 48-48h96c26.5 0 48 21.5 48 48v352c0 26.5-21.5 48-48 48zm304-48V79c0-26.5-21.5-48-48-48h-96c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h96c26.5 0 48-21.5 48-48z"
-      />
-    </svg>
-  );
-}
-
-class VideoPlayer extends Component {
-  constructor(props) {
-    super(props)
-    this.video = createRef()
-    this.play = createRef()
-    this.pause = createRef()
-    this.player = null
-    this.state = {
-      isPlaying: false,
-      loading: true,
-      image: false
-    }
-  }
-  
-  componentDidMount() {
-    const { 
-      videoId,
-    } = this.props
-    
-    fetch(`https://vimeo.com/api/v2/video/${videoId}.json`)
-      .then(r => r.json())
-      .then(data => this.setState({image: data.thumbnail_large}))
-
-    this.player = new Player(this.video.current, {
-        id: videoId,
-        responsive: true,
-        muted: true,
-        autoplay: false,
-        title: false,
-        controls: false,
-    });
-    
-    this.player.ready().then(() => this.setState({loading: false}));
-  }
-  
-  handlePlayEvent() {
-    this.player.play().then(() => this.setState({isPlaying: true}))
-  }
-  
-  handlePauseEvent() {
-    this.player.pause().then(() => this.setState({isPlaying: false}))
-  }
-  
-  render() {
-    const {
-      caption
-    } = this.props
-    
-    const {
-      isPlaying,
-      image
-    } = this.state
-      
-    return (
-      <div className={cx(styles.block)}>
-        
-        <div className={cx(styles.video)} ref={this.video}>
-          {image &&
-            <Img 
-              fluid={image.fluid}
-              durationFadeIn={500}
-              title={videoHeroTitle}
-              alt={videoHeroTitle}
-              fadeIn
-            />
-          }
-          <span 
-            ref={this.play}
-            className={cx(styles.play, {
-              [styles.isVisible]: !isPlaying
-            })}
-            onClick={() => {
-              this.handlePlayEvent()
-            }}
-          >
-            <Play />
-          </span>
-          
-          <span
-            ref={this.play}
-            className={cx(styles.pause, {
-              [styles.isVisible]: isPlaying
-            })}
-            onClick={() => {
-              this.handlePauseEvent()
-            }}
-          >
-            <Pause />
-          </span>
-        </div>
-        <p className={styles.caption}>{caption}</p>
-      </div>
-    )
-  }
+    <div className={cx(styles.block)}>
+      <video controls className={cx(styles.video)}>
+        <source src={videoUrl} />
+      </video>
+      {caption &&
+        <Markdown className={styles.caption} source={caption.caption} />
+      }
+    </div>
+  )
 }
 
 export default VideoPlayer
