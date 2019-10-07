@@ -14,16 +14,16 @@ export default function({ unfixed }) {
           allContentfulFooter {
             edges {
               node {
-                email
-                facebook
-                instagram
-                jobsLink {
-                  slug
+                links {
+                  id
+                  linkLabel
+                  linkUrl
+                  externalLink
+                  internalLink {
+                    slug
+                  }
                 }
-                phoneLax
-                phoneOak
                 title
-                twitter
               }
             }
           }
@@ -33,14 +33,10 @@ export default function({ unfixed }) {
 
         const {
           title,
-          email,
-          facebook,
-          instagram,
-          twitter,
-          jobsLink,
-          phoneLax,
-          phoneOak
+          links
         } = data.allContentfulFooter.edges[0].node
+        
+        console.log(data.allContentfulFooter.edges[0].node)
 
         return (
           <footer className={cx(styles.footer, {[styles.unfixed]: unfixed})}>
@@ -49,34 +45,20 @@ export default function({ unfixed }) {
               <div className={styles.flex}>
                   <div className={styles.content}>
                       <div className={styles.links}>
-                          {twitter &&
-                            <a href={twitter} target="_blank" rel="noopener">Twitter</a>
-                          }
-
-                          {instagram &&
-                            <a href={instagram} target="_blank" rel="noopener">Instagram</a>
-                          }
-
-                          {facebook &&
-                            <a href={facebook} target="_blank" rel="noopener">Facebook</a>
-                          }
-
-                          {email &&
-                            <a href={`mailto:${email}`} target="_blank" rel="noopener">Email</a>
-                          }
-
-                          {phoneLax &&
-                            <a href="#">LAX: {phoneLax}</a>
-                          }
-
-                          {phoneOak &&
-                            <a href="#">OAK: {phoneOak}</a>
-                          }
-
-                          {jobsLink &&
-                            <Link to={jobsLink.slug}>Jobs</Link>
-                          }
-
+                          {links.map((l) => {
+                            const {
+                              internalLink, 
+                              linkLabel,
+                              linkUrl
+                            } = l
+                            
+                            if (internalLink && internalLink.slug) {
+                              return <Link to={internalLink.slug}>{l.linkLabel}</Link>
+                            } else {
+                              return <a href={linkUrl}>{linkLabel}</a>  
+                            }
+                            
+                          })}
                       </div>
                   </div>
                   <div className={styles.logo}>

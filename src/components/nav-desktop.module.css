@@ -5,7 +5,7 @@
   left: 0;
   right: 0;
   height: 80px;
-  background-color: #fff;
+  background-color: rgba(255, 255, 255, .92);
 }
 
 .navigation {
@@ -74,18 +74,32 @@
 
 .item {
   transition: background-color .25s ease-out;
-  flex-grow: 1;
+  padding-left: 20px;
+  padding-right: 20px;
 }
 
 .link {
+  position: relative;
+}
+
+.link:after {
+  content: "";
+  display: block;
+  position: absolute;
+  background-color: transparent;
+  left: 0;
+  right: 0;
+  bottom: 25px;
+  height: 2px;
+  z-index: -1;
   transition: background-color .25s ease-out;
 }
 
-.link:hover {
+.link:hover:after {
   background-color: #F8D377;
 }
 
-.link.active {
+.link.active:after {
   background-color: #F8D377;
 }
 
