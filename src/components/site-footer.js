@@ -35,8 +35,7 @@ export default function({ unfixed }) {
           title,
           links
         } = data.allContentfulFooter.edges[0].node
-        
-        console.log(data.allContentfulFooter.edges[0].node)
+
 
         return (
           <footer className={cx(styles.footer, {[styles.unfixed]: unfixed})}>

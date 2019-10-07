@@ -36,10 +36,16 @@
     margin-bottom: 55px;
 }
 
+.sticky {
+    max-width: 400px;
+    margin: auto;
+}
+
 @media (min-width: 1024px) {
     .sticky {
         position: sticky;
         top: 150px;
+        max-width: 300px;
     }
 
     .layout {
@@ -77,5 +83,9 @@
     .section > p {
         font-size: 25px;
         line-height: 1.56;
+    }
+    
+    .header {
+        font-size: 120px;
     }
 }

@@ -2,7 +2,6 @@ import React from 'react'
 import { animated, useSpring } from 'react-spring'
 
 function FadeUp({ children, isVisible, delay = 0, ...rest }) {
-  console.log(isVisible)
   const props = useSpring({
     from: {
       opacity: 0,

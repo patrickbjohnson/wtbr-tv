@@ -8,8 +8,6 @@ const AccordionList = (props) => {
     activeJobs 
   } = props
   
-  console.log(props)
-  
   return (
     <div>
       {sectionTitle &&

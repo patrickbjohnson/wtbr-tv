@@ -19,8 +19,6 @@ class HomeHero extends Component {
       videoUrl,
       image
     } = this.props
-    
-    console.log(this.props)
         
     return (
       <div className={cx(styles.block, classNames)}>

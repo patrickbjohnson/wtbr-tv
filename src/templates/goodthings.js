@@ -1,21 +1,17 @@
 import React, { createRef }from 'react'
-import { Link, graphql } from 'gatsby'
+import { graphql } from 'gatsby'
 import { ParallaxProvider } from 'react-scroll-parallax'
 import throttle from 'lodash.throttle'
 import get from 'lodash/get'
 import cx from 'classnames'
 
 import Accordion from '../components/accordion'
-import Container from "../components/container"
 import FadeUp from '../components/fade-up'
 import FeaturedPosts from '../components/featured-posts'
-import Footer from '../components/site-footer'
 import GoodPerson from '../components/good-person'
 import Layout from '../components/layout'
-import logo from '../components/goodthings-logo.svg'
-import Navigation from '../components/navigation'
+import logo from '../../static/goodthings-logo.svg'
 import PageHead from '../components/PageHead'
-import SectionHeader from '../components/section-header'
 import Transition from '../components/transition'
 import VisibilitySensor from '../components/VisibilitySensor'
 
@@ -25,7 +21,7 @@ import header from '../components/section-header.module.css'
 const Header = ({text}) => {
   return (
     <div className={header.block}>
-      <h2 className={cx(header.text, header.noOutline, header.tac, header.domaine)}>{text}</h2>
+      <h2 className={cx(header.text, header.noOutline, header.tac, header.domaine, styles.header)}>{text}</h2>
     </div>
   )
 }
@@ -128,7 +124,6 @@ class GoodThings extends React.Component {
             </div>
             <div>
               {accordion && accordion.map((a) => {
-                console.log(a)
                 return (
                   <Accordion key={Math.random()} set={a.activeJobs} alignment={a.textAlignment}/>
                 )
