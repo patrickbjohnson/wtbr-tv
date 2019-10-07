@@ -10,6 +10,7 @@ import ContentBlockGrid from '../components/ContentGrid'
 import ContentHero from '../components/content-hero'
 import FeaturedPosts from '../components/featured-posts'
 import Footer from '../components/site-footer'
+import Layout from '../components/layout'
 import HeroSlider from '../components/multi-slide-hero'
 import HomeHero from '../components/home-hero'
 import MobileContentGrid from '../components/MobileContentGrid'
@@ -34,8 +35,7 @@ const Page = (props) => {
     <ParallaxProvider>
       <PageHead data={props.data.contentfulPage} location={props.location}/>
       <StickerPicker />
-      <Container>
-        <Navigation />
+      <Layout>
         <div className={cx('pageContainer', slug)}>
           {(slug === 'home' && hasVideo) &&
             <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
@@ -93,8 +93,7 @@ const Page = (props) => {
             })}
           </div>
         </div>
-        <Footer />
-      </Container>
+      </Layout>
     </ParallaxProvider>
   )
 }
