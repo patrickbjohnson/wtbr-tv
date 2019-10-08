@@ -16,6 +16,7 @@ import PageHead from '../components/PageHead'
 import StickerPicker from '../components/sticker-picker'
 import TextBlockGrid from '../components/text-block-grid'
 import ClientList from '../components/client-list'
+import Capabilities from '../components/capabilities'
 
 import base from '../components/base.css'
 
@@ -81,12 +82,12 @@ const Page = (props) => {
                       return <AccordionList
                           key={component.id}
                           {...component} />
-                  case 'HeroSlider':
-                      return <HeroSlider
-                          key={component.id}
-                          {...component} />
                   case 'ClientList':
                     return <ClientList
+                        key={component.id}
+                        {...component} />
+                  case 'Capabilities':
+                    return <Capabilities
                         key={component.id}
                         {...component} />
                   default:
@@ -247,22 +248,6 @@ export const pageQuery = graphql`
             }
           }
         }
-        ... on ContentfulHeroSlider {
-          id
-          heroSlides {
-            id
-            heroSlug
-            title {
-              title
-            }
-            slideImage {
-              title
-              fluid {
-                ...GatsbyContentfulFluid
-              }
-            }
-          }
-        }
         ... on ContentfulGoodPeople {
           title
           id
@@ -299,6 +284,20 @@ export const pageQuery = graphql`
             fluid {
               ...GatsbyContentfulFluid
             }
+          }
+        }
+        ... on ContentfulCapabilities {
+          title
+          capabilities {
+            id
+            title
+            image {
+              title
+              fluid {
+                ...GatsbyContentfulFluid
+              }
+            }
+            capabilitiesList
           }
         }
       }

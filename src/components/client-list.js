@@ -15,7 +15,7 @@ export default function ClientList(props) {
   return (
   <div className={styles.section}>
     <SectionHeader text={props.title} classes='wrapper' />
-    <div class={styles.grid}>
+    <div className={styles.grid}>
       
       {logos.length > 0 && 
         logos.map((l) => {
