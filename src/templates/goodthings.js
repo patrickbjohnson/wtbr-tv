@@ -21,7 +21,7 @@ import header from '../components/section-header.module.css'
 const Header = ({text}) => {
   return (
     <div className={header.block}>
-      <h2 className={cx(header.text, header.noOutline, header.tac, header.domaine, styles.header)}>{text}</h2>
+      <h2 className={cx(header.text, header.noOutline, header.tac, header.noe, styles.header)}>{text}</h2>
     </div>
   )
 }
