@@ -5,19 +5,18 @@ import MediaQuery from 'react-responsive'
 import cx from 'classnames'
 
 import AccordionList from '../components/accordion-list'
-import Container from '../components/container'
 import ContentBlockGrid from '../components/ContentGrid'
 import ContentHero from '../components/content-hero'
 import FeaturedPosts from '../components/featured-posts'
-import Footer from '../components/site-footer'
 import Layout from '../components/layout'
 import HeroSlider from '../components/multi-slide-hero'
 import HomeHero from '../components/home-hero'
 import MobileContentGrid from '../components/MobileContentGrid'
-import Navigation from '../components/navigation'
 import PageHead from '../components/PageHead'
 import StickerPicker from '../components/sticker-picker'
 import TextBlockGrid from '../components/text-block-grid'
+import ClientList from '../components/client-list'
+import Capabilities from '../components/capabilities'
 
 import base from '../components/base.css'
 
@@ -83,10 +82,14 @@ const Page = (props) => {
                       return <AccordionList
                           key={component.id}
                           {...component} />
-                  case 'HeroSlider':
-                      return <HeroSlider
-                          key={component.id}
-                          {...component} />
+                  case 'ClientList':
+                    return <ClientList
+                        key={component.id}
+                        {...component} />
+                  case 'Capabilities':
+                    return <Capabilities
+                        key={component.id}
+                        {...component} />
                   default:
                     return false
                 }
@@ -245,22 +248,6 @@ export const pageQuery = graphql`
             }
           }
         }
-        ... on ContentfulHeroSlider {
-          id
-          heroSlides {
-            id
-            heroSlug
-            title {
-              title
-            }
-            slideImage {
-              title
-              fluid {
-                ...GatsbyContentfulFluid
-              }
-            }
-          }
-        }
         ... on ContentfulGoodPeople {
           title
           id
@@ -287,6 +274,30 @@ export const pageQuery = graphql`
           heroContent {
             id
             heroContent
+          }
+        }
+        ... on ContentfulClientList {
+          title
+          logos {
+            id
+            title
+            fluid {
+              ...GatsbyContentfulFluid
+            }
+          }
+        }
+        ... on ContentfulCapabilities {
+          title
+          capabilities {
+            id
+            title
+            image {
+              title
+              fluid {
+                ...GatsbyContentfulFluid
+              }
+            }
+            capabilitiesList
           }
         }
       }
