@@ -23,8 +23,8 @@
     text-align: center;
 }
 
-.domaine { 
-    font-family: "Domaine", Georgia, 'Times New Roman', Times, serif;
+.noe { 
+    font-family: "Noe", Georgia, 'Times New Roman', Times, serif;
 }
 
 @supports (-webkit-text-stroke: 1px black) {

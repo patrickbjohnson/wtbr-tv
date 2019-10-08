@@ -1,16 +1,8 @@
 @font-face {
-  font-family: "Avenir";
+  font-family: "Noe";
   font-weight: 400;
   font-style: normal;
-  src: url("/avenir-400.woff2") format("woff2");
-  font-display: swap;
-}
-
-@font-face {
-  font-family: "Domaine";
-  font-weight: 400;
-  font-style: normal;
-  src: url("/DomaineDisplayWeb-Medium.woff2") format("woff2");
+  src: url("/Noe-Display-Bold.woff2") format("woff2");
   font-display: swap;
 }
 
@@ -52,7 +44,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Domaine", Georgia, 'Times New Roman', Times, serif;
+  font-family: "Noe", Georgia, 'Times New Roman', Times, serif;
 }
 
 a {
