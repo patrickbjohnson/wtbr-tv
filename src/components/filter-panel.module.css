@@ -1,12 +1,13 @@
 .filter {
-    position: absolute;
+    z-index: 9;
+    position: sticky;
     bottom: 0;
     width: 100%;
     background-color: white;
+    -webkit-transition: height .25s ease-out;
     transition: height .25s ease-out;
     overflow: hidden;
-    padding-bottom: 45px;
-    height: 0;
+    height: 45px;
 }
 
 .filterItem {
