@@ -23,7 +23,7 @@ class Template extends React.Component {
         <Navigation />
         <PageTransition
           defaultStyle={{
-            transition: 'transform 300ms ease-out, opacity 300ms ease-out',
+            transition: 'transform 500ms ease-out, opacity 500ms ease-out',
             transform: 'translateY(16px)',
             transformOrigin: '50% 0%',
             opacity: 0
