@@ -1,4 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react'
+import { animated, useTransition } from 'react-spring'
+import { useWindowScroll } from 'react-use'
 
 import styles from './sticker-picker.module.css'
 
@@ -54,26 +56,32 @@ const StickerPicker = () => {
     const [stickers, setStickers] = useState([])
     const [availableStickers, setAvailableStickers] = useState(images)
 
+    const { y } = useWindowScroll()
+
+    useEffect(() => {
+      if(stickers.length > 0) {
+        setAvailableStickers(images)
+        setStickers([])
+      }
+    }, [y])
+
     const getRandomSticker = () => {
       return availableStickers[Math.floor(Math.random() * availableStickers.length)]
     }
 
-
     const stickerPosition = () => {
-      let scrollPosition = 0
       let height = 0
       let width = 0
 
       if(window) {
-        scrollPosition = window.scrollY
         height = window.innerHeight
         width = window.innerWidth
       }
 
       const xMin = 0
       const xMax = width
-      const yMin = scrollPosition
-      const yMax = height + scrollPosition
+      const yMin = y
+      const yMax = height + y
 
       return {
         left: getRandomPosition(xMin, xMax),
@@ -82,20 +90,18 @@ const StickerPicker = () => {
     }
 
     const addSticker = () => {
-      let scrollPosition = 0
       let height = 0
       let width = 0
 
       if(window) {
-        scrollPosition = window.scrollY
         height = window.innerHeight
         width = window.innerWidth
       }
 
       const xMin = .1 * width
       const xMax = .9 * width
-      const yMin = .1 * height + scrollPosition
-      const yMax = .9 * height + scrollPosition
+      const yMin = .1 * height + y
+      const yMax = .9 * height + y
 
       const sticker = getRandomSticker()
 
@@ -111,20 +117,38 @@ const StickerPicker = () => {
       setAvailableStickers(availableStickers.filter(s => s !== sticker))
     }
 
-    const buttonStyle = {
-      right: '64px',
-      bottom: '64px'
-    }
+    const transitions = useTransition(stickers, sticker => sticker.src, {
+      from: { opacity: 0 },
+      enter: { opacity: 1 },
+      leave: { opacity: 0 },
+    })
+
+    const showButton = useMemo(() => {
+      if(typeof document === 'undefined') return false
+      return y < .25 * document.body.scrollHeight || y === 0
+    }, [y])
+
+    const buttonTransition = useTransition(showButton, null, {
+      from: { opacity: 0 },
+      enter: { opacity: 1 },
+      leave: { opacity: 0 },
+    })
 
     return (
         <>
-            { availableStickers.length > 0 && (
-              <img onClick={addSticker} className={styles.button} src={button} style={buttonStyle} />
-            )}
+            { availableStickers.length > 0
+              && buttonTransition.map(({ item, key, props }) => console.log('item', item) || item && (
+                <animated.div key={key} className={styles.buttonWrapper} style={props}>
+                  <img onClick={addSticker} className={styles.button} src={button} />
+                </animated.div>
+              ))
+            }
             <div className={styles.wrapper}>
-                { stickers.map(({ src, style }) => console.log('src', src) || (
-                    <img src={src} className={styles.sticker} style={style} />
-                ))}
+                { transitions.map(({ item, props, key }) =>
+                  <animated.div key={key} className={styles.stickerWrapper} style={{...props, ...item.style}}>
+                    <img src={item.src} className={styles.sticker} />
+                  </animated.div>
+                )}
             </div>
         </>
     )
