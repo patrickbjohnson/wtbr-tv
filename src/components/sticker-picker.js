@@ -124,7 +124,7 @@ const StickerPicker = () => {
     })
 
     const showButton = useMemo(() => {
-      if(!document) return false
+      if(typeof document === 'undefined') return false
       return y < .25 * document.body.scrollHeight || y === 0
     }, [y])
 
