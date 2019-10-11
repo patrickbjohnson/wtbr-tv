@@ -1,6 +1,9 @@
 .gridSpace {
   position: relative;
-  padding-bottom: 45px;
+}
+
+.gridWrapper {
+  position: relative;
 }
 
 .col {
@@ -10,16 +13,6 @@
 
 .layout {
   position: relative;
-}
-
-.filter {
-    position: absolute;
-    bottom: 0;
-    width: 100%;
-    background-color: white;
-    transition: height .25s ease-out;
-    overflow: hidden;
-    padding-bottom: 45px;
 }
 
 .slide {
