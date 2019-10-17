@@ -23,7 +23,7 @@ class ContentPanel extends Component {
             videos,
             currentSlide,
             projectTitle,
-            client
+            client,
             slideIndex
         } = this.props;
 

@@ -22,7 +22,6 @@ class ContentPanel extends Component {
       projectTitle,
       currentSlide,
       slideIndex,
-      // categoryColor,
       categories,
       isFilterable
     } = this.props;
@@ -31,8 +30,6 @@ class ContentPanel extends Component {
     if (categories) {
       cat = categories[0]
     }
-    
-    console.log(this.props.categories)
 
     return (
       <MediaQuery maxWidth={767}>
