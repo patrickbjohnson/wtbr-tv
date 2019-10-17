@@ -35,30 +35,32 @@ class Accordion extends Component {
 
         return (
             <div className={cx(styles.accordion)}>
-                {set && set.map(item => (
-                    <div
-                        className={cx(styles.item, {
-                            [styles.isActive]: this.isActiveItem(item.id)
-                        })}
-                        key={item.id}
-                    >
-                        <div onClick={() => this.clickHandler(item)} className={styles.itemTitle}>
-                            {item.title}
-                            <div className={cx(styles.icon, {
+                <div className={cx(styles.accordionInner)}>
+                    {set && set.map(item => (
+                        <div
+                            className={cx(styles.item, {
                                 [styles.isActive]: this.isActiveItem(item.id)
-                            })}>
-                                <svg width='16' height='16' xmlns='http://www.w3.org/2000/svg'><path d='M9 7h7v2H9v7H7V9H0V7h7V0h2v7z' fillRule='evenodd' /></svg>
+                            })}
+                            key={item.id}
+                        >
+                            <div onClick={() => this.clickHandler(item)} className={styles.itemTitle}>
+                                {item.title}
+                                <div className={cx(styles.icon, {
+                                    [styles.isActive]: this.isActiveItem(item.id)
+                                })}>
+                                    <svg width='16' height='16' xmlns='http://www.w3.org/2000/svg'><path d='M9 7h7v2H9v7H7V9H0V7h7V0h2v7z' fillRule='evenodd' /></svg>
+                                </div>
                             </div>
-                        </div>
 
-                        <Markdown className={cx(styles.body, {
-                            'tal': alignment === 'Left',
-                            'tac': alignment === 'Center',
-                            'tar': alignment === 'Right'
-                        })} source={item.description.description} />
-                    </div>
-                ))}
-            </div>
+                            <Markdown className={cx(styles.body, {
+                                'tal': alignment === 'Left',
+                                'tac': alignment === 'Center',
+                                'tar': alignment === 'Right'
+                            })} source={item.description.description} />
+                        </div>
+                    ))}
+                </div>
+            </div> 
         )
     }
 

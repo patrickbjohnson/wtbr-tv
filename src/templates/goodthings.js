@@ -148,11 +148,13 @@ class GoodThings extends React.Component {
               </div>
             </div>
             <div>
-              {accordion && accordion.map((a) => {
-                return (
-                  <Accordion key={Math.random()} set={a.activeJobs} alignment={a.textAlignment}/>
-                )
-              })}
+              <div>
+                {accordion && accordion.map((a) => {
+                  return (
+                    <Accordion key={Math.random()} set={a.activeJobs} alignment={a.textAlignment}/>
+                  )
+                })}
+              </div>
 
               {features && features.map((f) => {
                 return (
