@@ -1,6 +1,7 @@
 import React, { createRef }from 'react'
 import { graphql } from 'gatsby'
 import { ParallaxProvider } from 'react-scroll-parallax'
+import MediaQuery from 'react-responsive'
 import throttle from 'lodash.throttle'
 import get from 'lodash/get'
 import cx from 'classnames'
@@ -18,10 +19,17 @@ import VisibilitySensor from '../components/VisibilitySensor'
 import styles from './goodthings.module.css'
 import header from '../components/section-header.module.css'
 
-const Header = ({text}) => {
+const Header = ({text, noe}) => {
   return (
-    <div className={header.block}>
-      <h2 className={cx(header.text, header.noOutline, header.tac, header.noe, styles.header)}>{text}</h2>
+    <div className={cx(header.block, styles.headerBlock)}>
+      <h2 className={cx(
+        header.text, 
+        header.noOutline, 
+        header.tac, 
+        styles.header, {
+          [header.noe]: noe,
+          [styles.midHeadline]: noe
+        })}>{text}</h2>
     </div>
   )
 }
@@ -79,6 +87,7 @@ class GoodThings extends React.Component {
       accordion,
       features
     } = this.state
+    
     return (
       <ParallaxProvider>
         <PageHead data={this.props.data.contentfulPage} location={this.props.location} />
@@ -86,35 +95,51 @@ class GoodThings extends React.Component {
           <div className={styles.hero} ref={this.hero}></div>
           <div className={styles.wrapper}>
             <div className={styles.layout}
-              style={{position: 'relative', 'zIndex': 2, 'paddingTop': '150px'}}
+              style={{position: 'relative', 'zIndex': 2}}
             >
               <Transition className={styles.col}>
                   <img className={styles.sticky} src={logo} alt="Good Things"/>
               </Transition>
               <div className={styles.col}>
                 <Transition delay={250} >
-                  <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
+                  <div className={styles.fullHeight}>
+                    <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
 
-                  <div className={styles.section}>
-                    <Header text="Mission"/>
-                    <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
+                    <div className={styles.section}>
+                      <Header text="Mission"/>
+                      <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
+                    </div>
                   </div>
                 </Transition>
                 {people &&
                   <div className={styles.section}>
-                    <Header text="Good People"/>
+                    <VisibilitySensor once>
+                      {({ isVisible }) => {
+                        return (
+                          <FadeUp isVisible={isVisible} delay={0}>
+                            <Header noe text="Good People"/>
+                          </FadeUp>
+                      )}}
+                    </VisibilitySensor>
 
                     {people.map((p, i) => {
                       return p.blocks.map((v) => {
                         return (
-                          <VisibilitySensor once>
-                            {({ isVisible }) => {
-                              return (
-                                <FadeUp isVisible={isVisible} delay={0}>
-                                  <GoodPerson key={v.id} {...v} />
-                                </FadeUp>
-                            )}}
-                          </VisibilitySensor>
+                          <>
+                            <MediaQuery minWidth={1024}>
+                              <VisibilitySensor once>
+                                {({ isVisible }) => {
+                                  return (
+                                    <FadeUp isVisible={isVisible} delay={0}>
+                                      <GoodPerson key={v.id} {...v} />
+                                    </FadeUp>
+                                )}}
+                              </VisibilitySensor>
+                            </MediaQuery>
+                            <MediaQuery maxWidth={1024}>
+                              <GoodPerson key={v.id} {...v} />
+                            </MediaQuery>
+                          </>
                         )
                       })
                     })}

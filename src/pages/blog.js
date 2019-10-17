@@ -53,8 +53,6 @@ class BlogIndex extends React.Component {
 
           <ScrollToTop clickHandler={this.clickToScrollHandler}/>
         </div>
-
-
       </Layout>
     )
   }
@@ -105,6 +103,10 @@ export const pageQuery = graphql`
             childMarkdownRemark {
               html
             }
+          }
+          video {
+            id
+            videoUrl
           }
           image {
             fluid {

@@ -9,15 +9,13 @@ export default function Capabilities (props) {
     capabilities
   } = props 
   
-  console.log(title, capabilities)
-  
   return (
     <div className={styles.section}>
       <SectionHeader text={title} classes='wrapper' />
       {capabilities.length > 0 && 
         <div className={styles.grid}>
           {capabilities.map((cap) => {
-            console.log(cap)
+
             return (
               <div className={styles.col} key={cap.id}>
                 {cap.image &&

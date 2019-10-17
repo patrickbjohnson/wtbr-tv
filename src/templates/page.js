@@ -9,7 +9,6 @@ import ContentBlockGrid from '../components/ContentGrid'
 import ContentHero from '../components/content-hero'
 import FeaturedPosts from '../components/featured-posts'
 import Layout from '../components/layout'
-import HeroSlider from '../components/multi-slide-hero'
 import HomeHero from '../components/home-hero'
 import MobileContentGrid from '../components/MobileContentGrid'
 import PageHead from '../components/PageHead'
@@ -21,13 +20,11 @@ import Capabilities from '../components/capabilities'
 import base from '../components/base.css'
 
 const cleanComponentName = (component) => {
-    return component.replace('Contentful', '');
+  return component.replace('Contentful', '');
 }
-
 
 const Page = (props) => {
   const { components, slug } = props.data.contentfulPage;
-
   const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
 
   return (
@@ -36,8 +33,12 @@ const Page = (props) => {
       <StickerPicker />
       <Layout>
         <div className={cx('pageContainer', slug)}>
-          {(slug === 'home' && hasVideo) &&
-            <HomeHero key={hasVideo[0].id} {...hasVideo[0]}/>
+          {(hasVideo.length > 0) &&
+            <HomeHero 
+              key={hasVideo[0].id} 
+              hasText={(slug === 'home')}
+              {...hasVideo[0]}
+            />
           }
           <div style={{backgroundColor: '#fff', 'position': 'relative', 'zIndex': 2}}>
             {components && components.map(component => {

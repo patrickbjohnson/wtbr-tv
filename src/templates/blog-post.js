@@ -11,11 +11,11 @@ class BlogPostTemplate extends React.Component {
   render() {
     const post = get(this.props, 'data.contentfulBlogPost')
     const siteTitle = get(this.props, 'data.site.siteMetadata.title')
-
     return (
       <Layout location={this.props.location} >
           <Helmet title={`${post.title} | ${siteTitle}`} />
           <div className={heroStyles.hero}>
+            
             <Img className={heroStyles.heroImage} alt={post.title} fluid={post.image.fluid} />
           </div>
           <div className="wrapper">
@@ -50,6 +50,10 @@ export const pageQuery = graphql`
       body {
         id
         body
+      }
+      video {
+        id
+        videoUrl
       }
       image {
         fluid {

@@ -2,6 +2,7 @@ import React from 'react'
 import { Link } from 'gatsby'
 import Img from 'gatsby-image'
 import Markdown from 'react-markdown'
+import VideoPlayer from './video-player'
 
 import styles from './article-preview.module.css'
 
@@ -27,7 +28,13 @@ export default ({ article }) => {
       <h2 className={styles.title}>{node.title}</h2>
       <small>{formatDate(node.publishDate)}</small>
     </div>
-    <Img className={styles.image} alt={node.title} fluid={node.image.fluid} />
+    {node.video && 
+      <VideoPlayer videoUrl={node.video.videoUrl}/>
+    }
+    {(!node.video && node.image) &&
+      <Img className={styles.image} alt={node.title} fluid={node.image.fluid} />
+    }
+    
     <div className={styles.content}>
     <Markdown 
       className={styles.body} 
