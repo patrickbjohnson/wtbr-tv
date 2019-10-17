@@ -1,5 +1,4 @@
 .section {
-
   padding-bottom: 100px;
 }
 
@@ -27,6 +26,9 @@
 }
 
 .col {
+  max-width: 100%;
+  width: 100%;
+  margin: auto;
   margin-bottom: 50px;
 }
 
@@ -40,9 +42,9 @@
 .list {
   list-style: none;
   padding: 0;
-  margin: 0;
   text-align: center;
   max-width: 200px;
+  margin: 0 auto;
 }
 
 .list li {

@@ -56,7 +56,13 @@ a {
 }
 
 .pageContainer {
-  padding-top: 80px;
+  padding-top: 70px;
+}
+
+@media (min-width: 1024px) {
+  .pageContainer {
+    padding-top: 80px;
+  } 
 }
 
 .pageContainer.jobs {
