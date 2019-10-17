@@ -32,7 +32,6 @@ class BlogIndex extends React.Component {
     const posts = get(this, 'props.data.allContentfulBlogPost.edges')
     const components = get(this, 'props.data.contentfulPage.components')
     const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
-
     return (
       <Layout>
         <PageHead data={this.props.data.contentfulPage} />
@@ -42,7 +41,9 @@ class BlogIndex extends React.Component {
         }
 
         <div className={styles.wrapper}>
-          <Ticker articles={posts} />
+          {this.props.data.contentfulPage.tickerText &&
+          <Ticker textString={this.props.data.contentfulPage.tickerText}/>
+          }
           <div className="wrapper">
             <ul className="article-list">
               {posts.map( (post, i) => {
@@ -77,6 +78,7 @@ export const pageQuery = graphql`
           ...GatsbyContentfulFluid
         }
       }
+      tickerText
       components {
         __typename
         ... on ContentfulVideoHero {
