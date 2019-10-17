@@ -8,10 +8,6 @@
     padding-bottom: 100px;
 }
 
-[class~='accordion']:last-of-type  {
-    background: #000;
-}
-
 .accordionInner {
     border: 1px solid #000;
 }
