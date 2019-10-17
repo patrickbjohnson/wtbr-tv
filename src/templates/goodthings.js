@@ -191,7 +191,10 @@ export const pageQuery = graphql`
                 body {
                   body
                 }
-                categoryColor
+                categories {
+                  categoryColor
+                  category
+                }
                 title
                 type
                 image {

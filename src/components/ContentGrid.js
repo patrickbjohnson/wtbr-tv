@@ -46,6 +46,7 @@ class ContentGrid extends Component {
     this.flickity = null
     this.mq = null
     this.matches = false
+    this.innerPanel = null
     this.flickOptions = {
       cellAlign: 'left',
       contain: true,
@@ -209,7 +210,9 @@ class ContentGrid extends Component {
       this.pauseVideos()
 
       setTimeout(() => {
-        this.contentPanel.current.style.height = `675px`
+        const panel = this.contentPanel.current;
+        const inner = panel.querySelector('[data-panel-inner="true"]')
+        this.contentPanel.current.style.height = `${inner.scrollHeight}px`
       }, 0)
     })
 
@@ -224,22 +227,22 @@ class ContentGrid extends Component {
   }
 
   initCategories = (blocks) => {
-
-    if (!this.props.displayCategory) return;
-
-    const cats = blocks.map((block) => {
-      const color = block.categoryColor
-      const cs = flatten(block.categoryTags);
-
-      return cs.map((cat) => {
+    let cats = blocks.map((block) => {
+      if (!block.categories) return
+      return block.categories.map((cat) => {
         return {
-          title: cat,
-          color: color,
-          slug: slugify(cat)
+          title: cat.category,
+          color: cat.categoryColor,
+          slug: slugify(cat.category)
         }
       })
     })
-
+    
+    
+    cats = cats.filter(function (el) {
+      return el != null;
+    });
+    
     this.setState({
       categories: uniqBy(flatten(cats), 'slug'),
     })
@@ -393,7 +396,8 @@ class ContentGrid extends Component {
                       key={i}
                       isFilterable={displayCategory}
                       currentSlide={active}
-                      slideIndex={i} {...b}
+                      slideIndex={i} 
+                      {...b}
                     />
                   )
                 })}
@@ -408,7 +412,14 @@ class ContentGrid extends Component {
                     this.setState({
                       activeSlide: blocks[this.flickity.selectedIndex]
                     })
-                  }}>Prev</button>
+                  }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="27">
+                      <g fillRule="evenodd">
+                        <path d="M15.071 24.657l-1.414 1.414L.929 13.343l1.414-1.414z"></path>
+                        <path d="M13.592.55l1.415 1.413L2.279 14.691.865 13.277z"></path>
+                      </g>
+                    </svg>
+                  </button>
 
                 <button
                   className={cx(styles.next, styles.btn)}
@@ -418,7 +429,14 @@ class ContentGrid extends Component {
                     this.setState({
                       activeSlide: blocks[this.flickity.selectedIndex]
                     })
-                  }}>Next</button>
+                  }}>
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="27">
+                      <g fillRule="evenodd">
+                        <path d="M.929 2.343L2.343.93l12.728 12.728-1.414 1.414z"></path>
+                        <path d="M2.408 26.45L.993 25.038 13.721 12.31l1.414 1.414z"></path>
+                      </g>
+                    </svg>
+                  </button>
               </div>
             </div>
           </div>

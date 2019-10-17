@@ -147,9 +147,13 @@ export const pageQuery = graphql`
             body {
               body
             }
-            categoryTags
-            categoryColor
+            categories {
+              category
+              categoryColor
+            }
             title
+            projectTitle
+            client
             type
             image {
               title
@@ -193,7 +197,10 @@ export const pageQuery = graphql`
               body {
                 body
               }
-              categoryColor
+              categories {
+                category
+                categoryColor
+              }
               title
               type
               image {

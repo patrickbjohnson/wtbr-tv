@@ -18,23 +18,34 @@ class ContentPanel extends Component {
       image,
       body,
       videos,
+      client, 
+      projectTitle,
       currentSlide,
       slideIndex,
-      categoryColor,
+      // categoryColor,
+      categories,
       isFilterable
     } = this.props;
+    
+    let cat = null
+    if (categories) {
+      cat = categories[0]
+    }
+    
+    console.log(this.props.categories)
 
     return (
       <MediaQuery maxWidth={767}>
           {(isMobile) => (
             <div className={cx(styles.block, {[styles.mobileBlock]: isMobile})}
               style={{
-                'backgroundColor' : (categoryColor && !isFilterable) ? categoryColor : '#fff'
+                'backgroundColor' : (cat && !isFilterable) ? cat.categoryColor : '#fff'
               }}
             >
-              <div className={styles.inner}>
+              <div className={styles.inner} data-panel-inner="true">
                 <div className={styles.content}>
-                  <h2 className={styles.title}>{title}</h2>
+                  <h2 className={styles.title}>{client}</h2>
+                  <p className={styles.project}>{projectTitle}</p>
                   {body &&
                     <Markdown
                       className={styles.body}

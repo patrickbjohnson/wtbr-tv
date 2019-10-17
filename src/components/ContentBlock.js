@@ -12,6 +12,8 @@ export default ({
   inGrid,
   subTitle,
   title,
+  client, 
+  projectTitle,
   panelIsOpen,
 }) => (
     <div className={cx(styles.block, {
@@ -40,9 +42,8 @@ export default ({
         </div>
 
         <div className={styles.body}>
-            <h2 className={styles.title}>{title}</h2>
-            <h3 className={styles.subtitle}>{subTitle}</h3>
-            <p className={styles.desc}>{description}</p>
+            <h2 className={styles.title}>{client}</h2>
+            <h3 className={styles.subtitle}>{projectTitle}</h3>
         </div>
     </div>
 )

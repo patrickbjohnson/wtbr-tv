@@ -22,6 +22,8 @@ class ContentPanel extends Component {
             body,
             videos,
             currentSlide,
+            projectTitle,
+            client
             slideIndex
         } = this.props;
 
@@ -29,7 +31,8 @@ class ContentPanel extends Component {
             <div className={styles.block}>
                 <div className={styles.inner}>
                     <div className={styles.content}>
-                        <h2 className={styles.title}>{title}</h2>
+                        <h2 className={styles.title}>{client}</h2>
+                        <p className={styles.project}>{projectTitle}</p>
                         {body &&
                             <Markdown
                                 className={styles.body}
@@ -62,7 +65,6 @@ class ContentPanel extends Component {
                             />
                         }
                     </div>
-
                 </div>
             </div>
         )

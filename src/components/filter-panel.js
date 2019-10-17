@@ -12,6 +12,8 @@ class FilterPanel extends Component {
     }
 
     getColorScheme(color, hovered, selected) {
+        console.log(color)
+      if (!color) return
       if (hovered || selected) {
         return {
             backgroundColor: color || '#999',

@@ -44,9 +44,16 @@
     font-weight: 500;
     line-height: normal;
     margin-top: 0;
-    margin-bottom: 20px;
+    margin-bottom: 0;
 }
 
+.project {
+    font-size: 15px;
+    line-height: 1.13;
+    letter-spacing: .02em;
+    margin-top: 0;
+    text-transform: uppercase;
+}
 
 .text {
     width: 420px;
@@ -191,6 +198,11 @@
     .mediaContent {
         padding-top: 110px;
         padding-bottom: 110px;
+    }
+    
+    .project {
+        font-size: 25px;
+        line-height: 1.1;
     }
 }
 

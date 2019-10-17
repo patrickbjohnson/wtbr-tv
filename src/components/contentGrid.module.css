@@ -84,12 +84,10 @@
 
 .prev {
     left: 10px;
-    transform: rotate(-90deg);
 }
 
 .next {
     right: 10px;
-    transform: rotate(90deg);
 }
 
 .hidden {
