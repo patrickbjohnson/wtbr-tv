@@ -1,5 +1,6 @@
 .blogHero {
   margin-bottom: 0 !important;
+  overflow: hidden;
 }
 
 .wrapper {
@@ -8,13 +9,12 @@
   z-index: 2;
 }
 
-
 .scroll {
   display: block;
   position: fixed;
   bottom: 100px;
   right: 0;
-  width: 40px;
+  width: 60px;
   height: 40px;
   background: #fff;
   border: 1px solid #000;

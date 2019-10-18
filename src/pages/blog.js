@@ -33,6 +33,7 @@ class BlogIndex extends React.Component {
     const components = get(this, 'props.data.contentfulPage.components')
     const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
     return (
+      <>
       <Layout>
         <PageHead data={this.props.data.contentfulPage} />
 
@@ -50,11 +51,13 @@ class BlogIndex extends React.Component {
                 return <ArticlePreview key={post.node.id} article={post} />
               })}
             </ul>
+            
           </div>
-
-          <ScrollToTop clickHandler={this.clickToScrollHandler}/>
         </div>
+        
       </Layout>
+      <ScrollToTop clickHandler={this.clickToScrollHandler}/>
+      </>
     )
   }
 }
