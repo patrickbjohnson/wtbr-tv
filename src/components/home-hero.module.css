@@ -1,5 +1,7 @@
 .block {
-    width: 100vw;
+    background-color: white;
+    position: relative;
+    z-index: 100;
 }
 
 .title {
@@ -15,65 +17,98 @@
 }
 
 .videoWrapper {
-    position: sticky;
-    height: 100vh;
-    width: 100vw;
-    z-index: 1;
+    padding-bottom: 56.25%;
+    height: 0;
     overflow: hidden;
-    background: #000;
-    top: 0;
 }
 
-.videoWrapper iframe {
-    width: 100vw;
-    height: 56.25vw; /* Given a 16:9 aspect ratio, 9/16*100 = 56.25 */
-    min-height: 100vh;
-    min-width: 177.77vh; /* Given a 16:9 aspect ratio, 16/9*100 = 177.77 */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
- }
-
- .video {
+.video {
     opacity: 0;
-    transform: scale(1);
-    transition: opacity 1000ms ease;
-    min-width: 100%;
-    min-height: 100%;
- }
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+}
 
- .loaded {
+.loaded {
     opacity: 1;
- }
+}
+
 
 .section {
-    height: calc(100vh - 70px);
-    min-width: 100vw;
-    display: flex;
-    align-items: center;
-}
-
-.singlePanel {
     position: absolute;
-    height: 100vh;
-    width: 100vw;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
+@media (min-width: 768px) {
+    .title {
+        font-size: 70px;
+    }
+}
 
 @media (min-width: 1024px) {
     .block {
         position: relative;
     }
+    
+    .videoWrapper {
+        position: sticky;
+        height: 100vh;
+        width: 100vw;
+        z-index: 1;
+        overflow: hidden;
+        background: #000;
+        top: 0;
+        padding-bottom: 0;
+    }
+    
+    .videoWrapper:after {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0,0,0,.18);
+        display: block;
+        z-index: 999;
+    }
+    
+    .video {
+        position: relative;
+        top: auto;
+        bottom: auto;
+        left: auto;
+        right: auto;
+        width: auto;
+        transform: scale(1);
+        transition: opacity 1000ms ease;
+        min-width: 100%;
+        min-height: 100%;
+    }
 
     .content {
-        margin-left: 128px;
+        margin-left: 5%;
         width: 768px;
         z-index: 2;
         transition: .5s ease-out;
         position: sticky;
         top: 45%;
-        margin-bottom: 320px;
+        margin-bottom: 25vh;
+    }
+    
+    .section {
+        height: calc(100vh - 70px);
+        min-width: 100vw;
+        display: flex;
+        align-items: center;
+        position: relative;
+        top: 0;
+        transform: translateY(0);
+        z-index: 1;
     }
 
     .title {
@@ -81,6 +116,14 @@
         line-height: 1.08;
         margin-top: 0;
         margin-bottom: 0;
+    }
+    
+    .video {
+        left: 50%;
+        transform: translateX(-50%);
+        position: absolute;
+        left: 50%;
+        transform: translateX(-50%);
     }
 }
 

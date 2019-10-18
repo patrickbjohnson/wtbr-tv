@@ -177,22 +177,22 @@ class ContentGrid extends Component {
       }
     
       initCategories = (blocks) => {
-  
-        if (!this.props.displayCategory) return;
-    
-        const cats = blocks.map((block) => {
-          const color = block.categoryColor
-          const cs = flatten(block.categoryTags);
-    
-          return cs.map((cat) => {
+        let cats = blocks.map((block) => {
+          if (!block.categories) return
+          return block.categories.map((cat) => {
             return {
-              title: cat,
-              color: color,
-              slug: slugify(cat)
+              title: cat.category,
+              color: cat.categoryColor,
+              slug: slugify(cat.category)
             }
           })
         })
-    
+        
+        
+        cats = cats.filter(function (el) {
+          return el != null;
+        });
+        
         this.setState({
           categories: uniqBy(flatten(cats), 'slug'),
         })
