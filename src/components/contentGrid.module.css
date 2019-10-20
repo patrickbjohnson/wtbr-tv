@@ -66,16 +66,22 @@
 .btn {
     display: block;
     position: absolute;
-    top: 50%;
+    top: calc(50% - 13px);
     cursor: pointer;
     text-transform: uppercase;
     appearance: none;
     border: 0;
     border-radius: 0;
     z-index: 999;
-    transform: translateY(-50%);
     font-size: 13px;
     background-color: transparent;
+    -webkit-transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
+}
+
+.btn svg {
+    -webkit-transform-style: preserve-3d;
+    -webkit-backface-visibility: hidden;
 }
 
 .btn[disabled] {
@@ -133,6 +139,8 @@
         border-radius: 0;
         border: 0;
         outline: 0;
+        -webkit-transform-style: preserve-3d;
+        -webkit-backface-visibility: hidden;
     }
 
     .closeBtn:before,
@@ -145,6 +153,8 @@
         background-color: #000;
         top: 50%;
         left: 50%;
+        -webkit-transform-style: preserve-3d;
+        -webkit-backface-visibility: hidden;
     }
 
     .closeBtn:before {
@@ -154,12 +164,12 @@
     .closeBtn:after {
         transform: translateY(-50%) rotate(-45deg);
     }
-    
+
     .fullHeight {
         height: 600px;
         transition: height .25s ease-out, opacity .5s ease-out .45s;
     }
-    
+
     .full {
         transition: height .25s ease-out;
     }

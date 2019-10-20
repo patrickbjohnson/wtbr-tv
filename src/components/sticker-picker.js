@@ -137,7 +137,7 @@ const StickerPicker = () => {
     return (
         <>
             { availableStickers.length > 0
-              && buttonTransition.map(({ item, key, props }) => console.log('item', item) || item && (
+              && buttonTransition.map(({ item, key, props }) => item && (
                 <animated.div key={key} className={styles.buttonWrapper} style={props}>
                   <img onClick={addSticker} className={styles.button} src={button} />
                 </animated.div>
