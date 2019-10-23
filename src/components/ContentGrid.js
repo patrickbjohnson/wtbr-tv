@@ -237,12 +237,12 @@ class ContentGrid extends Component {
         }
       })
     })
-    
-    
+
+
     cats = cats.filter(function (el) {
       return el != null;
     });
-    
+
     this.setState({
       categories: uniqBy(flatten(cats), 'slug'),
     })
@@ -321,8 +321,14 @@ class ContentGrid extends Component {
     return this.flickity.selectedIndex === 0 ? 'disabled' : ''
   }
 
-  showLoadMore = () => {
-    return this.state.isUnfixed && !this.state.showAll
+  handlePrev = () => {
+    this.flickity.previous()
+    this.setState({ activeSlide: this.state.blocks[this.flickity.selectedIndex] })
+  }
+
+  handleNext = () => {
+    this.flickity.next()
+    this.setState({ activeSlide: this.state.blocks[this.flickity.selectedIndex] })
   }
 
   render() {
@@ -383,20 +389,15 @@ class ContentGrid extends Component {
               }}
               ref={this.contentPanel}
               >
-                <button
-                className={cx(styles.closeBtn)}
-                onClick={() => this.closePanel()} />
-              <div
-                className={styles.slider}
-                ref={this.slider}
-              >
+                <button className={cx(styles.closeBtn)} onClick={this.closePanel} />
+              <div className={styles.slider} ref={this.slider}>
                 {blocks && blocks.map((b, i) => {
                   return (
                     <ContentPanel
                       key={i}
                       isFilterable={displayCategory}
                       currentSlide={active}
-                      slideIndex={i} 
+                      slideIndex={i}
                       {...b}
                     />
                   )
@@ -407,12 +408,7 @@ class ContentGrid extends Component {
                 <button
                   className={cx(styles.prev, styles.btn)}
                   disabled={this.state.isFirst}
-                  onClick={() => {
-                    this.flickity.previous()
-                    this.setState({
-                      activeSlide: blocks[this.flickity.selectedIndex]
-                    })
-                  }}>
+                  onClick={this.handlePrev}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="27">
                       <g fillRule="evenodd">
                         <path d="M15.071 24.657l-1.414 1.414L.929 13.343l1.414-1.414z"></path>
@@ -424,12 +420,7 @@ class ContentGrid extends Component {
                 <button
                   className={cx(styles.next, styles.btn)}
                   disabled={this.state.isLast}
-                  onClick={() => {
-                    this.flickity.next()
-                    this.setState({
-                      activeSlide: blocks[this.flickity.selectedIndex]
-                    })
-                  }}>
+                  onClick={this.handleNext}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="27">
                       <g fillRule="evenodd">
                         <path d="M.929 2.343L2.343.93l12.728 12.728-1.414 1.414z"></path>
@@ -447,9 +438,9 @@ class ContentGrid extends Component {
               selected={catSelected}
               refHandler={(el) => this.filterPanel = el}
               selectionHandler={this.filterContentSelection}
-              panelHandler={this.showLoadMore() ? this.loadMore : this.filterHeightToggle}
+              panelHandler={this.state.isUnfixed && !this.state.showAll ? this.loadMore : this.filterHeightToggle}
               resetHandler={this.filterReset}
-              text={this.showLoadMore() ? 'Load More' : 'Filter'}
+              text={this.state.isUnfixed && !this.state.showAll ? 'Load More' : 'Filter'}
             />
           }
         </div>
