@@ -29,6 +29,7 @@ class BlogIndex extends React.Component {
   }
 
   render() {
+    console.log(this.props.data.contentfulPage)
     const posts = get(this, 'props.data.allContentfulBlogPost.edges')
     const components = get(this, 'props.data.contentfulPage.components')
     const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
@@ -71,7 +72,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    contentfulPage(slug: {eq: "happenings"}) {
+    contentfulPage(template: {eq: "Blog"}) {
       slug
       pageName
       metaDescription

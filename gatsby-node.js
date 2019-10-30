@@ -9,6 +9,11 @@ exports.createPages = ({ graphql, actions }) => {
     const postTemplate = require.resolve('./src/templates/blog-post.js')
     const goodThings = require.resolve('./src/templates/goodthings.js')
     const blog = require.resolve('./src/pages/blog.js')
+    const templates = {
+      'Blog': blog, 
+      'Good Things': goodThings,
+      'Basic Page': pageTemplate
+    }
     
     resolve(
       graphql(
@@ -25,6 +30,7 @@ exports.createPages = ({ graphql, actions }) => {
             edges {
               node {
                 slug
+                template
               }
             }
           }
@@ -37,15 +43,13 @@ exports.createPages = ({ graphql, actions }) => {
 
         const pages = result.data.allContentfulPage.edges
 
+        let blogSlug = ''
         pages.forEach((page, index) => {
           const slug = page.node.slug.toLowerCase();
+          const template = page.node.template ? templates[page.node.template] : templates['Basic Page']
           
-          if (slug === 'happenings') {
-            template = blog
-          } else if (slug === 'goodthings') {
-            template = goodThings
-          } else {
-            template = pageTemplate
+          if (page.node.template === 'Blog') {
+            blogSlug === page.node.slug
           }
           
           createPage({
@@ -61,8 +65,10 @@ exports.createPages = ({ graphql, actions }) => {
         posts.forEach((post, index) => {
           const slug = post.node.slug.toLowerCase();
           
+          console.log('BLOG SLUG! ', blogSlug)
+          
           createPage({
-            path: `/happenings/${slug}/`,
+            path: `/${blogSlug}/${slug}/`,
             component: postTemplate,
             context: {
               slug: slug
