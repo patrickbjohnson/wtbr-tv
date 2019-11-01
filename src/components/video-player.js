@@ -7,7 +7,7 @@ import styles from '../components/video-player.module.css'
 function VideoPlayer({ caption, videoUrl, ...rest }) {
   return (
     <div className={cx(styles.block)}>
-      <video controls className={cx(styles.video)}>
+      <video controls className={cx(styles.video, 'video-player')}>
         <source src={videoUrl} />
       </video>
       {caption &&

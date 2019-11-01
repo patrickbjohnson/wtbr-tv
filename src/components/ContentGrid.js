@@ -180,8 +180,10 @@ class ContentGrid extends Component {
 
   pauseVideos = () => {
     var videos = document.getElementsByTagName("video");
+    
     for (let video of videos) {
-        video.pause();
+      if (!video.classList.contains('video-player')) continue
+      video.pause();
     }
   }
 
@@ -323,18 +325,20 @@ class ContentGrid extends Component {
     })
   }
 
-  isLastSlide = () => {
-    return this.flickity.selectedIndex === 0 ? 'disabled' : ''
-  }
+  isLastSlide = () => (this.flickity.selectedIndex === 0 ? 'disabled' : '')
 
   handlePrev = () => {
     this.flickity.previous()
-    this.setState({ activeSlide: this.state.blocks[this.flickity.selectedIndex] })
+    this.setState({ 
+      activeSlide: this.state.blocks[this.flickity.selectedIndex] 
+    }, this.pauseVideos())
   }
 
   handleNext = () => {
     this.flickity.next()
-    this.setState({ activeSlide: this.state.blocks[this.flickity.selectedIndex] })
+    this.setState({ 
+      activeSlide: this.state.blocks[this.flickity.selectedIndex] 
+    }, this.pauseVideos())
   }
 
   render() {
