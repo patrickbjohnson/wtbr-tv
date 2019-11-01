@@ -278,10 +278,11 @@ class ContentGrid extends Component {
       base,
       categories
     } = this.state
+    
 
     const slugIndex = this.activeSlugs.indexOf(slug)
     let shouldResetResults = slug === '*'
-
+    
     if (shouldResetResults || categories.length === this.activeSlugs.length) {
       this.activeSlugs = []
     } else if (slugIndex > -1) {
@@ -292,12 +293,18 @@ class ContentGrid extends Component {
 
     this.activeSlugs = uniq(this.activeSlugs)
 
+    console.log(this.activeSlugs)
     if (categories.length === this.activeSlugs.length) {
       shouldResetResults = true
       this.activeSlugs = []
     }
-
-    const results = shouldResetResults ? base : base.filter(b => b.categoryTags.some((r) => this.activeSlugs.indexOf(slugify(r)) > -1));
+    
+    const results = shouldResetResults ? base : base.filter(b => {
+      return b.categories ? b.categories.some((r) => {
+        return this.activeSlugs.indexOf(slugify(r.category)) > -1
+      }) : false
+    });
+    
     this.filterHeightToggle()
     /**
      * Have to destroy flickity first
