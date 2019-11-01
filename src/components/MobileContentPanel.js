@@ -24,11 +24,14 @@ class ContentPanel extends Component {
             currentSlide,
             projectTitle,
             client,
-            slideIndex
+            slideIndex,
+            isFeatured
         } = this.props;
 
         return (
-            <div className={styles.block}>
+            <div className={cx(styles.block, {
+                [styles.isFeatured]: isFeatured
+            })}>
                 <div className={styles.inner}>
                     <div className={styles.content}>
                         <h2 className={styles.title}>{client}</h2>

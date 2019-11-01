@@ -125,6 +125,10 @@
     text-decoration: underline;
 }
 
+.isFeatured {
+    padding-top: 20px !important;
+}
+
 @media (min-width: 768px) {
 
     .block.mobileBlock {

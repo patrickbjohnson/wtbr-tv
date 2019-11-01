@@ -23,7 +23,8 @@ class ContentPanel extends Component {
       currentSlide,
       slideIndex,
       categories,
-      isFilterable
+      isFilterable,
+      isFeatured
     } = this.props;
     
     let cat = null
@@ -33,66 +34,70 @@ class ContentPanel extends Component {
 
     return (
       <MediaQuery maxWidth={767}>
-          {(isMobile) => (
-            <div className={cx(styles.block, {[styles.mobileBlock]: isMobile})}
-              style={{
-                'backgroundColor' : (cat && !isFilterable) ? cat.categoryColor : '#fff'
-              }}
-            >
-              <div className={styles.inner} data-panel-inner="true">
-                <div className={styles.content}>
-                  <h2 className={styles.title}>{client}</h2>
-                  <p className={styles.project}>{projectTitle}</p>
-                  {body &&
-                    <Markdown
-                      className={styles.body}
-                      source={body.body}
-                    />
-                  }
-                </div>
+        
+        {(isMobile) => (
+          <div className={cx(styles.block, {
+            [styles.mobileBlock]: isMobile,
+            [styles.isFeatured]: isFeatured
+          })}
+            style={{
+              'backgroundColor' : (cat && !isFilterable) ? cat.categoryColor : '#fff'
+            }}
+          >
+            <div className={styles.inner} data-panel-inner="true">
+              <div className={styles.content}>
+                <h2 className={styles.title}>{client}</h2>
+                <p className={styles.project}>{projectTitle}</p>
+                {body &&
+                  <Markdown
+                    className={styles.body}
+                    source={body.body}
+                  />
+                }
+              </div>
 
-                <div className={styles.mediaContent}>
-                  {videos &&
-                    videos.map((v,i) => {
-                      if (v.__typename === 'ContentfulVideoBlock') {
-                        return (
-                          <VideoPlayer
-                            key={i}
-                            isCurrent={currentSlide}
-                            slideIndex={slideIndex}
-                            {...v}
-                          />
-                        )
-                      } 
-                      
-                      if (v.__typename === 'ContentfulImageBlock') {
-                        return (
-                          <Img
-                            className={cx(styles.media)}
-                            fluid={v.media.fluid}
-                            durationFadeIn={500}
-                            title={image.title}
-                            alt={image.title}
-                            fadeIn
-                          />
-                        )
-                      }
-                    })
-                  }
-                  {(image && !videos && !isMobile) &&
-                    <Img
-                      className={cx(styles.media)}
-                      fluid={image.fluid}
-                      durationFadeIn={500}
-                      title={image.title}
-                      alt={image.title}
-                      fadeIn
-                    />
-                  }
-                </div>
+              <div className={styles.mediaContent}>
+                {videos &&
+                  videos.map((v,i) => {
+                    if (v.__typename === 'ContentfulVideoBlock') {
+                      return (
+                        <VideoPlayer
+                          key={i}
+                          isCurrent={currentSlide}
+                          slideIndex={slideIndex}
+                          {...v}
+                        />
+                      )
+                    } 
+                    
+                    if (v.__typename === 'ContentfulImageBlock') {
+                      return (
+                        <Img
+                          className={cx(styles.media)}
+                          fluid={v.media.fluid}
+                          durationFadeIn={500}
+                          title={image.title}
+                          alt={image.title}
+                          fadeIn
+                        />
+                      )
+                    }
+                  })
+                }
+                {(image && !videos && !isMobile) &&
+                  <Img
+                    className={cx(styles.media)}
+                    fluid={image.fluid}
+                    durationFadeIn={500}
+                    title={image.title}
+                    alt={image.title}
+                    fadeIn
+                  />
+                }
               </div>
             </div>
-          )}
+          </div>
+        )}
       </MediaQuery>
     )
   }

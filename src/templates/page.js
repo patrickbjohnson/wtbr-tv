@@ -194,6 +194,8 @@ export const pageQuery = graphql`
           posts {
             ... on ContentfulContentBlock {
               id
+              projectTitle
+              client
               body {
                 body
               }

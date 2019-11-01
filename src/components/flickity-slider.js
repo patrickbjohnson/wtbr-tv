@@ -1,13 +1,11 @@
 import React, { Component, createRef } from 'react';
 import { Image, Link } from 'gatsby'
+import cx from 'classnames'
 import '../../node_modules/flickity/dist/flickity.css'
 import styles from '../components/flickity-slider.module.css'
-import cx from 'classnames'
-import ContentBlock from '../components/ContentBlock'
 import ContentPanel from '../components/content-panel'
 
 const Flickity = typeof window !== "undefined" ? require("flickity") : () => null
-
 
 /**
  *
@@ -43,7 +41,7 @@ class FlickitySlider extends Component {
     this.flickity = new Flickity(this.slider.current, {
       cellAlign: 'left',
       contain: true,
-      draggable: false
+      draggable: this.props.draggable ? true : false
     })
 
     Array.from(this.slider.current.querySelectorAll('.flickity-button'), (b) => b.style.display = 'none')
@@ -55,8 +53,8 @@ class FlickitySlider extends Component {
 
   setDisabledStates = () => {
     this.setState({
-        isFirst: this.flickity.selectedIndex === 0,
-        isLast: this.flickity.selectedIndex === (this.flickity.cells.length - 1)
+      isFirst: this.flickity.selectedIndex === 0,
+      isLast: this.flickity.selectedIndex === (this.flickity.cells.length - 1)
     })
   }
 
@@ -68,17 +66,42 @@ class FlickitySlider extends Component {
   }
 
   render() {
+    const {
+      slides,
+      active
+    } = this.state
+    
+    const {
+      isFeatured
+    } = this.props
+    
+    console.log('flickity: ', isFeatured)
 
     return (
-      <div className={styles.wrapper}>
+      <div className={cx(styles.wrapper, {
+        [styles.isFeatured]: isFeatured
+      })}>
         {Flickity &&
           <>
+            {slides &&
+            <div className={cx(styles.nav)}>
+              {slides.map((s, i) => {
+                return (<div className={cx(styles.dot, {
+                  [styles.activeDot]: i === active
+                })} key={s.id + 1}></div>)
+              })}
+            </div>
+            }
             <div className={styles.slider} ref={this.slider}>
-              {this.state.slides && this.state.slides.map((s, i) => {
+              {slides && slides.map((s, i) => {
                 if (s.type !== 'panel') {
                   return (
-                    <div className={styles.slide} key={s.id}>
-                      <ContentPanel {...s} currentSlide={this.state.active} slideIndex={i}/>
+                    <div className={cx(styles.slide)} key={s.id}>
+                      <ContentPanel {...s} 
+                        currentSlide={active} 
+                        slideIndex={i} 
+                        isFeatured 
+                      />
                     </div>
                   )
                 }
@@ -93,7 +116,12 @@ class FlickitySlider extends Component {
                   this.flickity.previous()
                 }}
               >
-                Previous
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="27">
+                  <g fillRule="evenodd">
+                    <path d="M15.071 24.657l-1.414 1.414L.929 13.343l1.414-1.414z"></path>
+                    <path d="M13.592.55l1.415 1.413L2.279 14.691.865 13.277z"></path>
+                  </g>
+                </svg>
               </button>
               <button
                 className={cx(styles.next, styles.btn)}
@@ -103,7 +131,12 @@ class FlickitySlider extends Component {
                   this.flickity.next()
                 }}
               >
-                Next
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="27">
+                  <g fillRule="evenodd">
+                    <path d="M.929 2.343L2.343.93l12.728 12.728-1.414 1.414z"></path>
+                    <path d="M2.408 26.45L.993 25.038 13.721 12.31l1.414 1.414z"></path>
+                  </g>
+                </svg>
               </button>
             </div>
           </>

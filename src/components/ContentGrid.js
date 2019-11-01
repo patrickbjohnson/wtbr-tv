@@ -293,7 +293,6 @@ class ContentGrid extends Component {
 
     this.activeSlugs = uniq(this.activeSlugs)
 
-    console.log(this.activeSlugs)
     if (categories.length === this.activeSlugs.length) {
       shouldResetResults = true
       this.activeSlugs = []
@@ -396,7 +395,7 @@ class ContentGrid extends Component {
               }}
               ref={this.contentPanel}
               >
-                <button className={cx(styles.closeBtn)} onClick={this.closePanel} />
+              <button className={cx(styles.closeBtn)} onClick={this.closePanel} />
               <div className={styles.slider} ref={this.slider}>
                 {blocks && blocks.map((b, i) => {
                   return (
