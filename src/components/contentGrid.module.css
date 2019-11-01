@@ -79,6 +79,10 @@
     -webkit-backface-visibility: hidden;
 }
 
+.btn:focus {
+    outline: 0;
+}
+
 .btn svg {
     -webkit-transform-style: preserve-3d;
     -webkit-backface-visibility: hidden;
