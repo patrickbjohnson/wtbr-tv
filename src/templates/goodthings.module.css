@@ -1,22 +1,13 @@
-.hero {
-    height: 200vh;
-    background-color: #6E98F0;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 1;
-}
-
 .wrapper {
   position: relative;
+  background-color: #fff;
+  background-image: linear-gradient(45deg, rgba(112, 152, 240, 1), rgba(112, 152, 240, 1));
+  z-index: 2;
 }
 
 .layout {
     padding-top: 140px;
     position: relative;
-    background-color: transparent;
     max-width: 1200px;
     padding-left: 30px;
     padding-right: 30px;
@@ -90,15 +81,15 @@ padding-bottom: 20px;
         line-height: 1.56;
         margin-top: 0;
     }
-    
+
     .header {
         font-size: 40px;
     }
-    
+
     .fullHeight {
         min-height: 100vh;
     }
-    
+
     .midHeadline {
         font-size: 60px;
         margin-bottom: 20px;

@@ -23,9 +23,9 @@ const Header = ({text, noe}) => {
   return (
     <div className={cx(header.block, styles.headerBlock)}>
       <h2 className={cx(
-        header.text, 
-        header.noOutline, 
-        header.tac, 
+        header.text,
+        header.noOutline,
+        header.tac,
         styles.header, {
           [header.noe]: noe,
           [styles.midHeadline]: noe
@@ -38,7 +38,7 @@ class GoodThings extends React.Component {
   constructor(props) {
     super(props)
 
-    this.hero = createRef()
+    this.wrapper = createRef()
     this.titles = []
     this.state = {
       people: null
@@ -56,8 +56,6 @@ class GoodThings extends React.Component {
       people: this.getComponentsByType('ContentfulGoodPeople', components),
       accordion: this.getComponentsByType('ContentfulAccordionList', components),
       features: this.getComponentsByType('ContentfulFeaturedPosts', components)
-    }, () => {
-      this.hero.current.style.height = `${document.body.scrollHeight}px`
     })
   }
 
@@ -66,12 +64,14 @@ class GoodThings extends React.Component {
   }
 
   scrollHandler = (e) => {
-    const hero = this.hero.current
-    if(!hero) return
-    const dims = hero.getBoundingClientRect()
+    const wrapper = this.wrapper.current
+    if(!wrapper) return
+    const dims = wrapper.getBoundingClientRect()
     const top = Math.abs(dims.top)
 
-    hero.style.opacity = 1 - (top/600)
+    const opacity = top <= 600 ? 1 - (top / 600).toFixed(2) : 0
+
+    wrapper.style.backgroundImage = `linear-gradient(45deg, rgba(112, 152, 240, ${opacity}), rgba(112, 152, 240, ${opacity}))`
   }
 
   getComponentsByType = (type, comp) => {
@@ -87,16 +87,13 @@ class GoodThings extends React.Component {
       accordion,
       features
     } = this.state
-    
+
     return (
       <ParallaxProvider>
         <PageHead data={this.props.data.contentfulPage} location={this.props.location} />
-        <Layout unfixed>
-          <div className={styles.hero} ref={this.hero}></div>
-          <div className={styles.wrapper}>
-            <div className={styles.layout}
-              style={{position: 'relative', 'zIndex': 2}}
-            >
+        <Layout>
+          <div className={styles.wrapper} ref={this.wrapper}>
+            <div className={styles.layout} style={{position: 'relative', 'zIndex': 2}}>
               <Transition className={styles.col}>
                   <img className={styles.sticky} src={logo} alt="Good Things"/>
               </Transition>
