@@ -59,13 +59,14 @@ const StickerPicker = () => {
     const { y } = useWindowScroll()
 
     useEffect(() => {
-      if(stickers.length > 0) {
+      if (stickers.length > 0) {
         setAvailableStickers(images)
         setStickers([])
       }
     }, [y])
 
     const getRandomSticker = () => {
+      console.log(availableStickers)
       return availableStickers[Math.floor(Math.random() * availableStickers.length)]
     }
 
@@ -113,8 +114,6 @@ const StickerPicker = () => {
             top: `${getRandomPosition(yMin, yMax)}px`,
           }
       }])
-
-      setAvailableStickers(availableStickers.filter(s => s !== sticker))
     }
 
     const transitions = useTransition(stickers, sticker => sticker.src, {
@@ -138,14 +137,14 @@ const StickerPicker = () => {
         <>
             { availableStickers.length > 0
               && buttonTransition.map(({ item, key, props }) => item && (
-                <animated.div key={key} className={styles.buttonWrapper} style={props}>
+                <animated.div key={Math.random()} className={styles.buttonWrapper} style={props}>
                   <img onClick={addSticker} className={styles.button} src={button} />
                 </animated.div>
               ))
             }
             <div className={styles.wrapper}>
                 { transitions.map(({ item, props, key }) =>
-                  <animated.div key={key} className={styles.stickerWrapper} style={{...props, ...item.style}}>
+                  <animated.div key={Math.random()} className={styles.stickerWrapper} style={{...props, ...item.style}}>
                     <img src={item.src} className={styles.sticker} />
                   </animated.div>
                 )}
