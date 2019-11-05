@@ -29,7 +29,12 @@ module.exports = {
     'gatsby-transformer-sharp',
     'gatsby-plugin-react-helmet',
     'gatsby-plugin-sharp',
-    'gatsby-plugin-page-transitions',
+    {
+      resolve: 'gatsby-plugin-page-transitions',
+      options: {
+        transitionTime: 5000
+      }
+    },
     {
       resolve: 'gatsby-source-contentful',
       options: contentfulConfig,

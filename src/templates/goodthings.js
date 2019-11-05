@@ -91,76 +91,78 @@ class GoodThings extends React.Component {
     return (
       <ParallaxProvider>
         <PageHead data={this.props.data.contentfulPage} location={this.props.location} />
-        <Layout unfixed>
-          <div className={styles.hero} ref={this.hero}></div>
-          <div className={styles.wrapper}>
-            <div className={styles.layout}
-              style={{position: 'relative', 'zIndex': 2}}
-            >
-              <Transition className={styles.col}>
-                  <img className={styles.sticky} src={logo} alt="Good Things"/>
-              </Transition>
-              <div className={styles.col}>
-                <Transition delay={250} >
-                  <div className={styles.fullHeight}>
-                    <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
-
-                    <div className={styles.section}>
-                      <Header text="Mission"/>
-                      <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
-                    </div>
-                  </div>
+        <Layout>
+          <div style={{'backgroundColor': 'white', 'position': 'relative', 'zIndex': 10}}>
+            <div className={styles.hero} ref={this.hero}></div>
+            <div className={styles.wrapper}>
+              <div className={styles.layout}
+                style={{position: 'relative', 'zIndex': 2}}
+              >
+                <Transition className={styles.col}>
+                    <img className={styles.sticky} src={logo} alt="Good Things"/>
                 </Transition>
-                {people &&
-                  <div className={styles.section}>
-                    <VisibilitySensor once>
-                      {({ isVisible }) => {
-                        return (
-                          <FadeUp isVisible={isVisible} delay={0}>
-                            <Header noe text="Good People"/>
-                          </FadeUp>
-                      )}}
-                    </VisibilitySensor>
+                <div className={styles.col}>
+                  <Transition delay={250} >
+                    <div className={styles.fullHeight}>
+                      <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
 
-                    {people.map((p, i) => {
-                      return p.blocks.map((v) => {
-                        return (
-                          <>
-                            <MediaQuery minWidth={1024}>
-                              <VisibilitySensor once>
-                                {({ isVisible }) => {
-                                  return (
-                                    <FadeUp isVisible={isVisible} delay={0}>
-                                      <GoodPerson key={v.id} {...v} />
-                                    </FadeUp>
-                                )}}
-                              </VisibilitySensor>
-                            </MediaQuery>
-                            <MediaQuery maxWidth={1024}>
-                              <GoodPerson key={v.id} {...v} />
-                            </MediaQuery>
-                          </>
-                        )
-                      })
-                    })}
-                  </div>
-                }
+                      <div className={styles.section}>
+                        <Header text="Mission"/>
+                        <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
+                      </div>
+                    </div>
+                  </Transition>
+                  {people &&
+                    <div className={styles.section}>
+                      <VisibilitySensor once>
+                        {({ isVisible }) => {
+                          return (
+                            <FadeUp isVisible={isVisible} delay={0}>
+                              <Header noe text="Good People"/>
+                            </FadeUp>
+                        )}}
+                      </VisibilitySensor>
+
+                      {people.map((p, i) => {
+                        return p.blocks.map((v) => {
+                          return (
+                            <>
+                              <MediaQuery minWidth={1024}>
+                                <VisibilitySensor once>
+                                  {({ isVisible }) => {
+                                    return (
+                                      <FadeUp isVisible={isVisible} delay={0}>
+                                        <GoodPerson key={v.id} {...v} />
+                                      </FadeUp>
+                                  )}}
+                                </VisibilitySensor>
+                              </MediaQuery>
+                              <MediaQuery maxWidth={1024}>
+                                <GoodPerson key={v.id} {...v} />
+                              </MediaQuery>
+                            </>
+                          )
+                        })
+                      })}
+                    </div>
+                  }
+                </div>
               </div>
-            </div>
-            <div>
               <div>
-                {accordion && accordion.map((a) => {
+                <div>
+                  {accordion && accordion.map((a) => {
+                    return (
+                      <Accordion key={Math.random()} set={a.activeJobs} alignment={a.textAlignment}/>
+                    )
+                  })}
+                </div>
+
+                {features && features.map((f) => {
                   return (
-                    <Accordion key={Math.random()} set={a.activeJobs} alignment={a.textAlignment}/>
+                    <FeaturedPosts key={Math.random()} {...f}/>
                   )
                 })}
               </div>
-
-              {features && features.map((f) => {
-                return (
-                  <FeaturedPosts key={Math.random()} {...f}/>
-                )
-              })}
             </div>
           </div>
         </Layout>

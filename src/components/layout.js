@@ -11,6 +11,7 @@ import Footer from './site-footer'
 class Template extends React.Component {
   render() {
     const { location, children, unfixed } = this.props
+    console.log(this.props)
     let header
 
     let rootPath = `/`
@@ -23,7 +24,7 @@ class Template extends React.Component {
         <Navigation />
         <PageTransition
           defaultStyle={{
-            transition: 'transform 500ms ease-out, opacity 500ms ease-out',
+            transition: 'transform 1s ease-out, opacity 1s ease-out',
             transform: 'translateY(16px)',
             transformOrigin: '50% 0%',
             opacity: 0
