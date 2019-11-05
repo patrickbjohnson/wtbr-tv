@@ -4,7 +4,9 @@
 }
 
 .footer {
-    position: sticky;
+    position: fixed;
+    left: 0;
+    right: 0;
     bottom: 0;
     padding: 70px 16% 30px;
     background-image: radial-gradient(circle at 59% 0, #f6c561, #c2217d);

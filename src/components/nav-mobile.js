@@ -11,11 +11,11 @@ import styles from './nav-mobile.module.css'
 
 class MobileNav extends Component {
     constructor(props) {
-        super(props)
-        this.pageSlide = createRef()
-        this.state = {
-          isOpen: false
-        }
+      super(props)
+      this.pageSlide = createRef()
+      this.state = {
+        isOpen: false
+      }
     }
 
     toggleMenu = () => {
