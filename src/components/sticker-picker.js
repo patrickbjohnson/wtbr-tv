@@ -42,10 +42,6 @@ const buttons = [
   StickerButtonFive,
 ]
 
-const getRandomPosition = (min, max) => {
-  return Math.floor(Math.random() * (max - min + 1) + min);
-}
-
 const getRandomButton = () => {
   return buttons[Math.floor(Math.random() * buttons.length)]
 }
@@ -65,29 +61,12 @@ const StickerPicker = () => {
       }
     }, [y])
 
-    const getRandomSticker = () => {
-      console.log(availableStickers)
-      return availableStickers[Math.floor(Math.random() * availableStickers.length)]
+    const getRandomPosition = (min, max) => {
+      return Math.floor(Math.random() * (max - min + 1) + min);
     }
 
-    const stickerPosition = () => {
-      let height = 0
-      let width = 0
-
-      if(window) {
-        height = window.innerHeight
-        width = window.innerWidth
-      }
-
-      const xMin = 0
-      const xMax = width
-      const yMin = y
-      const yMax = height + y
-
-      return {
-        left: getRandomPosition(xMin, xMax),
-        top: getRandomPosition(yMin, yMax),
-      }
+    const getRandomSticker = () => {
+      return availableStickers[Math.floor(Math.random() * availableStickers.length)]
     }
 
     const addSticker = () => {
@@ -106,17 +85,25 @@ const StickerPicker = () => {
 
       const sticker = getRandomSticker()
 
-      setStickers([...stickers,
-        {
-          src: sticker,
-          style: {
-            left: `${getRandomPosition(xMin, xMax)}px`,
-            top: `${getRandomPosition(yMin, yMax)}px`,
-          }
-      }])
+      setStickers(stickers.concat({
+        src: sticker,
+        style: {
+          left: `${getRandomPosition(xMin, xMax)}px`,
+          top: `${getRandomPosition(yMin, yMax)}px`,
+        },
+        position: stickers.length + 1
+      }))
+
+      const remainingStickers = availableStickers.filter(s => s !== sticker)
+
+      if(remainingStickers.length === 0) {
+        setAvailableStickers(images)
+      } else {
+        setAvailableStickers(remainingStickers)
+      }
     }
 
-    const transitions = useTransition(stickers, sticker => sticker.src, {
+    const transitions = useTransition(stickers, sticker => sticker.position, {
       from: { opacity: 0 },
       enter: { opacity: 1 },
       leave: { opacity: 0 },
@@ -143,11 +130,11 @@ const StickerPicker = () => {
               ))
             }
             <div className={styles.wrapper}>
-                { transitions.map(({ item, props, key }) =>
-                  <animated.div key={Math.random()} className={styles.stickerWrapper} style={{...props, ...item.style}}>
+                { transitions.map(({ item, key, props }, i) => (
+                  <animated.div key={i} className={styles.stickerWrapper} style={{...props, ...item.style}}>
                     <img src={item.src} className={styles.sticker} />
                   </animated.div>
-                )}
+                ))}
             </div>
         </>
     )
