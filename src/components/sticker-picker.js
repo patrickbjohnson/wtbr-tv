@@ -55,7 +55,7 @@ const StickerPicker = () => {
     const { y } = useWindowScroll()
 
     useEffect(() => {
-      if(stickers.length > 0) {
+      if (stickers.length > 0) {
         setAvailableStickers(images)
         setStickers([])
       }
@@ -124,7 +124,7 @@ const StickerPicker = () => {
         <>
             { availableStickers.length > 0
               && buttonTransition.map(({ item, key, props }) => item && (
-                <animated.div key={key} className={styles.buttonWrapper} style={props}>
+                <animated.div key={Math.random()} className={styles.buttonWrapper} style={props}>
                   <img onClick={addSticker} className={styles.button} src={button} />
                 </animated.div>
               ))

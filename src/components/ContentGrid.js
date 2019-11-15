@@ -223,6 +223,7 @@ class ContentGrid extends Component {
 
   flickityIntoView = () => {
     smoothScrollIntoView(this.contentPanel.current, {
+      block: 'start',
       behavior: 'smooth',
       duration: 100
     })

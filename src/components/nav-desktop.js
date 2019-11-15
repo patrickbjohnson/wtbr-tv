@@ -1,9 +1,10 @@
 import React, { Component, createRef } from 'react';
-import { navigate } from '@reach/router';
 import { Link } from 'gatsby'
 import styles from './nav-desktop.module.css'
 import cx from 'classnames'
 import throttle from 'lodash.throttle'
+import TransitionLink from 'gatsby-plugin-transition-link'
+import { TransitionPortal } from "gatsby-plugin-transition-link";
 
 import logoLg from './wordmark-lg.svg'
 import logoSm from './wordmark-sm.svg'
@@ -14,6 +15,7 @@ class DesktopNav extends Component {
     super(props)
     this.navBar = createRef()
     this.logoWrap = createRef()
+    this.pageSlide = createRef()
     this.nav = []
     this.threshold = 600
     this.state = {
@@ -112,11 +114,45 @@ class DesktopNav extends Component {
                     <a className={styles.link} href={item.slug}>{item.pageName.replace('#', '')}</a>
                   }
                   { item !== 'work' &&
-                    <Link
-                    className={styles.link}
-                    to={`/${item.slug}`}
-                    activeClassName={styles.active}
-                    >{item.pageName}</Link>
+                    <TransitionLink 
+                      className={styles.link} 
+                      activeClassName={styles.active}
+                      to={`/${item.slug}`}
+                      exit={{
+                        trigger: ({ exit, node }) => {
+                          const slide = this.pageSlide.current
+                          slide.style.transition = 'opacity .35s ease-out'
+                          slide.style.opacity = 1
+                        },
+                        length: 2
+                      }}
+                      entry={{
+                        trigger: ({ enter, node }) => {
+                          const slide = this.pageSlide.current
+                          slide.style.opacity = 0
+                        },
+                        delay: .5
+                      }}
+                    >
+                      {item.pageName}
+                      <TransitionPortal>
+                        <div
+                          ref={this.pageSlide}
+                          style={{
+                            position: "fixed",
+                            background: "#F8D377",
+                            top: 0,
+                            left: 0,
+                            bottom: 0,
+                            right: 0,
+                            opacity: 0,
+                            width: "100vw",
+                            height: "100vh",
+                            pointerEvents: 'none'
+                          }}
+                        ></div>
+                      </TransitionPortal>
+                    </TransitionLink>
                   }
                 </li>
               )

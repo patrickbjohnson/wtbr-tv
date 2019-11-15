@@ -1,6 +1,5 @@
 import React from 'react'
 import { Link } from 'gatsby'
-import PageTransition from 'gatsby-plugin-page-transitions'
 
 import base from './base.css'
 import Container from './container'
@@ -21,22 +20,8 @@ class Template extends React.Component {
     return (
       <Container>
         <Navigation />
-        <PageTransition
-          defaultStyle={{
-            transition: 'transform 500ms ease-out, opacity 500ms ease-out',
-            transform: 'translateY(16px)',
-            transformOrigin: '50% 0%',
-            opacity: 0
-          }}
-          transitionStyles={{
-            entering: { opacity: 1, transform: 'translateY(0)' },
-            entered: { opacity: 1, transform: 'translateY(0)' },
-            exiting: { opacity: 1, transform: 'translateY(0)' },
-          }}
-        >
-          { children }
-          <Footer unfixed={unfixed} />
-        </PageTransition>
+        { children }
+        <Footer unfixed={unfixed} />
       </Container>
     )
   }
