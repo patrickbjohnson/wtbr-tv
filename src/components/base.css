@@ -178,3 +178,8 @@ a {
 .parallax-transparent h2 {
   color: transparent;
 }
+
+
+.tl-edges {
+  overflow-x: visible !important;
+}
