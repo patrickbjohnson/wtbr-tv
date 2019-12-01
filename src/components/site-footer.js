@@ -61,7 +61,7 @@ export default class Footer extends Component {
                 <div className={styles.flex}>
                   <div className={styles.content}>
                     <div className={styles.links}>
-                      {links.map((l) => {
+                      {links.map((l, i) => {
                         const {
                           internalLink, 
                           linkLabel,
@@ -69,9 +69,9 @@ export default class Footer extends Component {
                         } = l
                         
                         if (internalLink && internalLink.slug) {
-                          return <Link to={internalLink.slug}>{l.linkLabel}</Link>
+                          return <Link key={l.id} to={internalLink.slug}>{l.linkLabel}</Link>
                         } else {
-                          return <a href={linkUrl}>{linkLabel}</a>  
+                          return <a key={l.id} href={linkUrl}>{linkLabel}</a>  
                         }
                       })}
                     </div>
