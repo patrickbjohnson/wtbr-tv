@@ -139,6 +139,7 @@ export const featuredPost = graphql`
           id
           projectTitle
           client
+          bg_color_override
           body {
             body
           }
@@ -196,6 +197,7 @@ export const contentGrid = graphql`
         body {
           body
         }
+        bg_color_override
         categories {
           category
           categoryColor

@@ -24,13 +24,16 @@ class ContentPanel extends Component {
       slideIndex,
       categories,
       isFilterable,
-      isFeatured
+      isFeatured,
+      bg_color_override
     } = this.props;
     
     let cat = null
     if (categories) {
       cat = categories[0]
     }
+    
+    console.log('COLOR: ', projectTitle, bg_color_override)
 
     return (
       <MediaQuery maxWidth={767}>
@@ -41,7 +44,7 @@ class ContentPanel extends Component {
             [styles.isFeatured]: isFeatured
           })}
             style={{
-              'backgroundColor' : (cat && !isFilterable) ? cat.categoryColor : '#fff'
+              'backgroundColor' : (bg_color_override && !isFilterable) ? bg_color_override : '#fff'
             }}
           >
             <div className={styles.inner} data-panel-inner="true">

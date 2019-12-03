@@ -74,6 +74,8 @@ class FlickitySlider extends Component {
     const {
       isFeatured
     } = this.props
+    
+    console.log(slides)
 
     return (
       <div className={cx(styles.wrapper, {
