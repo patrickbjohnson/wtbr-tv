@@ -16,7 +16,6 @@ export default ({
   projectTitle,
   panelIsOpen,
 }) => {
-    // console.log(hoverImage.fluid.src)
     return (
     <div className={cx(styles.block, {
         [styles.inGrid]: inGrid,

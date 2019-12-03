@@ -42,7 +42,7 @@ class BlogIndex extends React.Component {
         }
 
         <div className={styles.wrapper}>
-          {this.props.data.contentfulPage.tickerText &&
+          {(this.props.data.contentfulPage.tickerText && hasVideo) &&
           <Ticker textString={this.props.data.contentfulPage.tickerText}/>
           }
           <div className="wrapper">

@@ -360,7 +360,7 @@ class ContentGrid extends Component {
 
     const visibleBlocks = this.state.showAll
       ? blocks
-      : blocks.slice(0,4)
+      : blocks.slice(0, 16)
 
     return (
       <div ref="wrapper" className={cx(styles.layout, {
