@@ -44,7 +44,7 @@ exports.createPages = ({ graphql, actions }) => {
         const pages = result.data.allContentfulPage.edges
 
         let blogSlug = ''
-        pages.forEach((page, index) => {
+        pages.forEach((page) => {
           const slug = page.node.slug.toLowerCase();
           const template = page.node.template ? templates[page.node.template] : templates['Basic Page']
           
@@ -62,7 +62,7 @@ exports.createPages = ({ graphql, actions }) => {
         })
 
         const posts = result.data.allContentfulBlogPost.edges
-        posts.forEach((post, index) => {
+        posts.forEach((post) => {
           const slug = post.node.slug.toLowerCase();
           
           createPage({

@@ -54,7 +54,7 @@ const Page = (props) => {
                       {...component} />
                   case 'ContentBlockGrid':
                     return (
-                      <div>
+                      <div key={component.id}>
                         <MediaQuery minWidth={768}>
                           <ContentBlockGrid
                               key={component.id}
@@ -116,199 +116,16 @@ export const pageQuery = graphql`
       }
       components {
         __typename
-        ... on ContentfulVideoHero {
-          id
-          videoHeroTitle
-          videoUrl
-          image {
-            title
-            fluid {
-              ...GatsbyContentfulFluid
-            }
-          }
-        }
-        ... on ContentfulTextBlockGrid {
-          id
-          textBlocks {
-            id
-            title
-            description {
-              description
-            }
-          }
-        }
-        ... on ContentfulContentBlockGrid {
-          id
-          identifier
-          sectionTitle
-          displayCategory
-          contentBlocks {
-            id
-            body {
-              body
-            }
-            categories {
-              category
-              categoryColor
-            }
-            title
-            projectTitle
-            client
-            type
-            image {
-              title
-              fluid {
-                ...GatsbyContentfulFluid
-              }
-            }
-            hoverImage {
-              title
-              fluid {
-                ...GatsbyContentfulFluid
-              }
-            }
-            videos {
-              __typename
-              ... on ContentfulImageBlock {
-                media {
-                  description
-                  fluid {
-                    ...GatsbyContentfulFluid
-                  }
-                }
-              }
-              ... on ContentfulVideoBlock {
-                id
-                title
-                videoUrl
-                caption {
-                  id
-                  caption
-                }
-              }
-            }
-          }
-        }
-        ... on ContentfulFeaturedPosts {
-          id
-          posts {
-            ... on ContentfulContentBlock {
-              id
-              projectTitle
-              client
-              body {
-                body
-              }
-              categories {
-                category
-                categoryColor
-              }
-              title
-              type
-              image {
-                title
-                fluid {
-                  ...GatsbyContentfulFluid
-                }
-              }
-              hoverImage {
-                title
-                fluid {
-                  ...GatsbyContentfulFluid
-                }
-              }
-              videos {
-                __typename
-                ... on ContentfulImageBlock {
-                  media {
-                    description
-                  }
-                }
-                ... on ContentfulVideoBlock {
-                  id
-                  title
-                  videoUrl
-                  caption {
-                    id
-                    caption
-                  }
-                }
-              }
-            }
-          }
-        }
-        ... on ContentfulAccordionList {
-          id
-          sectionTitle
-          textAlignment
-          activeJobs {
-            ... on ContentfulJob {
-              id
-              description {
-                description
-              }
-              title
-            }
-            ... on ContentfulTextBlock {
-              id
-              description {
-                description
-              }
-              title
-            }
-          }
-        }
-        ... on ContentfulGoodPeople {
-          title
-          id
-          blocks {
-            personBio {
-              personBio
-            }
-            personImage {
-              title
-              fluid {
-                ...GatsbyContentfulFluid
-              }
-            }
-          }
-        }
-        ... on ContentfulContentHero {
-          id
-          backgroundColor
-          layoutSelection
-          heroTitle {
-            id
-            heroTitle
-          }
-          heroContent {
-            id
-            heroContent
-          }
-        }
-        ... on ContentfulClientList {
-          title
-          logos {
-            id
-            title
-            fluid {
-              ...GatsbyContentfulFluid
-            }
-          }
-        }
-        ... on ContentfulCapabilities {
-          title
-          capabilities {
-            id
-            title
-            image {
-              title
-              fluid {
-                ...GatsbyContentfulFluid
-              }
-            }
-            capabilitiesList
-          }
+        ... on Node {
+          ...contentHero
+          ...accordionList
+          ...clientList
+          ...capabilities
+          ...goodPeople
+          ...textBlockGrid
+          ...videoHero
+          ...contentGrid
+          ...featuredPost
         }
       }
     }

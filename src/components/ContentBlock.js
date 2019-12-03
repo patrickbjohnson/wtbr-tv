@@ -15,7 +15,9 @@ export default ({
   client, 
   projectTitle,
   panelIsOpen,
-}) => (
+}) => {
+    // console.log(hoverImage.fluid.src)
+    return (
     <div className={cx(styles.block, {
         [styles.inGrid]: inGrid,
         [styles.active]: active
@@ -31,14 +33,13 @@ export default ({
                 fadeIn
             />}
             {(hoverImage && hoverImage.fluid) &&
-                <Img
-                className={cx(styles.media, styles.hoverImage)}
-                fluid={hoverImage.fluid}
-                durationFadeIn={500}
-                title={hoverImage.title}
-                alt={hoverImage.title}
-                fadeIn
-            />}
+                <div className={cx(styles.media, styles.hoverImage)}> 
+                    <img 
+                        src={hoverImage.fluid.src}
+                        alt={hoverImage.title}
+                    />
+                </div>
+            }
         </div>
 
         <div className={styles.body}>
@@ -46,4 +47,4 @@ export default ({
             <h3 className={styles.subtitle}>{projectTitle}</h3>
         </div>
     </div>
-)
+)}

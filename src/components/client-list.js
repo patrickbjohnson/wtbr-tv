@@ -20,7 +20,7 @@ export default function ClientList(props) {
       {logos.length > 0 && 
         logos.map((l) => {
           return (
-            <div className={styles.col} key={l.id}>
+            <div className={styles.col} key={`${Math.random()} + ${l.id}`}>
               <Img className={styles.image} alt={l.title} fluid={l.fluid} />
             </div>
           )

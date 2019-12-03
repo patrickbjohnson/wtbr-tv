@@ -399,8 +399,9 @@ class ContentGrid extends Component {
                 'gridRow': sliderRow + 1,
               }}
               ref={this.contentPanel}
-              >
+            >
               <button className={cx(styles.closeBtn)} onClick={this.closePanel} />
+              
               <div className={styles.slider} ref={this.slider}>
                 {blocks && blocks.map((b, i) => {
                   return (
@@ -426,7 +427,7 @@ class ContentGrid extends Component {
                         <path d="M13.592.55l1.415 1.413L2.279 14.691.865 13.277z"></path>
                       </g>
                     </svg>
-                  </button>
+                </button>
 
                 <button
                   className={cx(styles.next, styles.btn)}

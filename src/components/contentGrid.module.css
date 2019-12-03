@@ -83,13 +83,9 @@
     outline: 0;
 }
 
-.btn svg {
-    -webkit-transform-style: preserve-3d;
-    -webkit-backface-visibility: hidden;
-}
-
 .btn[disabled] {
     cursor: not-allowed;
+    opacity: 0.2;
 }
 
 .prev {

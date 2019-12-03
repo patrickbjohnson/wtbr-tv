@@ -10,7 +10,7 @@ export const posts = `
                       body
                 }
                 heroImage {
-                    fluid {
+                    fluid(maxWidth: 500, quality: 100) {
                         base64
                         tracedSVG
                         aspectRatio

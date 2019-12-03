@@ -185,91 +185,19 @@ export const pageQuery = graphql`
       }
       components {
         __typename
-          ... on ContentfulFeaturedPosts {
-            id
-            posts {
-              ... on ContentfulContentBlock {
-                id
-                body {
-                  body
-                }
-                categories {
-                  categoryColor
-                  category
-                }
-                title
-                type
-                image {
-                  fluid {
-                    ...GatsbyContentfulFluid
-                  }
-                }
-                hoverImage {
-                  fluid {
-                    ...GatsbyContentfulFluid
-                  }
-                }
-                videos {
-                  __typename
-                  ... on ContentfulImageBlock {
-                    media {
-                      description
-                      fluid {
-                        ...GatsbyContentfulFluid
-                      }
-                    }
-                  }
-                  ... on ContentfulVideoBlock {
-                    id
-                    title
-                    videoUrl
-                    caption {
-                      id
-                      caption
-                    }
-                  }
-                }
-              }
-            }
-          }
-          ... on ContentfulAccordionList {
-            id
-            sectionTitle
-            textAlignment
-            activeJobs {
-              ... on ContentfulJob {
-                id
-                description {
-                  description
-                }
-                title
-              }
-              ... on ContentfulTextBlock {
-                id
-                description {
-                  description
-                }
-                title
-              }
-            }
-          }
-          ... on ContentfulGoodPeople {
-            title
-            id
-            blocks {
-              personName
-              personBio {
-                personBio
-              }
-              personImage {
-                fluid {
-                  ...GatsbyContentfulFluid
-                }
-              }
-            }
-          }
+        ... on Node {
+          ...contentHero
+          ...accordionList
+          ...clientList
+          ...capabilities
+          ...goodPeople
+          ...textBlockGrid
+          ...videoHero
+          ...contentGrid
+          ...featuredPost
         }
-     }
- }
+      }
+    }
+  }
 `
 export default GoodThings

@@ -82,18 +82,6 @@ export const pageQuery = graphql`
         }
       }
       tickerText
-      components {
-        __typename
-        ... on ContentfulVideoHero {
-          id
-          videoUrl
-          image {
-            fluid {
-              ...GatsbyContentfulFluid
-            }
-          }
-        }
-      }
     }
     allContentfulBlogPost(sort: {fields: [publishDate], order: DESC}) {
       edges {
