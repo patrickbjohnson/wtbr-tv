@@ -183,3 +183,7 @@ a {
 .tl-edges {
   overflow-x: visible !important;
 }
+
+.has-padding-top {
+  padding-top: 80px;
+}

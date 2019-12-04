@@ -32,6 +32,15 @@ export default class Footer extends Component {
             allContentfulFooter {
               edges {
                 node {
+                  socialLinks {
+                    id
+                    linkLabel
+                    linkUrl
+                    externalLink
+                    internalLink {
+                      slug
+                    }
+                  }
                   links {
                     id
                     linkLabel
@@ -50,8 +59,11 @@ export default class Footer extends Component {
         render={data => {
           const {
             title,
-            links
+            links,
+            socialLinks
           } = data.allContentfulFooter.edges[0].node
+          
+          console.log(socialLinks)
   
           return (
             <>
@@ -60,6 +72,21 @@ export default class Footer extends Component {
   
                 <div className={styles.flex}>
                   <div className={styles.content}>
+                    <div className={styles.socialLinks}>
+                      {socialLinks.map((l, i) => {
+                        const {
+                          internalLink, 
+                          linkLabel,
+                          linkUrl
+                        } = l
+                        
+                        if (internalLink && internalLink.slug) {
+                          return <Link key={l.id} to={internalLink.slug}>{l.linkLabel}</Link>
+                        } else {
+                          return <a key={l.id} href={linkUrl}>{linkLabel}</a>  
+                        }
+                      })}
+                    </div>
                     <div className={styles.links}>
                       {links.map((l, i) => {
                         const {

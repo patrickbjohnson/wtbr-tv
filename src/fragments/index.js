@@ -26,13 +26,6 @@ export const accordionList = graphql`
       sectionTitle
       textAlignment
       activeJobs {
-        ... on ContentfulJob {
-          id
-          description {
-            description
-          }
-          title
-        }
         ... on ContentfulTextBlock {
           id
           description {

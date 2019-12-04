@@ -1,5 +1,6 @@
 import React from 'react'
 import { graphql } from 'gatsby'
+import cx from 'classnames'
 import get from 'lodash/get'
 import styles from './blog.module.css'
 import Layout from "../components/layout"
@@ -42,10 +43,12 @@ class BlogIndex extends React.Component {
         }
 
         <div className={styles.wrapper}>
-          {(this.props.data.contentfulPage.tickerText && hasVideo) &&
+          {/* {(this.props.data.contentfulPage.tickerText && hasVideo) &&
           <Ticker textString={this.props.data.contentfulPage.tickerText}/>
-          }
-          <div className="wrapper">
+          } */}
+          <div className={cx('wrapper', {
+            'has-padding-top': !hasVideo && !this.props.data.contentfulPage.tickerText
+          })}>
             <ul className="article-list">
               {posts.map( (post, i) => {
                 return <ArticlePreview key={post.node.id} article={post} />
@@ -81,7 +84,12 @@ export const pageQuery = graphql`
           ...GatsbyContentfulFluid
         }
       }
-      tickerText
+      components {
+        __typename
+        ... on Node {
+          ...videoHero
+        }
+      }
     }
     allContentfulBlogPost(sort: {fields: [publishDate], order: DESC}) {
       edges {

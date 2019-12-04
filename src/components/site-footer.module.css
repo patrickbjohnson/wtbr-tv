@@ -34,14 +34,19 @@
     margin-bottom: 40px;
 }
 
+.socialLinks {
+    margin-right: 30px;
+}
+
+.socialLinks,
 .links {
     column-count: 2;
     column-gap: 10px;
     text-align: left;
     margin: 20px auto 30px;
-    max-width: 300px;
 }
 
+.socialLinks a,
 .links a {
     display: block;
     font-size: 13px;
@@ -108,10 +113,20 @@
         letter-spacing: -0.05px;
         line-height: 25px;
     }
+    
+    .socialLinks {
+        width: 100%;
+        max-width: 110px;
+        column-count: initial;
+        column-gap: initial;
+        margin: 0;
+        padding: 0;
+    }
 
     .links {
         margin-top: 0;
-        max-width: 45%;
+        max-width: 80%;
+        width: 100%;
         margin-left: 0;
         column-count: 2;
         column-width: 10px;
@@ -123,6 +138,18 @@
         line-height: 25px;
         margin-bottom: 18px;
         margin-right: 0;
+    }
+    
+    .content {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+    }
+}
+
+@media (min-width: 820px ){
+    .links a {
+        margin-right: 20px;
     }
 }
 
@@ -139,6 +166,11 @@
     }
 
     .links {
-        max-width: 35%;
+        margin-top: 0;
+        max-width: 450px;
+        width: 100%;
+        margin-left: 0;
+        column-count: 2;
+        column-width: 10px;
     }
 }

@@ -19,9 +19,9 @@ import VisibilitySensor from '../components/VisibilitySensor'
 import styles from './goodthings.module.css'
 import header from '../components/section-header.module.css'
 
-const Header = ({text, noe}) => {
+const Header = ({text, noe, classNames}) => {
   return (
-    <div className={cx(header.block, styles.headerBlock)}>
+    <div className={cx(classNames, header.block, styles.headerBlock)}>
       <h2 className={cx(
         header.text, 
         header.noOutline, 
@@ -104,10 +104,10 @@ class GoodThings extends React.Component {
                 <div className={styles.col}>
                   <Transition delay={250} >
                     <div className={styles.fullHeight}>
-                      <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1>
+                      {/* <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1> */}
 
                       <div className={styles.section}>
-                        <Header text="Mission"/>
+                        <Header noe text="Mission"/>
                         <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
                       </div>
                     </div>
