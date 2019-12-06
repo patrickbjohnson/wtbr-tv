@@ -18,50 +18,46 @@ class ContentPanel extends Component {
       image,
       body,
       videos,
-      client, 
+      client,
       projectTitle,
       currentSlide,
       slideIndex,
       categories,
       isFilterable,
       isFeatured,
-      bg_color_override
-    } = this.props;
-    
+      bg_color_override,
+    } = this.props
+
     let cat = null
     if (categories) {
       cat = categories[0]
     }
-    
-    console.log('COLOR: ', projectTitle, bg_color_override)
 
     return (
       <MediaQuery maxWidth={767}>
-        
-        {(isMobile) => (
-          <div className={cx(styles.block, {
-            [styles.mobileBlock]: isMobile,
-            [styles.isFeatured]: isFeatured
-          })}
+        {isMobile => (
+          <div
+            className={cx(styles.block, {
+              [styles.mobileBlock]: isMobile,
+              [styles.isFeatured]: isFeatured,
+            })}
             style={{
-              'backgroundColor' : (bg_color_override && !isFilterable) ? bg_color_override : '#fff'
+              backgroundColor:
+                bg_color_override && !isFilterable ? bg_color_override : '#fff',
             }}
           >
             <div className={styles.inner} data-panel-inner="true">
               <div className={styles.content}>
                 <h2 className={styles.title}>{client}</h2>
                 <p className={styles.project}>{projectTitle}</p>
-                {body &&
-                  <Markdown
-                    className={styles.body}
-                    source={body.body}
-                  />
-                }
+                {body && (
+                  <Markdown className={styles.body} source={body.body} />
+                )}
               </div>
 
               <div className={styles.mediaContent}>
                 {videos &&
-                  videos.map((v,i) => {
+                  videos.map((v, i) => {
                     if (v.__typename === 'ContentfulVideoBlock') {
                       return (
                         <VideoPlayer
@@ -71,8 +67,8 @@ class ContentPanel extends Component {
                           {...v}
                         />
                       )
-                    } 
-                    
+                    }
+
                     if (v.__typename === 'ContentfulImageBlock') {
                       return (
                         <Img
@@ -85,9 +81,8 @@ class ContentPanel extends Component {
                         />
                       )
                     }
-                  })
-                }
-                {(image && !videos && !isMobile) &&
+                  })}
+                {image && !videos && !isMobile && (
                   <Img
                     className={cx(styles.media)}
                     fluid={image.fluid}
@@ -96,7 +91,7 @@ class ContentPanel extends Component {
                     alt={image.title}
                     fadeIn
                   />
-                }
+                )}
               </div>
             </div>
           </div>

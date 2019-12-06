@@ -1,11 +1,12 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef } from 'react'
 import { Image, Link } from 'gatsby'
 import cx from 'classnames'
 import '../../node_modules/flickity/dist/flickity.css'
 import styles from '../components/flickity-slider.module.css'
 import ContentPanel from '../components/content-panel'
 
-const Flickity = typeof window !== "undefined" ? require("flickity") : () => null
+const Flickity =
+  typeof window !== 'undefined' ? require('flickity') : () => null
 
 /**
  *
@@ -25,27 +26,34 @@ class FlickitySlider extends Component {
       slides: [],
       active: 0,
       isFirst: true,
-      isLast: false
+      isLast: false,
     }
   }
 
   componentDidMount() {
-    this.setState({
-      slides: this.props.posts ? this.props.posts : this.props.slides
-    }, () => {
-      this.initFlickity()
-    })
+    this.setState(
+      {
+        slides: this.props.posts ? this.props.posts : this.props.slides,
+      },
+      () => {
+        this.initFlickity()
+      }
+    )
   }
 
   initFlickity = () => {
     this.flickity = new Flickity(this.slider.current, {
       cellAlign: 'left',
       contain: true,
-      draggable: this.props.draggable ? true : false
+      draggable: this.props.draggable ? true : false,
     })
 
-    Array.from(this.slider.current.querySelectorAll('.flickity-button'), (b) => b.style.display = 'none')
-    this.slider.current.querySelector('.flickity-page-dots').style.display = 'none'
+    Array.from(
+      this.slider.current.querySelectorAll('.flickity-button'),
+      b => (b.style.display = 'none')
+    )
+    this.slider.current.querySelector('.flickity-page-dots').style.display =
+      'none'
 
     this.setDisabledStates()
     this.flickityChangeEvent()
@@ -54,58 +62,60 @@ class FlickitySlider extends Component {
   setDisabledStates = () => {
     this.setState({
       isFirst: this.flickity.selectedIndex === 0,
-      isLast: this.flickity.selectedIndex === (this.flickity.cells.length - 1)
+      isLast: this.flickity.selectedIndex === this.flickity.cells.length - 1,
     })
   }
 
   flickityChangeEvent = () => {
-    this.flickity.on('change', (e) => {
+    this.flickity.on('change', e => {
       this.setDisabledStates()
-      this.setState({active: e})
+      this.setState({ active: e })
     })
   }
 
   render() {
-    const {
-      slides,
-      active
-    } = this.state
-    
-    const {
-      isFeatured
-    } = this.props
-    
-    console.log(slides)
+    const { slides, active } = this.state
+
+    const { isFeatured } = this.props
 
     return (
-      <div className={cx(styles.wrapper, {
-        [styles.isFeatured]: isFeatured
-      })}>
-        {Flickity &&
+      <div
+        className={cx(styles.wrapper, {
+          [styles.isFeatured]: isFeatured,
+        })}
+      >
+        {Flickity && (
           <>
-            {slides &&
-            <div className={cx(styles.nav)}>
-              {slides.map((s, i) => {
-                return (<div className={cx(styles.dot, {
-                  [styles.activeDot]: i === active
-                })} key={s.id + 1}></div>)
-              })}
-            </div>
-            }
-            <div className={styles.slider} ref={this.slider}>
-              {slides && slides.map((s, i) => {
-                if (s.type !== 'panel') {
+            {slides && (
+              <div className={cx(styles.nav)}>
+                {slides.map((s, i) => {
                   return (
-                    <div className={cx(styles.slide)} key={s.id}>
-                      <ContentPanel {...s} 
-                        currentSlide={active} 
-                        slideIndex={i} 
-                        isFeatured 
-                      />
-                    </div>
+                    <div
+                      className={cx(styles.dot, {
+                        [styles.activeDot]: i === active,
+                      })}
+                      key={s.id + 1}
+                    ></div>
                   )
-                }
-              })}
+                })}
+              </div>
+            )}
+            <div className={styles.slider} ref={this.slider}>
+              {slides &&
+                slides.map((s, i) => {
+                  if (s.type !== 'panel') {
+                    return (
+                      <div className={cx(styles.slide)} key={s.id}>
+                        <ContentPanel
+                          {...s}
+                          currentSlide={active}
+                          slideIndex={i}
+                          isFeatured
+                        />
+                      </div>
+                    )
+                  }
+                })}
             </div>
             <div className={styles.pagination}>
               <button
@@ -140,10 +150,10 @@ class FlickitySlider extends Component {
               </button>
             </div>
           </>
-        }
+        )}
       </div>
     )
   }
 }
 
-export default FlickitySlider;
+export default FlickitySlider

@@ -1,6 +1,5 @@
 import { graphql } from 'gatsby'
 
-
 export const contentHero = graphql`
   fragment contentHero on ContentfulContentHero {
     ... on ContentfulContentHero {
@@ -34,6 +33,15 @@ export const accordionList = graphql`
           title
         }
       }
+    }
+  }
+`
+
+export const ticker = graphql`
+  fragment ticker on ContentfulTicker {
+    ... on ContentfulTicker {
+      id
+      text
     }
   }
 `

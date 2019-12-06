@@ -3,14 +3,13 @@ import { graphql } from 'gatsby'
 import cx from 'classnames'
 import get from 'lodash/get'
 import styles from './blog.module.css'
-import Layout from "../components/layout"
+import Layout from '../components/layout'
 import Ticker from '../components/article-ticker'
 import ArticlePreview from '../components/article-preview'
 import HomeHero from '../components/home-hero'
 import PageHead from '../components/PageHead'
 
-
-const ScrollToTop = ({clickHandler}) => {
+const ScrollToTop = ({ clickHandler }) => {
   return (
     <button className={styles.scroll} onClick={() => clickHandler()}>
       <span>Top</span>
@@ -25,41 +24,48 @@ class BlogIndex extends React.Component {
 
   clickToScrollHandler = () => {
     if (typeof window !== `undefined`) {
-      window.scrollTo(0, 0);
+      window.scrollTo(0, 0)
     }
   }
 
   render() {
     const posts = get(this, 'props.data.allContentfulBlogPost.edges')
     const components = get(this, 'props.data.contentfulPage.components')
-    const hasVideo = components ? components.filter(c => c.__typename === 'ContentfulVideoHero') : false
+    const hasVideo = components
+      ? components.filter(c => c.__typename === 'ContentfulVideoHero')
+      : false
+    const hasTicker = components
+      ? components.filter(c => c.__typename === 'ContentfulTicker')
+      : false
+
+    console.log(hasVideo)
     return (
       <>
-      <Layout>
-        <PageHead data={this.props.data.contentfulPage} />
+        <Layout>
+          <PageHead data={this.props.data.contentfulPage} />
 
-        {(hasVideo) &&
-          <HomeHero classNames={styles.blogHero} key={hasVideo[0].id} {...hasVideo[0]}/>
-        }
+          {hasVideo.length > 0 && (
+            <HomeHero classNames={styles.blogHero} {...hasVideo[0]} />
+          )}
 
-        <div className={styles.wrapper}>
-          {/* {(this.props.data.contentfulPage.tickerText && hasVideo) &&
-          <Ticker textString={this.props.data.contentfulPage.tickerText}/>
-          } */}
-          <div className={cx('wrapper', {
-            'has-padding-top': !hasVideo && !this.props.data.contentfulPage.tickerText
-          })}>
-            <ul className="article-list">
-              {posts.map( (post, i) => {
-                return <ArticlePreview key={post.node.id} article={post} />
+          <div className={styles.wrapper}>
+            {hasTicker.length > 0 && hasVideo && (
+              <Ticker textString={hasTicker[0].text} />
+            )}
+            <div
+              className={cx('wrapper', {
+                'has-padding-top': hasVideo.length === 0,
               })}
-            </ul>
-            
+            >
+              <ul className="article-list">
+                {posts.map((post, i) => {
+                  return <ArticlePreview key={post.node.id} article={post} />
+                })}
+              </ul>
+            </div>
           </div>
-        </div>
-        
-      </Layout>
-      <ScrollToTop clickHandler={this.clickToScrollHandler}/>
+        </Layout>
+        <ScrollToTop clickHandler={this.clickToScrollHandler} />
       </>
     )
   }
@@ -74,7 +80,7 @@ export const pageQuery = graphql`
         title
       }
     }
-    contentfulPage(template: {eq: "Blog"}) {
+    contentfulPage(template: { eq: "Blog" }) {
       slug
       pageName
       metaDescription
@@ -88,10 +94,11 @@ export const pageQuery = graphql`
         __typename
         ... on Node {
           ...videoHero
+          ...ticker
         }
       }
     }
-    allContentfulBlogPost(sort: {fields: [publishDate], order: DESC}) {
+    allContentfulBlogPost(sort: { fields: [publishDate], order: DESC }) {
       edges {
         node {
           id
