@@ -1,12 +1,12 @@
 .hero {
-    height: 200vh;
-    background-color: #6E98F0;
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    opacity: 1;
+  height: 200vh;
+  background-color: #6e98f0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  opacity: 1;
 }
 
 .wrapper {
@@ -14,8 +14,46 @@
 }
 
 .layout {
-    padding-top: 140px;
-    position: relative;
+  padding-top: 140px;
+  position: relative;
+  background-color: transparent;
+  max-width: 1200px;
+  padding-left: 30px;
+  padding-right: 30px;
+  margin-left: auto;
+  margin-right: auto;
+  box-sizing: content-box;
+}
+
+.title {
+  font-size: 32px;
+  line-height: 1.2;
+  margin-top: 0;
+}
+
+.col:first-of-type {
+  margin-bottom: 55px;
+}
+
+.sticky {
+  max-width: 400px;
+  margin: auto;
+}
+
+.headerBlock {
+  padding-bottom: 20px;
+}
+
+@media (min-width: 1024px) {
+  .sticky {
+    position: sticky;
+    top: 150px;
+    max-width: 300px;
+  }
+
+  .layout {
+    display: flex;
+    justify-content: space-between;
     background-color: transparent;
     max-width: 1200px;
     padding-left: 30px;
@@ -23,84 +61,49 @@
     margin-left: auto;
     margin-right: auto;
     box-sizing: content-box;
-}
+    padding-top: 25vh;
+    padding-bottom: 100px;
+  }
 
+  .col {
+    position: relative;
+  }
 
-.title {
-    font-size: 32px;
+  .col:first-of-type {
+    width: 36%;
+  }
+
+  .col:last-of-type {
+    width: 59%;
+  }
+
+  .title {
+    font-size: 61px;
     line-height: 1.2;
     margin-top: 0;
-}
+    margin-bottom: 6vh;
+  }
 
-.col:first-of-type {
-    margin-bottom: 55px;
-}
+  .section > p {
+    font-size: 25px;
+    line-height: 1.56;
+    margin-top: 0;
+  }
 
-.sticky {
-    max-width: 400px;
-    margin: auto;
-}
+  .header {
+    font-size: 40px;
+  }
 
-.headerBlock {
-padding-bottom: 20px;
-}
+  .fullHeight {
+    min-height: 100vh;
+  }
 
-@media (min-width: 1024px) {
-    .sticky {
-        position: sticky;
-        top: 150px;
-        max-width: 300px;
-    }
+  .midHeadline {
+    font-size: 60px;
+    margin-bottom: 20px;
+  }
 
-    .layout {
-        display: flex;
-        justify-content: space-between;
-        background-color: transparent;
-        max-width: 1200px;
-        padding-left: 30px;
-        padding-right: 30px;
-        margin-left: auto;
-        margin-right: auto;
-        box-sizing: content-box;
-        padding-top: 25vh;
-        padding-bottom: 100px;
-    }
-
-    .col {
-        position: relative;
-    }
-
-    .col:first-of-type {
-        width: 36%;
-    }
-
-    .col:last-of-type {
-        width: 59%;
-    }
-
-    .title {
-        font-size: 61px;
-        line-height: 1.2;
-        margin-top: 0;
-        margin-bottom: 6vh;
-    }
-
-    .section > p {
-        font-size: 25px;
-        line-height: 1.56;
-        margin-top: 0;
-    }
-    
-    .header {
-        font-size: 40px;
-    }
-    
-    .fullHeight {
-        min-height: 100vh;
-    }
-    
-    .midHeadline {
-        font-size: 60px;
-        margin-bottom: 20px;
-    }
+  .hero {
+    height: 100%;
+  }
 }

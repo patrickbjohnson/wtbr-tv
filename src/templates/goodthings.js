@@ -1,4 +1,4 @@
-import React, { createRef }from 'react'
+import React, { createRef } from 'react'
 import { graphql } from 'gatsby'
 import { ParallaxProvider } from 'react-scroll-parallax'
 import MediaQuery from 'react-responsive'
@@ -19,17 +19,23 @@ import VisibilitySensor from '../components/VisibilitySensor'
 import styles from './goodthings.module.css'
 import header from '../components/section-header.module.css'
 
-const Header = ({text, noe, classNames}) => {
+const Header = ({ text, noe, classNames }) => {
   return (
     <div className={cx(classNames, header.block, styles.headerBlock)}>
-      <h2 className={cx(
-        header.text, 
-        header.noOutline, 
-        header.tac, 
-        styles.header, {
-          [header.noe]: noe,
-          [styles.midHeadline]: noe
-        })}>{text}</h2>
+      <h2
+        className={cx(
+          header.text,
+          header.noOutline,
+          header.tac,
+          styles.header,
+          {
+            [header.noe]: noe,
+            [styles.midHeadline]: noe,
+          }
+        )}
+      >
+        {text}
+      </h2>
     </div>
   )
 }
@@ -41,37 +47,49 @@ class GoodThings extends React.Component {
     this.hero = createRef()
     this.titles = []
     this.state = {
-      people: null
+      people: null,
     }
   }
 
   componentDidMount() {
     const components = get(this, 'props.data.contentfulPage.components')
 
-    window.addEventListener('scroll', throttle((e) => {
-      this.scrollHandler(e)
-    }, 100))
+    window.addEventListener(
+      'scroll',
+      throttle(e => {
+        this.scrollHandler(e)
+      }, 100)
+    )
 
-    this.setState({
-      people: this.getComponentsByType('ContentfulGoodPeople', components),
-      accordion: this.getComponentsByType('ContentfulAccordionList', components),
-      features: this.getComponentsByType('ContentfulFeaturedPosts', components)
-    }, () => {
-      this.hero.current.style.height = `${document.body.scrollHeight}px`
-    })
+    this.setState(
+      {
+        people: this.getComponentsByType('ContentfulGoodPeople', components),
+        accordion: this.getComponentsByType(
+          'ContentfulAccordionList',
+          components
+        ),
+        features: this.getComponentsByType(
+          'ContentfulFeaturedPosts',
+          components
+        ),
+      },
+      () => {
+        this.hero.current.style.height = `${document.body.scrollHeight}px`
+      }
+    )
   }
 
   componentWillUnmount() {
     window.removeEventListener('scroll', this.scrollHandler)
   }
 
-  scrollHandler = (e) => {
+  scrollHandler = e => {
     const hero = this.hero.current
-    if(!hero) return
+    if (!hero) return
     const dims = hero.getBoundingClientRect()
     const top = Math.abs(dims.top)
 
-    hero.style.opacity = 1 - (top/600)
+    hero.style.opacity = 1 - top / 600
   }
 
   getComponentsByType = (type, comp) => {
@@ -81,50 +99,61 @@ class GoodThings extends React.Component {
   }
 
   render() {
-    const components = get(this, 'props.data.contentfulPage.components')
-    const {
-      people,
-      accordion,
-      features
-    } = this.state
-    
+    const { people, accordion, features } = this.state
+
     return (
       <ParallaxProvider>
-        <PageHead data={this.props.data.contentfulPage} location={this.props.location} />
+        <PageHead
+          data={this.props.data.contentfulPage}
+          location={this.props.location}
+        />
         <Layout>
-          <div style={{'backgroundColor': 'white', 'position': 'relative', 'zIndex': 10}}>
+          <div
+            style={{
+              backgroundColor: 'white',
+              position: 'relative',
+              zIndex: 10,
+            }}
+          >
             <div className={styles.hero} ref={this.hero}></div>
             <div className={styles.wrapper}>
-              <div className={styles.layout}
-                style={{position: 'relative', 'zIndex': 2}}
+              <div
+                className={styles.layout}
+                style={{ position: 'relative', zIndex: 2 }}
               >
                 <Transition className={styles.col}>
-                    <img className={styles.sticky} src={logo} alt="Good Things"/>
+                  <img className={styles.sticky} src={logo} alt="Good Things" />
                 </Transition>
                 <div className={styles.col}>
-                  <Transition delay={250} >
+                  <Transition delay={250}>
                     <div className={styles.fullHeight}>
                       {/* <h1 className={styles.title}>Let’s build something meaningful together, one cause, one event, one good thing at a time.</h1> */}
 
                       <div className={styles.section}>
-                        <Header noe text="Mission"/>
-                        <p>A small team of dedicated organizers and strategists who specialize in socially-driven campaigns & event management that result in “good things” for our clients and communities.</p>
+                        <Header noe text="Mission" />
+                        <p>
+                          A small team of dedicated organizers and strategists
+                          who specialize in socially-driven campaigns & event
+                          management that result in “good things” for our
+                          clients and communities.
+                        </p>
                       </div>
                     </div>
                   </Transition>
-                  {people &&
+                  {people && (
                     <div className={styles.section}>
                       <VisibilitySensor once>
                         {({ isVisible }) => {
                           return (
                             <FadeUp isVisible={isVisible} delay={0}>
-                              <Header noe text="Good People"/>
+                              <Header noe text="Good People" />
                             </FadeUp>
-                        )}}
+                          )
+                        }}
                       </VisibilitySensor>
 
                       {people.map((p, i) => {
-                        return p.blocks.map((v) => {
+                        return p.blocks.map(v => {
                           return (
                             <>
                               <MediaQuery minWidth={1024}>
@@ -134,7 +163,8 @@ class GoodThings extends React.Component {
                                       <FadeUp isVisible={isVisible} delay={0}>
                                         <GoodPerson key={v.id} {...v} />
                                       </FadeUp>
-                                  )}}
+                                    )
+                                  }}
                                 </VisibilitySensor>
                               </MediaQuery>
                               <MediaQuery maxWidth={1024}>
@@ -145,23 +175,27 @@ class GoodThings extends React.Component {
                         })
                       })}
                     </div>
-                  }
+                  )}
                 </div>
               </div>
               <div>
                 <div>
-                  {accordion && accordion.map((a) => {
-                    return (
-                      <Accordion key={Math.random()} set={a.activeJobs} alignment={a.textAlignment}/>
-                    )
-                  })}
+                  {accordion &&
+                    accordion.map(a => {
+                      return (
+                        <Accordion
+                          key={Math.random()}
+                          set={a.activeJobs}
+                          alignment={a.textAlignment}
+                        />
+                      )
+                    })}
                 </div>
 
-                {features && features.map((f) => {
-                  return (
-                    <FeaturedPosts key={Math.random()} {...f}/>
-                  )
-                })}
+                {features &&
+                  features.map(f => {
+                    return <FeaturedPosts key={Math.random()} {...f} />
+                  })}
               </div>
             </div>
           </div>
@@ -172,8 +206,8 @@ class GoodThings extends React.Component {
 }
 
 export const pageQuery = graphql`
-  query PageBySlug($slug:String!) {
-    contentfulPage(slug:{eq: $slug}) {
+  query PageBySlug($slug: String!) {
+    contentfulPage(slug: { eq: $slug }) {
       slug
       pageName
       metaDescription
