@@ -20,6 +20,7 @@ export default class Footer extends Component {
     window.addEventListener(
       'resize',
       throttle(e => {
+        if (!this.footerRef.current) return
         const dims = this.footerRef.current.getBoundingClientRect()
         this.spacerRef.current.style.height = `${dims.height}px`
       }, 250)
