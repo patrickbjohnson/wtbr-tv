@@ -61,22 +61,14 @@ class GoodThings extends React.Component {
       }, 100)
     )
 
-    this.setState(
-      {
-        people: this.getComponentsByType('ContentfulGoodPeople', components),
-        accordion: this.getComponentsByType(
-          'ContentfulAccordionList',
-          components
-        ),
-        features: this.getComponentsByType(
-          'ContentfulFeaturedPosts',
-          components
-        ),
-      },
-      () => {
-        this.hero.current.style.height = `${document.body.scrollHeight}px`
-      }
-    )
+    this.setState({
+      people: this.getComponentsByType('ContentfulGoodPeople', components),
+      accordion: this.getComponentsByType(
+        'ContentfulAccordionList',
+        components
+      ),
+      features: this.getComponentsByType('ContentfulFeaturedPosts', components),
+    })
   }
 
   componentWillUnmount() {
