@@ -1,31 +1,38 @@
-import React, { Component, createRef } from 'react';
+import React, { Component, createRef } from 'react'
 import uniq from 'lodash.uniq'
 import uniqBy from 'lodash.uniqby'
 import cx from 'classnames'
 import scrollIntoView from 'scroll-into-view-if-needed'
 import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
-import ContentBlock from './ContentBlock';
+import ContentBlock from './ContentBlock'
 import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
-import FilterPanel from './filter-panel';
+import FilterPanel from './filter-panel'
 
 import '../../node_modules/flickity/dist/flickity.css'
 import styles from './contentGrid.module.css'
 
-const Flickity = typeof window !== "undefined" ? require("flickity") : () => null
+const Flickity =
+  typeof window !== 'undefined' ? require('flickity') : () => null
 
-const flatten = (arr) => {
-  return arr.reduce(function (flat, toFlatten) {
-    return flat.concat(Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten);
-  }, []);
+const flatten = arr => {
+  return arr.reduce(function(flat, toFlatten) {
+    return flat.concat(
+      Array.isArray(toFlatten) ? flatten(toFlatten) : toFlatten
+    )
+  }, [])
 }
 
-const slugify = (string) => {
-  const a = 'àáäâãåăæąçćčđďèéěėëêęğǵḧìíïîįłḿǹńňñòóöôœøṕŕřßşśšșťțùúüûǘůűūųẃẍÿýźžż·/_,:;'
-  const b = 'aaaaaaaaacccddeeeeeeegghiiiiilmnnnnooooooprrsssssttuuuuuuuuuwxyyzzz------'
+const slugify = string => {
+  const a =
+    'àáäâãåăæąçćčđďèéěėëêęğǵḧìíïîįłḿǹńňñòóöôœøṕŕřßşśšșťțùúüûǘůűūųẃẍÿýźžż·/_,:;'
+  const b =
+    'aaaaaaaaacccddeeeeeeegghiiiiilmnnnnooooooprrsssssttuuuuuuuuuwxyyzzz------'
   const p = new RegExp(a.split('').join('|'), 'g')
 
-  return string.toString().toLowerCase()
+  return string
+    .toString()
+    .toLowerCase()
     .replace(/\s+/g, '-') // Replace spaces with -
     .replace(p, c => b.charAt(a.indexOf(c))) // Replace special characters
     .replace(/&/g, '-and-') // Replace & with 'and'
@@ -50,7 +57,7 @@ class ContentGrid extends Component {
     this.flickOptions = {
       cellAlign: 'left',
       contain: true,
-      draggable: false
+      draggable: false,
     }
 
     this.state = {
@@ -71,12 +78,16 @@ class ContentGrid extends Component {
   }
 
   handleSticky = () => {
-    if(window && this.filterPanel && typeof this.filterPanel.getBoundingClientRect === 'function') {
+    if (
+      window &&
+      this.filterPanel &&
+      typeof this.filterPanel.getBoundingClientRect === 'function'
+    ) {
       const filterPanel = this.filterPanel.getBoundingClientRect()
 
       const unfixed = filterPanel.y + filterPanel.height < window.innerHeight
 
-      if(this.state.isUnfixed !== unfixed) {
+      if (this.state.isUnfixed !== unfixed) {
         this.setState({ isUnfixed: unfixed })
         this.contentPanel.current.style.paddingBottom = unfixed ? '45px' : '0'
         this.filterPanel.style.position = unfixed ? 'absolute' : 'sticky'
@@ -85,18 +96,19 @@ class ContentGrid extends Component {
   }
 
   componentDidMount() {
-    const {
-      contentBlocks
-    } = this.props
+    const { contentBlocks } = this.props
 
     const sluggedBlocks = contentBlocks.slice()
 
-    this.setState({
-      base: sluggedBlocks,
-      blocks: sluggedBlocks
-    }, () => {
-      this.initFlickity()
-    });
+    this.setState(
+      {
+        base: sluggedBlocks,
+        blocks: sluggedBlocks,
+      },
+      () => {
+        this.initFlickity()
+      }
+    )
 
     this.initCategories(sluggedBlocks)
 
@@ -110,8 +122,12 @@ class ContentGrid extends Component {
   initFlickity = () => {
     this.flickity = new Flickity(this.slider.current, this.flickOptions)
 
-    Array.from(this.slider.current.querySelectorAll('.flickity-button'), (b) => b.style.display = 'none')
-    this.slider.current.querySelector('.flickity-page-dots').style.display = 'none'
+    Array.from(
+      this.slider.current.querySelectorAll('.flickity-button'),
+      b => (b.style.display = 'none')
+    )
+    this.slider.current.querySelector('.flickity-page-dots').style.display =
+      'none'
 
     this.setDisabledStates()
     this.flickityChangeEvent()
@@ -120,12 +136,12 @@ class ContentGrid extends Component {
   setDisabledStates = () => {
     this.setState({
       isFirst: this.flickity.selectedIndex === 0,
-      isLast: this.flickity.selectedIndex === (this.flickity.cells.length - 1)
+      isLast: this.flickity.selectedIndex === this.flickity.cells.length - 1,
     })
   }
 
   flickityChangeEvent = () => {
-    this.flickity.on('change', (e) => {
+    this.flickity.on('change', e => {
       this.setDisabledStates()
     })
   }
@@ -133,35 +149,35 @@ class ContentGrid extends Component {
   getCurrentIndex = () => {
     const blocks = this.state.blocks
     const current = this.state.activeSlide
-    return blocks.findIndex((b) => b.id === current.id)
+    return blocks.findIndex(b => b.id === current.id)
   }
 
-  insertSlider = (currentRow) => {
+  insertSlider = currentRow => {
     const COL_COUNT = 4
     const nextRow = Math.ceil((this.getCurrentIndex() + 1) / COL_COUNT)
 
-    this.setState({
-      sliderRow: nextRow,
-    }, () => {
-      this.flickity.select(this.getCurrentIndex())
-      this.flickity.resize()
-      if (currentRow === nextRow) return
-      this.flickityIntoView()
-    })
+    this.setState(
+      {
+        sliderRow: nextRow,
+      },
+      () => {
+        this.flickity.select(this.getCurrentIndex())
+        this.flickity.resize()
+        if (currentRow === nextRow) return
+        this.flickityIntoView()
+      }
+    )
 
     this.handleSticky()
   }
 
   blockHandler = (block, index) => {
-    const {
-      panelIsOpen,
-      sliderRow
-    } = this.state
+    const { panelIsOpen, sliderRow } = this.state
 
     const currentSlide = this.state.activeSlide
     const isSameSlide = block === currentSlide
 
-    if (isSameSlide && panelIsOpen)  {
+    if (isSameSlide && panelIsOpen) {
       this.closePanel()
     } else if (!isSameSlide && panelIsOpen) {
       this.openPanel()
@@ -169,54 +185,63 @@ class ContentGrid extends Component {
       this.openPanel()
     }
 
-    this.setState({
-      activeSlide: block,
-    }, () => {
-      this.insertSlider(sliderRow, block, index)
-    })
+    this.setState(
+      {
+        activeSlide: block,
+      },
+      () => {
+        this.insertSlider(sliderRow, block, index)
+      }
+    )
 
     this.handleSticky()
   }
 
   pauseVideos = () => {
-    var videos = document.getElementsByTagName("video");
-    
+    var videos = document.getElementsByTagName('video')
+
     for (let video of videos) {
       if (!video.classList.contains('video-player')) continue
-      video.pause();
+      video.pause()
     }
   }
 
   closePanel = () => {
-    this.setState({
-      panelIsOpen: false
-    }, () => {
-      this.contentPanel.current.style.height = `0`
+    this.setState(
+      {
+        panelIsOpen: false,
+      },
+      () => {
+        this.contentPanel.current.style.height = `0`
 
-      this.pauseVideos()
+        this.pauseVideos()
 
-      setTimeout(() => {
-        this.contentPanel.current.style.display = `none`
-      }, 850)
-    })
+        setTimeout(() => {
+          this.contentPanel.current.style.display = `none`
+        }, 850)
+      }
+    )
 
     this.handleSticky()
   }
 
   openPanel = () => {
-    this.setState({
-      panelIsOpen: true
-    }, () => {
-      this.contentPanel.current.style.display = `block`
+    this.setState(
+      {
+        panelIsOpen: true,
+      },
+      () => {
+        this.contentPanel.current.style.display = `block`
 
-      this.pauseVideos()
+        this.pauseVideos()
 
-      setTimeout(() => {
-        const panel = this.contentPanel.current;
-        const inner = panel.querySelector('[data-panel-inner="true"]')
-        this.contentPanel.current.style.height = `${inner.scrollHeight}px`
-      }, 0)
-    })
+        setTimeout(() => {
+          const panel = this.contentPanel.current
+          const inner = panel.querySelector('[data-panel-inner="true"]')
+          this.contentPanel.current.style.height = `${inner.scrollHeight}px`
+        }, 0)
+      }
+    )
 
     this.handleSticky()
   }
@@ -225,26 +250,25 @@ class ContentGrid extends Component {
     smoothScrollIntoView(this.contentPanel.current, {
       block: 'start',
       behavior: 'smooth',
-      duration: 100
+      duration: 100,
     })
   }
 
-  initCategories = (blocks) => {
-    let cats = blocks.map((block) => {
+  initCategories = blocks => {
+    let cats = blocks.map(block => {
       if (!block.categories) return
-      return block.categories.map((cat) => {
+      return block.categories.map(cat => {
         return {
           title: cat.category,
           color: cat.categoryColor,
-          slug: slugify(cat.category)
+          slug: slugify(cat.category),
         }
       })
     })
 
-
-    cats = cats.filter(function (el) {
-      return el != null;
-    });
+    cats = cats.filter(function(el) {
+      return el != null
+    })
 
     this.setState({
       categories: uniqBy(flatten(cats), 'slug'),
@@ -264,28 +288,28 @@ class ContentGrid extends Component {
     }
 
     this.setState({
-      filterOpen: !cs
+      filterOpen: !cs,
     })
   }
 
   filterReset = () => {
+    console.log('filter reset')
+    const { base, categories } = this.state
+
     this.setState({
       activeSlide: -1,
       panelIsOpen: false,
-      catSelected: []
+      catSelected: [],
+      blocks: base,
     })
   }
 
-  filterContentSelection = (slug) => {
-    const {
-      base,
-      categories
-    } = this.state
-    
+  filterContentSelection = slug => {
+    const { base, categories } = this.state
 
     const slugIndex = this.activeSlugs.indexOf(slug)
     let shouldResetResults = slug === '*'
-    
+
     if (shouldResetResults || categories.length === this.activeSlugs.length) {
       this.activeSlugs = []
     } else if (slugIndex > -1) {
@@ -300,13 +324,17 @@ class ContentGrid extends Component {
       shouldResetResults = true
       this.activeSlugs = []
     }
-    
-    const results = shouldResetResults ? base : base.filter(b => {
-      return b.categories ? b.categories.some((r) => {
-        return this.activeSlugs.indexOf(slugify(r.category)) > -1
-      }) : false
-    });
-    
+
+    const results = shouldResetResults
+      ? base
+      : base.filter(b => {
+          return b.categories
+            ? b.categories.some(r => {
+                return this.activeSlugs.indexOf(slugify(r.category)) > -1
+              })
+            : false
+        })
+
     this.filterHeightToggle()
     /**
      * Have to destroy flickity first
@@ -316,30 +344,39 @@ class ContentGrid extends Component {
      * the DOM elements are removed and re-inserted
      */
     this.flickity.destroy()
-    this.setState({
-      blocks: results,
-      panelIsOpen: false,
-      catSelected: this.activeSlugs,
-    }, () => {
-      this.initFlickity()
-      this.closePanel()
-    })
+    this.setState(
+      {
+        blocks: results,
+        panelIsOpen: false,
+        catSelected: this.activeSlugs,
+      },
+      () => {
+        this.initFlickity()
+        this.closePanel()
+      }
+    )
   }
 
   isLastSlide = () => (this.flickity.selectedIndex === 0 ? 'disabled' : '')
 
   handlePrev = () => {
     this.flickity.previous()
-    this.setState({ 
-      activeSlide: this.state.blocks[this.flickity.selectedIndex] 
-    }, this.pauseVideos())
+    this.setState(
+      {
+        activeSlide: this.state.blocks[this.flickity.selectedIndex],
+      },
+      this.pauseVideos()
+    )
   }
 
   handleNext = () => {
     this.flickity.next()
-    this.setState({ 
-      activeSlide: this.state.blocks[this.flickity.selectedIndex] 
-    }, this.pauseVideos())
+    this.setState(
+      {
+        activeSlide: this.state.blocks[this.flickity.selectedIndex],
+      },
+      this.pauseVideos()
+    )
   }
 
   render() {
@@ -350,111 +387,133 @@ class ContentGrid extends Component {
       active,
       activeSlide,
       catSelected,
-      panelIsOpen
+      panelIsOpen,
     } = this.state
 
-    const {
-      displayCategory,
-      identifier,
-    } = this.props
+    const { displayCategory, identifier } = this.props
 
-    const visibleBlocks = this.state.showAll
-      ? blocks
-      : blocks.slice(0, 16)
+    const visibleBlocks = this.state.showAll ? blocks : blocks.slice(0, 16)
 
     return (
-      <div ref="wrapper" className={cx(styles.layout, {
-        [styles.gridSpace]: displayCategory
-      })}>
+      <div
+        ref="wrapper"
+        className={cx(styles.layout, {
+          [styles.gridSpace]: displayCategory,
+        })}
+      >
         <div className={styles.scrollOffset} id={identifier} />
-        {this.props.sectionTitle &&
-          <SectionHeader text={this.props.sectionTitle} classes='wrapper' />
-        }
+        {this.props.sectionTitle && (
+          <SectionHeader text={this.props.sectionTitle} classes="wrapper" />
+        )}
 
         <div className={styles.gridWrapper}>
           <div className={styles.grid}>
-            {visibleBlocks && visibleBlocks.map((b, i) => {
-              return (
-                <div
-                  className={styles.col}
-                  onClick={() => this.blockHandler(b, i)}
-                  key={b.id}
-                >
-                  <ContentBlock
-                    panelIsOpen={panelIsOpen}
+            {visibleBlocks &&
+              visibleBlocks.map((b, i) => {
+                return (
+                  <div
+                    className={styles.col}
+                    onClick={() => this.blockHandler(b, i)}
                     key={b.id}
-                    active={activeSlide.id === b.id}
-                    inGrid={true}
-                    {...b}
-                  />
-                </div>
-              )
-            })}
+                  >
+                    <ContentBlock
+                      panelIsOpen={panelIsOpen}
+                      key={b.id}
+                      active={activeSlide.id === b.id}
+                      inGrid={true}
+                      {...b}
+                    />
+                  </div>
+                )
+              })}
 
             <div
               className={cx(styles.full, styles.wrapper, {
                 [styles.fullHeight]: this.state.panelIsOpen,
               })}
               style={{
-                'gridRow': sliderRow + 1,
+                gridRow: sliderRow + 1,
               }}
               ref={this.contentPanel}
             >
-              <button className={cx(styles.closeBtn)} onClick={this.closePanel} />
-              
+              <button
+                className={cx(styles.closeBtn)}
+                onClick={this.closePanel}
+              />
+
               <div className={styles.slider} ref={this.slider}>
-                {blocks && blocks.map((b, i) => {
-                  return (
-                    <ContentPanel
-                      key={i}
-                      isFilterable={displayCategory}
-                      currentSlide={active}
-                      slideIndex={i}
-                      {...b}
-                    />
-                  )
-                })}
+                {blocks &&
+                  blocks.map((b, i) => {
+                    return (
+                      <ContentPanel
+                        key={i}
+                        isFilterable={displayCategory}
+                        currentSlide={active}
+                        slideIndex={i}
+                        whiteBg
+                        {...b}
+                      />
+                    )
+                  })}
               </div>
 
               <div className={styles.pagination}>
                 <button
                   className={cx(styles.prev, styles.btn)}
                   disabled={this.state.isFirst}
-                  onClick={this.handlePrev}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="27">
-                      <g fillRule="evenodd">
-                        <path d="M15.071 24.657l-1.414 1.414L.929 13.343l1.414-1.414z"></path>
-                        <path d="M13.592.55l1.415 1.413L2.279 14.691.865 13.277z"></path>
-                      </g>
-                    </svg>
+                  onClick={this.handlePrev}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="27"
+                  >
+                    <g fillRule="evenodd">
+                      <path d="M15.071 24.657l-1.414 1.414L.929 13.343l1.414-1.414z"></path>
+                      <path d="M13.592.55l1.415 1.413L2.279 14.691.865 13.277z"></path>
+                    </g>
+                  </svg>
                 </button>
 
                 <button
                   className={cx(styles.next, styles.btn)}
                   disabled={this.state.isLast}
-                  onClick={this.handleNext}>
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="27">
-                      <g fillRule="evenodd">
-                        <path d="M.929 2.343L2.343.93l12.728 12.728-1.414 1.414z"></path>
-                        <path d="M2.408 26.45L.993 25.038 13.721 12.31l1.414 1.414z"></path>
-                      </g>
-                    </svg>
-                  </button>
+                  onClick={this.handleNext}
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="27"
+                  >
+                    <g fillRule="evenodd">
+                      <path d="M.929 2.343L2.343.93l12.728 12.728-1.414 1.414z"></path>
+                      <path d="M2.408 26.45L.993 25.038 13.721 12.31l1.414 1.414z"></path>
+                    </g>
+                  </svg>
+                </button>
               </div>
             </div>
           </div>
-          {displayCategory &&
+          {displayCategory && (
             <FilterPanel
               categories={categories}
               isOpen={this.state.filterOpen}
               selected={catSelected}
-              refHandler={(el) => this.filterPanel = el}
+              refHandler={el => (this.filterPanel = el)}
               selectionHandler={this.filterContentSelection}
-              panelHandler={this.state.isUnfixed && !this.state.showAll ? this.loadMore : this.filterHeightToggle}
+              panelHandler={
+                this.state.isUnfixed && !this.state.showAll
+                  ? this.loadMore
+                  : this.filterHeightToggle
+              }
               resetHandler={this.filterReset}
-              text={this.state.isUnfixed && !this.state.showAll ? 'Load More' : 'Filter'}
+              text={
+                this.state.isUnfixed && !this.state.showAll
+                  ? 'Load More'
+                  : 'Filter'
+              }
             />
-          }
+          )}
         </div>
       </div>
     )

@@ -1,36 +1,44 @@
 .filter {
-    z-index: 9;
-    position: sticky;
-    bottom: 0;
-    width: 100%;
-    background-color: white;
-    -webkit-transition: height .25s ease-out;
-    transition: height .25s ease-out;
-    overflow: hidden;
-    height: 45px;
+  z-index: 9;
+  position: sticky;
+  bottom: 0;
+  width: 100%;
+  background-color: white;
+  -webkit-transition: height 0.25s ease-out;
+  transition: height 0.25s ease-out;
+  overflow: hidden;
+  height: 45px;
+}
+
+.filter.isOpen {
+  padding-bottom: 45px;
 }
 
 .filterItem {
-    display: block;
-    background-color: #000;
-    color: #fff;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: .175em;
-    font-weight: bold;
-    text-align: center;
-    padding: 12px;
-    cursor: pointer;
+  display: block;
+  background-color: #000;
+  color: #fff;
+  text-transform: uppercase;
+  font-size: 13px;
+  letter-spacing: 0.175em;
+  font-weight: bold;
+  text-align: center;
+  padding: 12px;
+  cursor: pointer;
 }
 
 .resetFilter {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.resetFilter.isOpen {
+  position: relative;
 }
 
 .filterControl {
-    height: 21px;
-    box-sizing: content-box;
+  height: 21px;
+  box-sizing: content-box;
 }

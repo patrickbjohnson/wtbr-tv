@@ -26,6 +26,7 @@ class ContentPanel extends Component {
       isFilterable,
       isFeatured,
       bg_color_override,
+      whiteBg,
     } = this.props
 
     let cat = null
@@ -43,7 +44,9 @@ class ContentPanel extends Component {
             })}
             style={{
               backgroundColor:
-                bg_color_override && !isFilterable ? bg_color_override : '#fff',
+                bg_color_override && !isFilterable && !whiteBg
+                  ? bg_color_override
+                  : '#fff',
             }}
           >
             <div className={styles.inner} data-panel-inner="true">
