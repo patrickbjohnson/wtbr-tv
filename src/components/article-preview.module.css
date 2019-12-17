@@ -1,5 +1,4 @@
 .article {
-  border-top: 1px solid #000;
   border-bottom: 1px solid #000;
   border-left: 1px solid #000;
   padding-top: 50px;
@@ -13,7 +12,7 @@
 }
 
 .title {
-  font-size: 46px;
+  font-size: 36px;
   line-height: 1.2;
   margin-top: 0;
   margin-bottom: 0;
@@ -45,18 +44,31 @@
 .content ul,
 .content ol {
   list-style: none;
+  padding-left: 0;
+  white-space: pre-wrap; /* CSS3 */
+  word-wrap: break-word;
 }
 
-
 .tag {
-  color: #A0A0A0;
+  color: #a0a0a0;
   text-decoration: none;
   display: inline-block;
-  padding: .33333rem .5rem;
+  padding: 0.33333rem 0.5rem;
   line-height: 1;
   border-radius: 2px;
-  border: 1px solid #A0A0A0;
-  margin-right: .5em;
+  border: 1px solid #a0a0a0;
+  margin-right: 0.5em;
+}
+
+@media (min-width: 500px) {
+  .title {
+    font-size: 46px;
+  }
+
+  .content ul,
+  .content ol {
+    padding-left: 2em;
+  }
 }
 
 @media (min-width: 768px) {
@@ -71,7 +83,6 @@
     border-right: 1px solid #000;
     border-left: 0;
   }
- 
 
   .title {
     font-size: 48px;

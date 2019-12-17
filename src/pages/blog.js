@@ -38,7 +38,6 @@ class BlogIndex extends React.Component {
       ? components.filter(c => c.__typename === 'ContentfulTicker')
       : false
 
-    console.log(hasVideo)
     return (
       <>
         <Layout>
@@ -48,15 +47,15 @@ class BlogIndex extends React.Component {
             <HomeHero classNames={styles.blogHero} {...hasVideo[0]} />
           )}
 
-          <div className={styles.wrapper}>
+          <div
+            className={cx(styles.wrapper, {
+              'has-padding-top': hasVideo.length === 0,
+            })}
+          >
             {hasTicker.length > 0 && hasVideo && (
               <Ticker textString={hasTicker[0].text} />
             )}
-            <div
-              className={cx('wrapper', {
-                'has-padding-top': hasVideo.length === 0,
-              })}
-            >
+            <div className={cx('wrapper')}>
               <ul className="article-list">
                 {posts.map((post, i) => {
                   return <ArticlePreview key={post.node.id} article={post} />
