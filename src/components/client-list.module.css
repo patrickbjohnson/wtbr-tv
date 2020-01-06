@@ -20,41 +20,49 @@
   border-right: 2px solid #000;
 }
 
-
 @media (max-width: 768px) {
   .col:nth-child(2n) {
     border-right: 0;
-  } 
+  }
 }
 
 .image {
-  height: 300px;
+  height: 200px;
   overflow: hidden;
 }
 
 @media (min-width: 768px) {
   .grid {
-    grid-template-columns: repeat(3, 1fr);
+    margin-left: auto;
+    margin-right: auto;
+    justify-content: center;
+    grid-template-columns: repeat(3, 200px);
   }
 }
 
 @media (min-width: 768px) and (max-width: 1199px) {
   .col:nth-child(3n) {
     border-right: 0;
-  } 
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(4, 200px);
+  }
 }
 
 @media (min-width: 1200px) {
   .grid {
     grid-template-columns: repeat(6, 1fr);
   }
-  
+
   .image {
     height: 200px;
     overflow: hidden;
   }
-  
+
   .col:nth-child(6n) {
     border-right: 0;
-  } 
+  }
 }

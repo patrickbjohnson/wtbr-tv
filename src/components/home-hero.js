@@ -8,43 +8,39 @@ class HomeHero extends Component {
     super(props)
 
     this.state = {
-      loaded: false
+      loaded: false,
     }
   }
 
   render() {
-    const {
-      classNames,
-      videoHeroTitle,
-      videoUrl,
-      image
-    } = this.props
-        
+    const { classNames, videoHeroTitle, videoUrl, image } = this.props
+
     return (
       <div className={cx(styles.block, classNames)}>
         <div className={styles.videoWrapper}>
-          {videoUrl &&
+          {videoUrl && (
             <video
-              onCanPlay={(e) => this.setState({ loaded: true })}
-              className={cx(styles.video, { [styles.loaded]: this.state.loaded })}
+              poster={image ? image.fluid.src : ''}
+              onCanPlay={e => this.setState({ loaded: true })}
+              className={cx(styles.video, styles.loaded)}
               autoPlay
               loop
               muted
+              preload="true"
+              playsInline
             >
               <source src={`${videoUrl}`} type="video/mp4" />
             </video>
-          }
-          
-          {(image && !videoUrl) &&
-            <Img alt={image.title} fluid={image.fluid} /> 
-          }
+          )}
+
+          {image && !videoUrl && <Img alt={image.title} fluid={image.fluid} />}
         </div>
-        <div className={styles.section} >
-          {videoHeroTitle &&
-          <div className={styles.content}>
-            <p className={styles.title}>{videoHeroTitle}</p>
-          </div>
-          }
+        <div className={styles.section}>
+          {videoHeroTitle && (
+            <div className={styles.content}>
+              <p className={styles.title}>{videoHeroTitle}</p>
+            </div>
+          )}
         </div>
       </div>
     )

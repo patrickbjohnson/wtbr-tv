@@ -89,8 +89,9 @@ class ContentGrid extends Component {
 
       if (this.state.isUnfixed !== unfixed) {
         this.setState({ isUnfixed: unfixed })
-        this.contentPanel.current.style.paddingBottom = unfixed ? '45px' : '0'
+        // this.contentPanel.current.style.paddingBottom = unfixed ? '45px' : '0'
         this.filterPanel.style.position = unfixed ? 'absolute' : 'sticky'
+        this.filterPanel.style.bottom = unfixed ? '-45px' : '0'
       }
     }
   }
@@ -279,7 +280,7 @@ class ContentGrid extends Component {
 
   filterHeightToggle = () => {
     const cs = this.state.filterOpen
-    const openHeight = this.filterPanel.scrollHeight
+    const openHeight = this.filterPanel.scrollHeight + 45
 
     if (this.state.filterOpen) {
       this.filterPanel.style.height = '45px'

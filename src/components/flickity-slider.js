@@ -70,7 +70,17 @@ class FlickitySlider extends Component {
     this.flickity.on('change', e => {
       this.setDisabledStates()
       this.setState({ active: e })
+      this.pauseVideos()
     })
+  }
+
+  pauseVideos = () => {
+    var videos = document.getElementsByTagName('video')
+
+    for (let video of videos) {
+      if (!video.classList.contains('video-player')) continue
+      video.pause()
+    }
   }
 
   render() {

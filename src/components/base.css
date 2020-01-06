@@ -1,8 +1,8 @@
 @font-face {
-  font-family: "Noe";
+  font-family: 'Noe';
   font-weight: 400;
   font-style: normal;
-  src: url("/Noe-Display-Bold.woff2") format("woff2");
+  src: url('/Noe-Display-Bold.woff2') format('woff2');
   font-display: swap;
 }
 
@@ -21,7 +21,7 @@ body {
   font-size: 15px;
   line-height: 25px;
   color: #000;
-  background: #F8D377;
+  background: #f8d377;
   margin: 0;
   min-height: 100%;
 }
@@ -44,7 +44,7 @@ h3,
 h4,
 h5,
 h6 {
-  font-family: "Noe", Georgia, 'Times New Roman', Times, serif;
+  font-family: 'Noe', Georgia, 'Times New Roman', Times, serif;
 }
 
 a {
@@ -62,8 +62,8 @@ a {
 @media (min-width: 1024px) {
   .pageContainer {
     padding-top: 80px;
-  } 
-  
+  }
+
   .pageContainer.home {
     padding-top: 0;
   }
@@ -143,7 +143,7 @@ a {
 
 .fade-in-delay {
   opacity: 1;
-  transition: 1s ease-out .2s;
+  transition: 1s ease-out 0.2s;
 }
 
 .display-immediate {
@@ -179,11 +179,14 @@ a {
   color: transparent;
 }
 
-
 .tl-edges {
   overflow-x: visible !important;
 }
 
 .has-padding-top {
   padding-top: 80px;
+}
+
+.pageContainer {
+  padding-bottom: 45px;
 }

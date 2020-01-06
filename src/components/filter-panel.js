@@ -71,6 +71,7 @@ class FilterPanel extends Component {
         <span
           className={cx(styles.filterItem)}
           onClick={() => {
+            console.log('clicked reset')
             resetHandler()
             selectionHandler('*')
           }}
@@ -84,7 +85,6 @@ class FilterPanel extends Component {
             styles.resetFilter
           )}
           onClick={() => {
-            console.log('clicked')
             panelHandler()
           }}
         >

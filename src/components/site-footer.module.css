@@ -69,6 +69,7 @@
 
 @media (min-width: 768px) {
   .footer {
+    padding-top: 45px;
     padding-left: 65px;
     padding-right: 65px;
     text-align: left;

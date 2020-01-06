@@ -10,10 +10,6 @@
   height: 45px;
 }
 
-.filter.isOpen {
-  padding-bottom: 45px;
-}
-
 .filterItem {
   display: block;
   background-color: #000;
