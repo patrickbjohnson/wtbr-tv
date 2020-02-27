@@ -5,6 +5,8 @@ import cx from 'classnames'
 import ContentBlock from './ContentBlock'
 import ContentPanel from './content-panel'
 import SectionHeader from './section-header'
+import scrollIntoView from 'scroll-into-view-if-needed'
+import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
 
 import FilterPanel from './filter-panel'
 
@@ -47,6 +49,7 @@ class ContentGrid extends Component {
     this.activeSlugs = []
     this.mq = null
     this.matches = false
+    this.mobileContentRef = []
 
     this.state = {
       base: [],
@@ -63,6 +66,10 @@ class ContentGrid extends Component {
       showAll: false,
       isUnfixed: false,
     }
+  }
+
+  setRef = ref => {
+    this.mobileContentRef.push(ref)
   }
 
   handleSticky = () => {
@@ -108,41 +115,26 @@ class ContentGrid extends Component {
     return blocks.findIndex(b => b.id === current.id)
   }
 
-  insertSlider = currentRow => {
-    const COL_COUNT = 4
-    const nextRow = Math.ceil((this.getCurrentIndex() + 1) / COL_COUNT)
+  blockHandler = (block, index, evt) => {
+    console.log('block handlers!')
+    const panel = this.mobileContentRef[index]
+    const { panelIsOpen } = this.state
 
-    this.setState({
-      sliderRow: nextRow,
-    })
-
-    this.handleSticky()
-  }
-
-  blockHandler = (block, index) => {
-    const { panelIsOpen, sliderRow } = this.state
-
-    const currentSlide = this.state.activeSlide
-    const isSameSlide = block === currentSlide
+    const isSameSlide = block === this.state.activeSlide
 
     if (isSameSlide && panelIsOpen) {
-      this.closePanel()
+      this.closePanel(panel)
     } else if (!isSameSlide && panelIsOpen) {
-      this.openPanel()
+      this.openPanel(panel)
     } else if (!panelIsOpen) {
-      this.openPanel()
+      this.openPanel(panel)
     }
 
-    this.setState(
-      {
-        activeSlide: block,
-      },
-      () => {
-        this.insertSlider(sliderRow, block, index)
-      }
-    )
+    this.setState({
+      activeSlide: block,
+    })
 
-    this.handleSticky()
+    // this.handleSticky()
   }
 
   pauseVideos = () => {
@@ -152,42 +144,31 @@ class ContentGrid extends Component {
     }
   }
 
-  closePanel = () => {
-    this.setState(
-      {
-        panelIsOpen: false,
-      },
-      () => {
-        this.contentPanel.current.style.height = `0`
+  closePanel = panel => {
+    this.pauseVideos()
+    panel.style.height = 0
 
-        this.pauseVideos()
+    this.setState({
+      panelIsOpen: false,
+    })
 
-        setTimeout(() => {
-          this.contentPanel.current.style.display = `none`
-        }, 850)
-      }
-    )
-
-    this.handleSticky()
+    // this.handleSticky()
   }
 
-  openPanel = () => {
-    this.setState(
-      {
-        panelIsOpen: true,
-      },
-      () => {
-        this.contentPanel.current.style.display = `block`
+  openPanel = panel => {
+    this.closeAllPanels()
+    this.pauseVideos()
+    panel.style.height = `${panel.scrollHeight}px`
 
-        this.pauseVideos()
+    this.setState({
+      panelIsOpen: true,
+    })
 
-        setTimeout(() => {
-          this.contentPanel.current.style.height = `100%`
-        }, 0)
-      }
-    )
+    // this.handleSticky()
+  }
 
-    this.handleSticky()
+  closeAllPanels = () => {
+    this.mobileContentRef.map(panel => (panel.style.height = 0))
   }
 
   initCategories = blocks => {
@@ -286,6 +267,7 @@ class ContentGrid extends Component {
   showLoadMore = () => {
     return this.state.isUnfixed && !this.state.showAll
   }
+
   // constructor(props) {
   //     super(props)
   //     this.filterPanel = createRef()
@@ -452,19 +434,28 @@ class ContentGrid extends Component {
             blocks.map((b, i) => (
               <div
                 className={styles.col}
-                onClick={() => this.blockHandler(b, i)}
+                onClick={e => this.blockHandler(b, i, e)}
                 key={b.id}
               >
-                <ContentBlock
-                  key={b.id}
-                  panelIsOpen={panelIsOpen}
-                  inGrid={true}
-                  {...b}
-                />
+                <ContentBlock key={b.id} inGrid={true} {...b} />
+                <div
+                  ref={this.setRef}
+                  className={styles.mobileContentDisplay}
+                  data-content="true"
+                >
+                  <ContentPanel
+                    key={0}
+                    currentSlide={b}
+                    slideIndex={0}
+                    inGrid={false}
+                    whiteBg={true}
+                    {...b}
+                  />
+                </div>
               </div>
             ))}
 
-          <div
+          {/* <div
             className={cx(styles.full, styles.wrapper, {
               [styles.hidden]: !this.state.panelIsOpen,
               [styles.block]: this.state.panelIsOpen,
@@ -484,7 +475,7 @@ class ContentGrid extends Component {
                 {...activeSlide}
               />
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* {displayCategory && (
