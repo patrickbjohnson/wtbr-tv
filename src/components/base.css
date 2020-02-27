@@ -194,7 +194,17 @@ a {
   /* padding-bottom: 45px; */
 }
 
-* {  
-  -webkit-backface-visibility:  hidden;
-  -webkit-tap-highlight-color:  transparent;
+* {
+  -webkit-backface-visibility: hidden;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.footer-spacer {
+  display: none;
+}
+
+@media (min-width: 768px) {
+  .footer-spacer {
+    display: block;
+  }
 }

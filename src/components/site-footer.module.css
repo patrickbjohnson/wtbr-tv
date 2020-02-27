@@ -8,15 +8,22 @@
 }
 
 .footer {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
+  position: relative;
+
   padding: 30px 30px 30px;
   background-image: radial-gradient(circle at 59% 0, #f6c561, #c2217d);
   color: white;
   text-align: left;
   z-index: 0;
+}
+
+@media (min-width: 768px) {
+  .footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+  }
 }
 
 .unfixed {
