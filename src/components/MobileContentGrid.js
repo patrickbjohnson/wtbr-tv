@@ -487,7 +487,7 @@ class ContentGrid extends Component {
           </div>
         </div>
 
-        {displayCategory && (
+        {/* {displayCategory && (
           <FilterPanel
             categories={categories}
             isOpen={this.state.filterOpen}
@@ -500,7 +500,7 @@ class ContentGrid extends Component {
             resetHandler={this.filterReset}
             text={this.showLoadMore() ? 'Load More' : 'Filter'}
           />
-        )}
+        )} */}
       </div>
     )
   }

@@ -8,6 +8,9 @@
 
 html {
   scroll-behavior: smooth;
+  height: 100%;
+  width: 100%;
+  overflow: auto;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -188,5 +191,10 @@ a {
 }
 
 .pageContainer {
-  padding-bottom: 45px;
+  /* padding-bottom: 45px; */
+}
+
+* {  
+  -webkit-backface-visibility:  hidden;
+  -webkit-tap-highlight-color:  transparent;
 }

@@ -294,7 +294,6 @@ class ContentGrid extends Component {
   }
 
   filterReset = () => {
-    console.log('filter reset')
     const { base, categories } = this.state
 
     this.setState({
@@ -495,7 +494,7 @@ class ContentGrid extends Component {
               </div>
             </div>
           </div>
-          {displayCategory && (
+          {/* {displayCategory && (
             <FilterPanel
               categories={categories}
               isOpen={this.state.filterOpen}
@@ -514,7 +513,7 @@ class ContentGrid extends Component {
                   : 'Filter'
               }
             />
-          )}
+          )} */}
         </div>
       </div>
     )

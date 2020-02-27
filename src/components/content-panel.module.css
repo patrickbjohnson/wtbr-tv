@@ -31,7 +31,7 @@
 .mediaContent {
     padding: 48px 0;
     max-height: 475px;
-    overflow-y: scroll;
+    overflow-y: auto;
     align-self: center;
 }
 

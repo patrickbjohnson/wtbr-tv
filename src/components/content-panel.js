@@ -67,6 +67,7 @@ class ContentPanel extends Component {
                           key={i}
                           isCurrent={currentSlide}
                           slideIndex={slideIndex}
+                          poster={image.fluid.src}
                           {...v}
                         />
                       )

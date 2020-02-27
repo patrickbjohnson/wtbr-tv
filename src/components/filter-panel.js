@@ -71,7 +71,6 @@ class FilterPanel extends Component {
         <span
           className={cx(styles.filterItem)}
           onClick={() => {
-            console.log('clicked reset')
             resetHandler()
             selectionHandler('*')
           }}

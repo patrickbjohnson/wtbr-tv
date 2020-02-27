@@ -18,11 +18,14 @@ class Template extends React.Component {
     }
 
     return (
+      <>
       <Container>
         <Navigation />
         { children }
-        <Footer unfixed={unfixed} />
+        
       </Container>
+      <Footer unfixed={unfixed} />
+      </>
     )
   }
 }

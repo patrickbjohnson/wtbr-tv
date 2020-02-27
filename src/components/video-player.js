@@ -4,10 +4,10 @@ import Markdown from 'react-markdown'
 
 import styles from '../components/video-player.module.css'
 
-function VideoPlayer({ caption, videoUrl, ...rest }) {
+function VideoPlayer({ caption, videoUrl, poster, ...rest }) {
   return (
     <div className={cx(styles.block)}>
-      <video controls className={cx(styles.video, 'video-player')}>
+      <video controls className={cx(styles.video, 'video-player')} poster={poster}>
         <source src={videoUrl} />
       </video>
       {caption &&
