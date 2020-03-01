@@ -191,3 +191,10 @@
   overflow: hidden;
   transition: height 0.5s ease-out;
 }
+
+@media (min-width: 768px) {
+  .gridWrapper {
+    position: relative;
+    padding-bottom: 45px;
+  }
+}

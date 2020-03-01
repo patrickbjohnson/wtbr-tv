@@ -161,6 +161,7 @@
     margin-right: auto;
     overflow: hidden;
     box-sizing: content-box;
+    padding-bottom: 45px;
   }
 
   .inner {

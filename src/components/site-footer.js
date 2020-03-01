@@ -16,7 +16,6 @@ export default class Footer extends Component {
   componentDidMount() {
     const dims = this.footerRef.current.getBoundingClientRect()
     this.spacerRef.current.style.height = `${dims.height}px`
-   
     window.addEventListener(
       'resize',
       throttle(e => {
@@ -67,10 +66,9 @@ export default class Footer extends Component {
           } = data.allContentfulFooter.edges[0].node
 
           return (
-            <>
+            <div>
               <footer className={cx(styles.footer)} ref={this.footerRef}>
                 <h3 className={styles.title}>{title}</h3>
-
                 <div className={styles.flex}>
                   <div className={styles.content}>
                     <div className={styles.socialLinks}>
@@ -130,7 +128,7 @@ export default class Footer extends Component {
                 </div>
               </footer>
               <div className="footer-spacer" ref={this.spacerRef}></div>
-            </>
+            </div>
           )
         }}
       />

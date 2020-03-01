@@ -1,0 +1,68 @@
+.block {
+  display: none;
+}
+
+.block.open {
+  display: block;
+}
+
+.inner {
+  padding: 24px;
+}
+
+.title {
+  font-size: 40px;
+  font-weight: 500;
+  line-height: 1.1;
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.project {
+  font-size: 15px;
+  line-height: 1.13;
+  letter-spacing: 0.02em;
+  margin-top: 0;
+  text-transform: uppercase;
+}
+
+.video {
+  margin-bottom: 24px;
+}
+
+.mediaContent {
+  padding-top: 24px;
+}
+
+.body iframe {
+  display: block;
+  margin: auto;
+}
+
+.body,
+.title {
+  color: #000;
+}
+
+.body h1,
+.body h2,
+.body h3 {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  line-height: 16px;
+  letter-spacing: 1.5;
+  text-transform: uppercase;
+}
+
+.body p {
+  font-size: 12px;
+  line-height: 19px;
+}
+
+.body a {
+  text-decoration: underline;
+}
+
+.media {
+  position: relative;
+}

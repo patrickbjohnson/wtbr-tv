@@ -190,21 +190,19 @@ a {
   padding-top: 80px;
 }
 
-.pageContainer {
-  /* padding-bottom: 45px; */
-}
-
 * {
   -webkit-backface-visibility: hidden;
   -webkit-tap-highlight-color: transparent;
 }
 
-.footer-spacer {
-  display: none;
+@media (max-width: 767px) {
+  .footer-spacer {
+    height: 0 !important;
+  }
 }
 
 @media (min-width: 768px) {
   .footer-spacer {
-    display: block;
+    height: auto;
   }
 }

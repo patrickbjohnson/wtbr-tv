@@ -8,6 +8,13 @@
   transition: height 0.25s ease-out;
   overflow: hidden;
   height: 45px;
+  -webkit-backface-visibility: hidden;
+}
+
+@media (max-width: 768px) {
+  .isOpen {
+    padding-bottom: 45px;
+  }
 }
 
 .filterItem {
@@ -32,6 +39,7 @@
 
 .resetFilter.isOpen {
   position: relative;
+  padding-bottom: 45px;
 }
 
 .filterControl {

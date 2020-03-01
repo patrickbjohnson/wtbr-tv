@@ -91,7 +91,6 @@ class ContentGrid extends Component {
         this.setState({ isUnfixed: unfixed })
         // this.contentPanel.current.style.paddingBottom = unfixed ? '45px' : '0'
         this.filterPanel.style.position = unfixed ? 'absolute' : 'sticky'
-        this.filterPanel.style.bottom = unfixed ? '-45px' : '0'
       }
     }
   }
@@ -219,7 +218,7 @@ class ContentGrid extends Component {
 
         setTimeout(() => {
           this.contentPanel.current.style.display = `none`
-        }, 850)
+        }, 600)
       }
     )
 
@@ -389,7 +388,6 @@ class ContentGrid extends Component {
       catSelected,
       panelIsOpen,
     } = this.state
-
     const { displayCategory, identifier } = this.props
 
     const visibleBlocks = this.state.showAll ? blocks : blocks.slice(0, 16)
@@ -406,7 +404,11 @@ class ContentGrid extends Component {
           <SectionHeader text={this.props.sectionTitle} classes="wrapper" />
         )}
 
-        <div className={styles.gridWrapper}>
+        <div
+          className={cx(styles.gridWrapper, {
+            [styles.open]: panelIsOpen,
+          })}
+        >
           <div className={styles.grid}>
             {visibleBlocks &&
               visibleBlocks.map((b, i) => {
@@ -494,7 +496,7 @@ class ContentGrid extends Component {
               </div>
             </div>
           </div>
-          {/* {displayCategory && (
+          {displayCategory && (
             <FilterPanel
               categories={categories}
               isOpen={this.state.filterOpen}
@@ -513,7 +515,7 @@ class ContentGrid extends Component {
                   : 'Filter'
               }
             />
-          )} */}
+          )}
         </div>
       </div>
     )

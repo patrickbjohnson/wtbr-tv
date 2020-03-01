@@ -1,7 +1,5 @@
 import React from 'react'
 
 export default ({ children }) => (
-  <div>
-    {children}
-  </div>
+  <div style={{ position: 'relative' }}>{children}</div>
 )

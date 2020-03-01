@@ -20,7 +20,7 @@ class HomeHero extends Component {
         <div className={styles.videoWrapper}>
           {videoUrl && (
             <video
-              poster={image ? image.fluid.src : ''}
+              poster={image ? image.fluid.base64 : ''}
               onCanPlay={e => this.setState({ loaded: true })}
               className={cx(styles.video, styles.loaded)}
               autoPlay
