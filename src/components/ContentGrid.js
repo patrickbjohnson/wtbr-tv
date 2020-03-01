@@ -324,16 +324,18 @@ class ContentGrid extends Component {
       this.activeSlugs = []
     }
 
-    const results = shouldResetResults
-      ? base
-      : base.filter(b => {
-          return b.categories
-            ? b.categories.some(r => {
-                return this.activeSlugs.indexOf(slugify(r.category)) > -1
-              })
-            : false
-        })
+    const results =
+      shouldResetResults || this.activeSlugs.length === 0
+        ? base
+        : base.filter(b => {
+            return b.categories
+              ? b.categories.some(r => {
+                  return this.activeSlugs.indexOf(slugify(r.category)) > -1
+                })
+              : false
+          })
 
+    console.log(this.activeSlugs, results)
     this.filterHeightToggle()
     /**
      * Have to destroy flickity first

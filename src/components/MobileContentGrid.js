@@ -190,15 +190,16 @@ class ContentGrid extends Component {
 
     this.filterHeightToggle()
 
-    const results = shouldResetResults
-      ? base
-      : base.filter(b => {
-          return b.categories
-            ? b.categories.some(r => {
-                return this.activeSlugs.indexOf(slugify(r.category)) > -1
-              })
-            : false
-        })
+    const results =
+      shouldResetResults || this.activeSlugs.length === 0
+        ? base
+        : base.filter(b => {
+            return b.categories
+              ? b.categories.some(r => {
+                  return this.activeSlugs.indexOf(slugify(r.category)) > -1
+                })
+              : false
+          })
     /**
      * Have to destroy flickity first
      * then reset the slides
