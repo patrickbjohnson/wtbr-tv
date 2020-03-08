@@ -43,6 +43,7 @@ class ContentPanel extends Component {
                   <VideoPlayer
                     key={i}
                     {...v}
+                    isCurrent={currentSlide}
                     poster={image.fluid.src}
                     classNames={styles.video}
                   />

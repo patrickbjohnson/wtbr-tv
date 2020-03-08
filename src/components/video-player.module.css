@@ -1,67 +1,101 @@
 .block {
-    position: relative;
-    margin-bottom: 50px;
+  position: relative;
+  margin-bottom: 50px;
 }
 
 .block:last-of-type {
-    margin-bottom: 0;
+  margin-bottom: 0;
 }
 
 .video {
-    position: relative;
-    outline: none;
-    width: 100%;
+  position: relative;
+  outline: none;
+  width: 100%;
 }
 
 .video:hover .isVisible {
-    opacity: 1
+  opacity: 1;
 }
 
 .play,
 .pause {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 50px;
-    height: 50px;
-    opacity: 0;
-    transition: opacity .25s ease-out;
-    color: #fff;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 50px;
+  height: 50px;
+  opacity: 0;
+  transition: opacity 0.25s ease-out;
+  color: #fff;
 }
 
 .playIcon {
-    width: 25px;
+  width: 25px;
 }
 
 .playIcon,
 .pauseIcon {
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
-    cursor: pointer;
+  position: relative;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
 }
 
 .pauseIcon {
-    width: 25px;
-    height: 25px;
+  width: 25px;
+  height: 25px;
 }
 
 .isVisible {
-    z-index: 11;
+  z-index: 11;
 }
 
-.caption h1, 
-.caption h2, 
+.caption h1,
+.caption h2,
 .caption h3 {
-    font-size: 13px;
-    line-height: 22px;
-    font-family: Helvetica, Arial, sans-serif;
-    text-transform: uppercase;
-    letter-spacing: .015em;
+  font-size: 13px;
+  line-height: 22px;
+  font-family: Helvetica, Arial, sans-serif;
+  text-transform: uppercase;
+  letter-spacing: 0.015em;
 }
 
 .caption p {
-    font-size: 15px;
-    line-height: 1.6;
+  font-size: 15px;
+  line-height: 1.6;
+}
+
+.vimeo iframe {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.vimeo {
+  position: relative;
+  height: 0;
+  padding-bottom: 56.25%;
+}
+
+.vimeo {
+  position: relative;
+  padding-bottom: 56.25%;
+  height: 0;
+  overflow: hidden;
+  max-width: 100%;
+}
+
+.vimeo iframe,
+.vimeo object,
+.vimeo embed {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }

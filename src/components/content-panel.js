@@ -14,7 +14,6 @@ class ContentPanel extends Component {
 
   render() {
     const {
-      title,
       image,
       body,
       videos,
@@ -29,7 +28,6 @@ class ContentPanel extends Component {
       whiteBg,
     } = this.props
 
-    let cat = null
     if (categories) {
       cat = categories[0]
     }

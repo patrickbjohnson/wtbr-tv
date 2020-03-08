@@ -98,6 +98,8 @@ class ContentGrid extends Component {
   componentDidMount() {
     const { contentBlocks } = this.props
 
+    console.log(this.props)
+
     const sluggedBlocks = contentBlocks.slice()
 
     this.setState(

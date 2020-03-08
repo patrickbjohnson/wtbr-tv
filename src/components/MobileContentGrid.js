@@ -260,6 +260,12 @@ class ContentGrid extends Component {
                   onClick={e => this.blockHandler(b, i, e)}
                   key={b.id}
                 >
+                  {/* 
+                  
+                  1. abstract ContentBlock/MobileContentPanel as one component (Row)
+                  2. Inside "Row" check lifecycle to see if props have been updated. 
+                  3. Check if ID is equal, don't update component. 
+                  */}
                   <ContentBlock
                     key={b.id}
                     inGrid={true}

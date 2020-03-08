@@ -174,6 +174,7 @@ export const featuredPost = graphql`
               id
               title
               videoUrl
+              vimeoId
               caption {
                 id
                 caption
@@ -234,6 +235,7 @@ export const contentGrid = graphql`
             id
             title
             videoUrl
+            vimeoId
             caption {
               id
               caption
