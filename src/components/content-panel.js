@@ -28,9 +28,12 @@ class ContentPanel extends Component {
       whiteBg,
     } = this.props
 
+    let cat = null
     if (categories) {
       cat = categories[0]
     }
+
+    console.log(currentSlide)
 
     return (
       <MediaQuery maxWidth={767}>
@@ -66,6 +69,7 @@ class ContentPanel extends Component {
                           isCurrent={currentSlide}
                           slideIndex={slideIndex}
                           poster={image.fluid.src}
+                          isFeatured={isFeatured}
                           {...v}
                         />
                       )

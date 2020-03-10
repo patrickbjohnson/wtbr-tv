@@ -454,7 +454,7 @@ class ContentGrid extends Component {
                       <ContentPanel
                         key={i}
                         isFilterable={displayCategory}
-                        currentSlide={active}
+                        currentSlide={activeSlide.id === b.id}
                         slideIndex={i}
                         whiteBg
                         {...b}

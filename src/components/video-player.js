@@ -10,9 +10,9 @@ function VideoPlayer({
   poster,
   classNames,
   isCurrent,
+  isFeatured,
   vimeoId = false,
 }) {
-  console.log(isCurrent)
   return (
     <div
       className={cx(styles.block, classNames, {
@@ -21,20 +21,20 @@ function VideoPlayer({
     >
       {vimeoId && (
         <iframe
-          src={isCurrent ? `https://player.vimeo.com/video/${vimeoId}` : ''}
+          src={
+            isCurrent || isFeatured
+              ? `https://player.vimeo.com/video/${vimeoId}`
+              : ''
+          }
           width="640"
           height="192"
-          frameborder="0"
+          frameBorder="0"
           allow="autoplay; fullscreen"
-          allowfullscreen
+          allowFullScreen
         ></iframe>
       )}
       {!vimeoId && (
-        <video
-          controls
-          className={cx(styles.video, 'video-player')}
-          poster={poster}
-        >
+        <video controls className={cx(styles.video, 'video-player')}>
           <source src={videoUrl} />
         </video>
       )}
