@@ -14,34 +14,38 @@ function VideoPlayer({
   vimeoId = false,
 }) {
   return (
-    <div
-      className={cx(styles.block, classNames, {
-        [styles.vimeo]: vimeoId,
-      })}
-    >
-      {vimeoId && (
-        <iframe
-          src={
-            isCurrent || isFeatured
-              ? `https://player.vimeo.com/video/${vimeoId}`
-              : ''
-          }
-          width="640"
-          height="192"
-          frameBorder="0"
-          allow="autoplay; fullscreen"
-          allowFullScreen
-        ></iframe>
-      )}
-      {!vimeoId && (
-        <video controls className={cx(styles.video, 'video-player')}>
-          <source src={videoUrl} />
-        </video>
-      )}
-      {caption && (
-        <Markdown className={styles.caption} source={caption.caption} />
-      )}
-    </div>
+    <>
+      <div className={cx(styles.block)}>
+        <div
+          className={cx(classNames, {
+            [styles.vimeo]: vimeoId,
+          })}
+        >
+          {vimeoId && (
+            <iframe
+              src={
+                isCurrent || isFeatured
+                  ? `https://player.vimeo.com/video/${vimeoId}`
+                  : ''
+              }
+              width="640"
+              height="192"
+              frameBorder="0"
+              allow="autoplay; fullscreen"
+              allowFullScreen
+            ></iframe>
+          )}
+          {!vimeoId && (
+            <video controls className={cx(styles.video, 'video-player')}>
+              <source src={videoUrl} />
+            </video>
+          )}
+        </div>
+        {caption && (
+          <Markdown className={styles.caption} source={caption.caption} />
+        )}
+      </div>
+    </>
   )
 }
 
