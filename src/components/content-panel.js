@@ -33,8 +33,6 @@ class ContentPanel extends Component {
       cat = categories[0]
     }
 
-    console.log(currentSlide)
-
     return (
       <MediaQuery maxWidth={767}>
         {isMobile => (
