@@ -200,6 +200,8 @@
   .body h3 {
     font-size: 13px;
     line-height: 22px;
+    margin-top: 0;
+    margin-bottom: 0;
   }
 
   .body p {
