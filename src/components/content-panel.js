@@ -66,7 +66,7 @@ class ContentPanel extends Component {
                           key={i}
                           isCurrent={currentSlide}
                           slideIndex={slideIndex}
-                          poster={image.fluid.src}
+                          poster={image ? image.fluid.src : false}
                           isFeatured={isFeatured}
                           {...v}
                         />
