@@ -76,11 +76,14 @@ class FlickitySlider extends Component {
   }
 
   pauseVideos = () => {
-    var videos = document.getElementsByTagName('video')
+    if (this.slider) {
+      var videos = Array.from(
+        this.slider.current.getElementsByTagName('iframe')
+      )
 
-    for (let video of videos) {
-      if (!video.classList.contains('video-player')) continue
-      video.pause()
+      for (let video of videos) {
+        video.src = video.src
+      }
     }
   }
 
