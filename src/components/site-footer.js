@@ -83,7 +83,12 @@ export default class Footer extends Component {
                           )
                         } else {
                           return (
-                            <a key={l.id} href={linkUrl}>
+                            <a
+                              key={l.id}
+                              href={linkUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
                               {linkLabel}
                             </a>
                           )
@@ -102,7 +107,12 @@ export default class Footer extends Component {
                           )
                         } else {
                           return (
-                            <a key={l.id} href={linkUrl}>
+                            <a
+                              key={l.id}
+                              href={linkUrl}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
                               {linkLabel}
                             </a>
                           )

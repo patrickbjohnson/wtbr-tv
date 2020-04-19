@@ -16,6 +16,7 @@ import StickerPicker from '../components/sticker-picker'
 import TextBlockGrid from '../components/text-block-grid'
 import ClientList from '../components/client-list'
 import Capabilities from '../components/capabilities'
+import InView from '../components/inview'
 
 import base from '../components/base.css'
 
@@ -39,12 +40,15 @@ const Page = props => {
       <Layout>
         <div className={cx('pageContainer', slug)}>
           {hasVideo.length > 0 && (
-            <HomeHero
-              key={hasVideo[0].id}
-              hasText={slug === 'home'}
-              {...hasVideo[0]}
-            />
+            <InView>
+              <HomeHero
+                key={hasVideo[0].id}
+                hasText={slug === 'home'}
+                {...hasVideo[0]}
+              />
+            </InView>
           )}
+
           <div
             style={{ backgroundColor: '#fff', position: 'relative', zIndex: 2 }}
           >
@@ -53,35 +57,72 @@ const Page = props => {
                 const type = cleanComponentName(component.__typename)
                 switch (type) {
                   case 'GoodPeople':
-                    return <GoodPeople key={component.id} {...component} />
+                    return (
+                      <InView>
+                        <GoodPeople key={component.id} {...component} />
+                      </InView>
+                    )
                   case 'FeaturedPosts':
-                    return <FeaturedPosts key={component.id} {...component} />
+                    return (
+                      <InView>
+                        <FeaturedPosts key={component.id} {...component} />
+                      </InView>
+                    )
                   case 'ContentBlockGrid':
                     return (
                       <div key={component.id}>
-                        <MediaQuery minWidth={768}>
-                          <ContentBlockGrid key={component.id} {...component} />
-                        </MediaQuery>
-                        <MediaQuery maxWidth={768}>
-                          <MobileContentGrid
-                            key={component.id}
-                            {...component}
-                          />
-                        </MediaQuery>
+                        <InView>
+                          <MediaQuery minWidth={768}>
+                            <ContentBlockGrid
+                              key={component.id}
+                              {...component}
+                            />
+                          </MediaQuery>
+                          <MediaQuery maxWidth={768}>
+                            <MobileContentGrid
+                              key={component.id}
+                              {...component}
+                            />
+                          </MediaQuery>
+                        </InView>
                       </div>
                     )
                   case 'TextBlockGrid':
-                    return <TextBlockGrid key={component.id} {...component} />
+                    return (
+                      <InView>
+                        <TextBlockGrid key={component.id} {...component} />
+                      </InView>
+                    )
                   case 'ContentHero':
-                    return <ContentHero key={component.id} {...component} />
+                    return (
+                      <InView>
+                        <ContentHero key={component.id} {...component} />
+                      </InView>
+                    )
                   case 'JobList':
-                    return <AccordionList key={component.id} {...component} />
+                    return (
+                      <InView>
+                        <AccordionList key={component.id} {...component} />
+                      </InView>
+                    )
                   case 'AccordionList':
-                    return <AccordionList key={component.id} {...component} />
+                    return (
+                      <InView>
+                        <AccordionList key={component.id} {...component} />
+                      </InView>
+                    )
                   case 'ClientList':
-                    return <ClientList key={component.id} {...component} />
+                    return (
+                      <InView>
+                        <ClientList key={component.id} {...component} />
+                      </InView>
+                    )
                   case 'Capabilities':
-                    return <Capabilities key={component.id} {...component} />
+                    return (
+                      <InView>
+                        <Capabilities key={component.id} {...component} />
+                      </InView>
+                    )
                   default:
                     return false
                 }

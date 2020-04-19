@@ -59,13 +59,13 @@ class ContentGrid extends Component {
       categories: [],
       catSelected: [],
       filterOpen: false,
-      sliderRow: -1,
       active: 0,
       activeSlide: {},
       isFirst: false,
       isLast: false,
       showAll: false,
       isUnfixed: false,
+      panelOpen: false,
     }
   }
   componentDidMount() {
@@ -114,6 +114,16 @@ class ContentGrid extends Component {
 
     this.setState({
       activeSlide: block,
+      panelOpen: true,
+    })
+  }
+
+  closePanel = () => {
+    this.pauseVideos()
+    this.setState({
+      activeSlide: -1,
+      currentSlide: -1,
+      catSelected: [],
     })
   }
 
@@ -211,7 +221,7 @@ class ContentGrid extends Component {
     this.setState(
       {
         blocks: results,
-        panelIsOpen: false,
+        panelOpen: false,
         catSelected: this.activeSlugs,
       },
       () => this.loadMore()
@@ -229,13 +239,7 @@ class ContentGrid extends Component {
   }
 
   render() {
-    const {
-      blocks,
-      categories,
-      activeSlide,
-      catSelected,
-      isLoading,
-    } = this.state
+    const { blocks, categories, activeSlide, catSelected } = this.state
 
     const { displayCategory } = this.props
 
@@ -257,7 +261,13 @@ class ContentGrid extends Component {
               visibleBlocks.map((b, i) => (
                 <div
                   className={styles.col}
-                  onClick={e => this.blockHandler(b, i, e)}
+                  onClick={e => {
+                    if (e.target.nodeName === 'BUTTON') {
+                      this.closePanel()
+                    } else {
+                      this.blockHandler(b, i, e)
+                    }
+                  }}
                   key={b.id}
                 >
                   {/* 
@@ -273,11 +283,17 @@ class ContentGrid extends Component {
                     active={b === activeSlide}
                     showHover={false}
                   />
-                  <MobileContentPanel
-                    key={b.id}
-                    currentSlide={b === activeSlide}
-                    {...b}
-                  />
+                  <div style={{ position: 'relative' }}>
+                    <button
+                      className={cx(styles.closeBtn)}
+                      onClick={this.closePanel}
+                    />
+                    <MobileContentPanel
+                      key={b.id}
+                      currentSlide={b === activeSlide}
+                      {...b}
+                    />
+                  </div>
                 </div>
               ))}
           </div>

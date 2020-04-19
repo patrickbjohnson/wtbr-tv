@@ -97,9 +97,6 @@ class ContentGrid extends Component {
 
   componentDidMount() {
     const { contentBlocks } = this.props
-
-    console.log(this.props)
-
     const sluggedBlocks = contentBlocks.slice()
 
     this.setState(
@@ -337,7 +334,6 @@ class ContentGrid extends Component {
               : false
           })
 
-    console.log(this.activeSlugs, results)
     this.filterHeightToggle()
     /**
      * Have to destroy flickity first

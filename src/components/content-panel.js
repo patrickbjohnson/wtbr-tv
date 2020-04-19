@@ -4,7 +4,7 @@ import Img from 'gatsby-image'
 import Markdown from 'react-markdown'
 import MediaQuery from 'react-responsive'
 import styles from './content-panel.module.css'
-
+import InView from '../components/inview'
 import VideoPlayer from '../components/video-player'
 
 class ContentPanel extends Component {
@@ -62,39 +62,44 @@ class ContentPanel extends Component {
                   videos.map((v, i) => {
                     if (v.__typename === 'ContentfulVideoBlock') {
                       return (
-                        <VideoPlayer
-                          key={i}
-                          isCurrent={currentSlide}
-                          slideIndex={slideIndex}
-                          poster={image ? image.fluid.src : false}
-                          isFeatured={isFeatured}
-                          {...v}
-                        />
+                        <InView key={i}>
+                          <VideoPlayer
+                            isCurrent={currentSlide}
+                            slideIndex={slideIndex}
+                            poster={image ? image.fluid.src : false}
+                            isFeatured={isFeatured}
+                            {...v}
+                          />
+                        </InView>
                       )
                     }
 
                     if (v.__typename === 'ContentfulImageBlock') {
                       return (
-                        <Img
-                          className={cx(styles.media)}
-                          fluid={v.media.fluid}
-                          durationFadeIn={500}
-                          title={image.title}
-                          alt={image.title}
-                          fadeIn
-                        />
+                        <InView>
+                          <Img
+                            className={cx(styles.media)}
+                            fluid={v.media.fluid}
+                            durationFadeIn={500}
+                            title={image.title}
+                            alt={image.title}
+                            fadeIn
+                          />
+                        </InView>
                       )
                     }
                   })}
                 {image && !videos && !isMobile && (
-                  <Img
-                    className={cx(styles.media)}
-                    fluid={image.fluid}
-                    durationFadeIn={500}
-                    title={image.title}
-                    alt={image.title}
-                    fadeIn
-                  />
+                  <InView>
+                    <Img
+                      className={cx(styles.media)}
+                      fluid={image.fluid}
+                      durationFadeIn={500}
+                      title={image.title}
+                      alt={image.title}
+                      fadeIn
+                    />
+                  </InView>
                 )}
               </div>
             </div>

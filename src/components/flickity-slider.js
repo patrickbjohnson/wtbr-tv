@@ -46,6 +46,7 @@ class FlickitySlider extends Component {
       cellAlign: 'left',
       contain: true,
       draggable: this.props.draggable ? true : false,
+      dragThreshold: this.props.dragThreshold ? this.props.dragThreshold : 3,
     })
 
     Array.from(
