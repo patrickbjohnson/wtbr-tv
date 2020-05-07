@@ -1,6 +1,4 @@
-.article { 
-  border-bottom: 1px solid #000;
-  border-left: 1px solid #000;
+.article {
   padding-top: 50px;
   padding-bottom: 40px;
 }
@@ -80,8 +78,6 @@
     page-break-inside: avoid;
     break-inside: avoid;
     overflow: hidden;
-    border-right: 1px solid #000;
-    border-left: 0;
   }
 
   .title {
@@ -92,6 +88,13 @@
   .content {
     padding-left: 0;
     padding-right: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  .article {
+    position: relative;
+    height: 100%;
   }
 }
 

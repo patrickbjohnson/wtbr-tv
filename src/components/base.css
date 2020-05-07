@@ -88,9 +88,18 @@ a {
 
 @media (min-width: 1024px) {
   .article-list {
-    column-count: 2;
-    column-gap: 0;
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .article-wrap {
+    width: calc(50% - 1px);
+    border-bottom: 1px solid #000;
+    border-right: 1px solid #000;
+  }
+
+  .article-wrap:nth-child(2n) {
+    border-right: 0;
   }
 }
 
