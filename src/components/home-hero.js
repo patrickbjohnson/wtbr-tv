@@ -1,5 +1,7 @@
 import React, { Component, createRef } from 'react'
+
 import Img from 'gatsby-image'
+import Player from '@vimeo/player'
 import cx from 'classnames'
 import styles from './home-hero.module.css'
 
@@ -10,15 +12,35 @@ class HomeHero extends Component {
     this.state = {
       loaded: false,
     }
+
+    this.video = createRef()
+    this.player = null
+  }
+
+  componentDidMount() {
+    if (this.video.current) {
+      const player = new Player(this.video.current, {
+        id: this.props.videoId,
+        responsive: true,
+        controls: false,
+        loop: true,
+      })
+      player.ready().then(() => {
+        player.setMuted(true)
+        player.play()
+      })
+    }
   }
 
   render() {
-    const { classNames, videoHeroTitle, videoUrl, image } = this.props
+    const { classNames, videoHeroTitle, videoUrl, image, videoId } = this.props
 
     return (
       <div className={cx(styles.block, classNames)}>
         <div className={styles.videoWrapper}>
-          {videoUrl && (
+          {videoId && <div className={styles.video} ref={this.video}></div>}
+
+          {!videoId && videoUrl && (
             <video
               poster={image ? image.fluid.base64 : ''}
               onCanPlay={e => this.setState({ loaded: true })}
