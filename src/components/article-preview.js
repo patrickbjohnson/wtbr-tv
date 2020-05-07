@@ -1,9 +1,8 @@
-import React from 'react'
-import { Link } from 'gatsby'
 import Img from 'gatsby-image'
+import { Link } from 'gatsby'
 import Markdown from 'react-markdown'
+import React from 'react'
 import VideoPlayer from './video-player'
-
 import styles from './article-preview.module.css'
 
 const formatDate = date => {
@@ -21,13 +20,15 @@ const formatDate = date => {
 export default ({ article }) => {
   const { node } = article
 
+  console.log(node, node.video)
+
   return (
     <article className={styles.article} id={node.slug}>
       <div className={styles.meta}>
         <h2 className={styles.title}>{node.title}</h2>
         <small>{formatDate(node.publishDate)}</small>
       </div>
-      {node.video && <VideoPlayer videoUrl={node.video.videoUrl} />}
+      {node.video && <VideoPlayer {...node.video} isCurrent />}
       {!node.video && node.image && (
         <Img
           className={styles.image}

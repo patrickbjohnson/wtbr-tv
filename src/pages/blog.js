@@ -118,6 +118,7 @@ export const pageQuery = graphql`
           video {
             id
             videoUrl
+            vimeoId
           }
           image {
             fluid {
