@@ -21,10 +21,11 @@ class HomeHero extends Component {
     if (this.video.current) {
       const player = new Player(this.video.current, {
         id: this.props.videoId,
-        responsive: true,
+        responsive: false,
         controls: false,
         loop: true,
       })
+
       player.ready().then(() => {
         player.setMuted(true)
         player.play()

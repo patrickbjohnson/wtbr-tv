@@ -1,24 +1,23 @@
 import React, { Component } from 'react'
-import { graphql } from 'gatsby'
-import { ParallaxProvider } from 'react-scroll-parallax'
-import MediaQuery from 'react-responsive'
-import cx from 'classnames'
 
 import AccordionList from '../components/accordion-list'
+import Capabilities from '../components/capabilities'
+import ClientList from '../components/client-list'
 import ContentBlockGrid from '../components/ContentGrid'
 import ContentHero from '../components/content-hero'
 import FeaturedPosts from '../components/featured-posts'
-import Layout from '../components/layout'
 import HomeHero from '../components/home-hero'
+import InView from '../components/inview'
+import Layout from '../components/layout'
+import MediaQuery from 'react-responsive'
 import MobileContentGrid from '../components/MobileContentGrid'
 import PageHead from '../components/PageHead'
+import { ParallaxProvider } from 'react-scroll-parallax'
 import StickerPicker from '../components/sticker-picker'
 import TextBlockGrid from '../components/text-block-grid'
-import ClientList from '../components/client-list'
-import Capabilities from '../components/capabilities'
-import InView from '../components/inview'
-
 import base from '../components/base.css'
+import cx from 'classnames'
+import { graphql } from 'gatsby'
 
 const cleanComponentName = component => {
   return component.replace('Contentful', '')
@@ -26,9 +25,8 @@ const cleanComponentName = component => {
 
 const Page = props => {
   const { components, slug } = props.data.contentfulPage
-  const hasVideo = components
-    ? components.filter(c => c.__typename === 'ContentfulVideoHero')
-    : false
+
+  let videoRendered = false
 
   return (
     <ParallaxProvider>
@@ -39,16 +37,6 @@ const Page = props => {
 
       <Layout>
         <div className={cx('pageContainer', slug)}>
-          {hasVideo.length > 0 && (
-            <InView>
-              <HomeHero
-                key={hasVideo[0].id}
-                hasText={slug === 'home'}
-                {...hasVideo[0]}
-              />
-            </InView>
-          )}
-
           <div
             style={{ backgroundColor: '#fff', position: 'relative', zIndex: 2 }}
           >
@@ -56,6 +44,23 @@ const Page = props => {
               components.map(component => {
                 const type = cleanComponentName(component.__typename)
                 switch (type) {
+                  case 'VideoHero':
+                    console.log(videoRendered)
+                    if (videoRendered) {
+                      return false
+                    } else {
+                      videoRendered = true
+                      return (
+                        <InView>
+                          <HomeHero
+                            key={component.id}
+                            hasText={slug === 'home'}
+                            {...component}
+                          />
+                        </InView>
+                      )
+                    }
+                    break
                   case 'GoodPeople':
                     return (
                       <InView>

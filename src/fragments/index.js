@@ -121,6 +121,7 @@ export const videoHero = graphql`
       id
       videoHeroTitle
       videoUrl
+      videoId
       image {
         title
         fluid(maxWidth: 500, quality: 80) {
