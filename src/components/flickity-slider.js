@@ -26,7 +26,8 @@ class FlickitySlider extends Component {
     this.flickity = null
     this.state = {
       slides: [],
-      active: 0,
+      active: {},
+      index: 0,
       isFirst: true,
       isLast: false,
     }
@@ -76,12 +77,15 @@ class FlickitySlider extends Component {
   flickityChangeEvent = () => {
     this.flickity.on('change', e => {
       this.setDisabledStates()
-      this.setState({ active: this.state.slides[this.flickity.selectedIndex] })
+      this.setState({
+        active: this.state.slides[this.flickity.selectedIndex],
+        index: e,
+      })
     })
   }
 
   render() {
-    const { slides, active } = this.state
+    const { slides, active, index } = this.state
     const { isFeatured } = this.props
 
     return (
@@ -98,7 +102,7 @@ class FlickitySlider extends Component {
                   return (
                     <div
                       className={cx(styles.dot, {
-                        [styles.activeDot]: i === this.flickity.selectedIndex,
+                        [styles.activeDot]: i === index,
                       })}
                       key={s.id + 1}
                     ></div>
