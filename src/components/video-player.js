@@ -25,7 +25,6 @@ function VideoPlayer({
     setVideo(videoPlayer.current)
   }, [])
 
-  console.log(video, isCurrent, isFeatured)
   if ((video && isCurrent) || (video && isFeatured)) {
     player = new Player(video, {
       id: vimeoId,

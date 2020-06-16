@@ -75,7 +75,6 @@ class FlickitySlider extends Component {
 
   flickityChangeEvent = () => {
     this.flickity.on('change', e => {
-      console.log(e)
       this.setDisabledStates()
       this.setState({ active: this.state.slides[this.flickity.selectedIndex] })
     })
@@ -84,8 +83,6 @@ class FlickitySlider extends Component {
   render() {
     const { slides, active } = this.state
     const { isFeatured } = this.props
-
-    console.log(active, slides)
 
     return (
       <div
