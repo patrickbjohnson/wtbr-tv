@@ -4,6 +4,7 @@
   right: 0;
   background-color: #fff;
   z-index: 1000;
+  width: 100%;
 }
 
 .navBar {
@@ -97,11 +98,11 @@
 }
 
 .link {
-  transition: background-color .25s ease-out;
+  transition: background-color 0.25s ease-out;
 }
 
 .active {
-  background-color: #F8D377;
+  background-color: #f8d377;
 }
 
 .logo {
