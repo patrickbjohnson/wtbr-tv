@@ -1,8 +1,7 @@
-import React from 'react'
 import Markdown from 'react-markdown'
-import styles from './content-hero.module.css'
-
+import React from 'react'
 import Transition from './transition'
+import styles from './content-hero.module.css'
 
 function ContentHero(props) {
   const { heroTitle, heroContent, backgroundColor } = props
@@ -19,7 +18,9 @@ function ContentHero(props) {
           <Markdown source={heroTitle.heroTitle} escapeHtml={false} />
         </Transition>
         <Transition delay={250} className={styles.body}>
-          <Markdown source={heroContent.heroContent} escapeHtml={false} />
+          {heroContent && (
+            <Markdown source={heroContent.heroContent} escapeHtml={false} />
+          )}
         </Transition>
       </div>
     </div>

@@ -1,7 +1,7 @@
-import React from 'react'
 import { InView } from 'react-intersection-observer'
+import React from 'react'
 
-const IntersectionObserver = ({ children }) => {
+const IntersectionObserver = ({ children, inViewHandler }) => {
   return (
     <InView as="div" threshold={0.5} triggerOnce={true}>
       {({ inView, ref }) => {

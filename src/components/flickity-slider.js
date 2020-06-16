@@ -1,9 +1,11 @@
-import React, { Component, createRef } from 'react'
-import { Image, Link } from 'gatsby'
-import cx from 'classnames'
 import '../../node_modules/flickity/dist/flickity.css'
-import styles from '../components/flickity-slider.module.css'
+
+import { Image, Link } from 'gatsby'
+import React, { Component, createRef } from 'react'
+
 import ContentPanel from '../components/content-panel'
+import cx from 'classnames'
+import styles from '../components/flickity-slider.module.css'
 
 const Flickity =
   typeof window !== 'undefined' ? require('flickity') : () => null
@@ -31,9 +33,11 @@ class FlickitySlider extends Component {
   }
 
   componentDidMount() {
+    const slides = this.props.posts ? this.props.posts : this.props.slides
     this.setState(
       {
-        slides: this.props.posts ? this.props.posts : this.props.slides,
+        slides: slides,
+        active: slides[0],
       },
       () => {
         this.initFlickity()
@@ -47,6 +51,8 @@ class FlickitySlider extends Component {
       contain: true,
       draggable: this.props.draggable ? true : false,
       dragThreshold: this.props.dragThreshold ? this.props.dragThreshold : 3,
+      selectedAttraction: 0.01,
+      friction: 0.15,
     })
 
     Array.from(
@@ -69,28 +75,17 @@ class FlickitySlider extends Component {
 
   flickityChangeEvent = () => {
     this.flickity.on('change', e => {
+      console.log(e)
       this.setDisabledStates()
-      this.setState({ active: e })
-      this.pauseVideos()
+      this.setState({ active: this.state.slides[this.flickity.selectedIndex] })
     })
-  }
-
-  pauseVideos = () => {
-    if (this.slider) {
-      var videos = Array.from(
-        this.slider.current.getElementsByTagName('iframe')
-      )
-
-      for (let video of videos) {
-        video.src = video.src
-      }
-    }
   }
 
   render() {
     const { slides, active } = this.state
-
     const { isFeatured } = this.props
+
+    console.log(active, slides)
 
     return (
       <div
@@ -121,10 +116,11 @@ class FlickitySlider extends Component {
                     return (
                       <div className={cx(styles.slide)} key={s.id}>
                         <ContentPanel
-                          {...s}
-                          currentSlide={active}
+                          panelIsOpen={true}
                           slideIndex={i}
-                          isFeatured
+                          currentSlide={active}
+                          isFeatured={true}
+                          {...s}
                         />
                       </div>
                     )

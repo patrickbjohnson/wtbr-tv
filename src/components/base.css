@@ -88,9 +88,12 @@ a {
 
 @media (min-width: 1024px) {
   .article-list {
-    column-count: 2;
-    column-gap: 0;
-    display: block;
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .article-wrap {
+    width: 50%;
   }
 }
 

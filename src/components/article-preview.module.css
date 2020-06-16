@@ -1,8 +1,5 @@
-.article { 
-  border-bottom: 1px solid #000;
-  border-left: 1px solid #000;
-  padding-top: 50px;
-  padding-bottom: 40px;
+.article {
+  padding: 50px 20px 40px;
 }
 
 .meta,
@@ -80,8 +77,6 @@
     page-break-inside: avoid;
     break-inside: avoid;
     overflow: hidden;
-    border-right: 1px solid #000;
-    border-left: 0;
   }
 
   .title {

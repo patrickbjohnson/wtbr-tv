@@ -1,13 +1,13 @@
-import React from 'react'
-import { graphql } from 'gatsby'
-import cx from 'classnames'
-import get from 'lodash/get'
-import styles from './blog.module.css'
-import Layout from '../components/layout'
-import Ticker from '../components/article-ticker'
 import ArticlePreview from '../components/article-preview'
 import HomeHero from '../components/home-hero'
+import Layout from '../components/layout'
 import PageHead from '../components/PageHead'
+import React from 'react'
+import Ticker from '../components/article-ticker'
+import cx from 'classnames'
+import get from 'lodash/get'
+import { graphql } from 'gatsby'
+import styles from './blog.module.css'
 
 const ScrollToTop = ({ clickHandler }) => {
   return (
@@ -114,6 +114,7 @@ export const pageQuery = graphql`
           video {
             id
             videoUrl
+            vimeoId
           }
           image {
             fluid {

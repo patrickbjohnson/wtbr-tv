@@ -1,15 +1,26 @@
 import React, { Component } from 'react'
-import cx from 'classnames'
+
 import Img from 'gatsby-image'
+import InView from '../components/inview'
 import Markdown from 'react-markdown'
 import MediaQuery from 'react-responsive'
-import styles from './content-panel.module.css'
-import InView from '../components/inview'
 import VideoPlayer from '../components/video-player'
+import cx from 'classnames'
+import styles from './content-panel.module.css'
 
 class ContentPanel extends Component {
   constructor(props) {
     super(props)
+    this.state = {
+      inView: false,
+      videoReady: false,
+    }
+  }
+
+  videoReadyHandler = state => {
+    this.setState({
+      videoReady: state,
+    })
   }
 
   render() {
@@ -26,6 +37,10 @@ class ContentPanel extends Component {
       isFeatured,
       bg_color_override,
       whiteBg,
+      inGrid,
+      panelIsOpen,
+      heightHandler,
+      ...rest
     } = this.props
 
     let cat = null
@@ -57,51 +72,54 @@ class ContentPanel extends Component {
                 )}
               </div>
 
-              <div className={styles.mediaContent}>
-                {videos &&
-                  videos.map((v, i) => {
-                    if (v.__typename === 'ContentfulVideoBlock') {
-                      return (
-                        <InView key={i}>
-                          <VideoPlayer
-                            isCurrent={currentSlide}
-                            slideIndex={slideIndex}
-                            poster={image ? image.fluid.src : false}
-                            isFeatured={isFeatured}
-                            {...v}
-                          />
-                        </InView>
-                      )
-                    }
+              {panelIsOpen && currentSlide && (
+                <div className={styles.mediaContent}>
+                  {videos &&
+                    videos.map((v, i) => {
+                      if (v.__typename === 'ContentfulVideoBlock') {
+                        return (
+                          <InView key={i}>
+                            <VideoPlayer
+                              isCurrent={currentSlide}
+                              slideIndex={slideIndex}
+                              poster={image ? image.fluid.src : false}
+                              isFeatured={isFeatured}
+                              videoIsReady={this.videoReadyHandler}
+                              {...v}
+                            />
+                          </InView>
+                        )
+                      }
 
-                    if (v.__typename === 'ContentfulImageBlock') {
-                      return (
-                        <InView>
-                          <Img
-                            className={cx(styles.media)}
-                            fluid={v.media.fluid}
-                            durationFadeIn={500}
-                            title={image.title}
-                            alt={image.title}
-                            fadeIn
-                          />
-                        </InView>
-                      )
-                    }
-                  })}
-                {image && !videos && !isMobile && (
-                  <InView>
-                    <Img
-                      className={cx(styles.media)}
-                      fluid={image.fluid}
-                      durationFadeIn={500}
-                      title={image.title}
-                      alt={image.title}
-                      fadeIn
-                    />
-                  </InView>
-                )}
-              </div>
+                      if (v.__typename === 'ContentfulImageBlock') {
+                        return (
+                          <InView>
+                            <Img
+                              className={cx(styles.media)}
+                              fluid={v.media.fluid}
+                              durationFadeIn={500}
+                              title={image.title}
+                              alt={image.title}
+                              fadeIn
+                            />
+                          </InView>
+                        )
+                      }
+                    })}
+                  {image && !videos && !isMobile && (
+                    <InView>
+                      <Img
+                        className={cx(styles.media)}
+                        fluid={image.fluid}
+                        durationFadeIn={500}
+                        title={image.title}
+                        alt={image.title}
+                        fadeIn
+                      />
+                    </InView>
+                  )}
+                </div>
+              )}
             </div>
           </div>
         )}

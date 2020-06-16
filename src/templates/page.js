@@ -9,6 +9,7 @@ import FeaturedPosts from '../components/featured-posts'
 import HomeHero from '../components/home-hero'
 import InView from '../components/inview'
 import Layout from '../components/layout'
+import LazyLoad from 'react-lazyload'
 import MediaQuery from 'react-responsive'
 import MobileContentGrid from '../components/MobileContentGrid'
 import PageHead from '../components/PageHead'
@@ -45,38 +46,33 @@ const Page = props => {
                 const type = cleanComponentName(component.__typename)
                 switch (type) {
                   case 'VideoHero':
-                    console.log(videoRendered)
                     if (videoRendered) {
                       return false
                     } else {
                       videoRendered = true
                       return (
-                        <InView>
-                          <HomeHero
-                            key={component.id}
-                            hasText={slug === 'home'}
-                            {...component}
-                          />
+                        <InView key={component.id}>
+                          <HomeHero hasText={slug === 'home'} {...component} />
                         </InView>
                       )
                     }
                     break
                   case 'GoodPeople':
                     return (
-                      <InView>
-                        <GoodPeople key={component.id} {...component} />
+                      <InView key={component.id}>
+                        <GoodPeople {...component} />
                       </InView>
                     )
                   case 'FeaturedPosts':
                     return (
-                      <InView>
-                        <FeaturedPosts key={component.id} {...component} />
+                      <InView key={component.id}>
+                        <FeaturedPosts {...component} />
                       </InView>
                     )
                   case 'ContentBlockGrid':
                     return (
                       <div key={component.id}>
-                        <InView>
+                        <LazyLoad height="100%" offset={200}>
                           <MediaQuery minWidth={768}>
                             <ContentBlockGrid
                               key={component.id}
@@ -89,43 +85,43 @@ const Page = props => {
                               {...component}
                             />
                           </MediaQuery>
-                        </InView>
+                        </LazyLoad>
                       </div>
                     )
                   case 'TextBlockGrid':
                     return (
-                      <InView>
-                        <TextBlockGrid key={component.id} {...component} />
+                      <InView key={component.id}>
+                        <TextBlockGrid {...component} />
                       </InView>
                     )
                   case 'ContentHero':
                     return (
-                      <InView>
-                        <ContentHero key={component.id} {...component} />
+                      <InView key={component.id}>
+                        <ContentHero {...component} />
                       </InView>
                     )
                   case 'JobList':
                     return (
-                      <InView>
-                        <AccordionList key={component.id} {...component} />
+                      <InView key={component.id}>
+                        <AccordionList {...component} />
                       </InView>
                     )
                   case 'AccordionList':
                     return (
-                      <InView>
-                        <AccordionList key={component.id} {...component} />
+                      <InView key={component.id}>
+                        <AccordionList {...component} />
                       </InView>
                     )
                   case 'ClientList':
                     return (
-                      <InView>
-                        <ClientList key={component.id} {...component} />
+                      <InView key={component.id}>
+                        <ClientList {...component} />
                       </InView>
                     )
                   case 'Capabilities':
                     return (
-                      <InView>
-                        <Capabilities key={component.id} {...component} />
+                      <InView key={component.id}>
+                        <Capabilities {...component} />
                       </InView>
                     )
                   default:

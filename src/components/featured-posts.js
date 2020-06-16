@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+
 import FlickitySlider from './flickity-slider'
 import styles from './featured-posts.module.css'
 

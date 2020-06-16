@@ -1,16 +1,17 @@
+import '../../node_modules/flickity/dist/flickity.css'
+
 import React, { Component, createRef } from 'react'
-import uniq from 'lodash.uniq'
-import uniqBy from 'lodash.uniqby'
+
+import ContentBlock from './ContentBlock'
+import ContentPanel from './content-panel'
+import FilterPanel from './filter-panel'
+import SectionHeader from './section-header'
 import cx from 'classnames'
 import scrollIntoView from 'scroll-into-view-if-needed'
 import smoothScrollIntoView from 'smooth-scroll-into-view-if-needed'
-import ContentBlock from './ContentBlock'
-import ContentPanel from './content-panel'
-import SectionHeader from './section-header'
-import FilterPanel from './filter-panel'
-
-import '../../node_modules/flickity/dist/flickity.css'
 import styles from './contentGrid.module.css'
+import uniq from 'lodash.uniq'
+import uniqBy from 'lodash.uniqby'
 
 const Flickity =
   typeof window !== 'undefined' ? require('flickity') : () => null
@@ -230,19 +231,23 @@ class ContentGrid extends Component {
         panelIsOpen: true,
       },
       () => {
-        this.contentPanel.current.style.display = `block`
-
-        this.pauseVideos()
-
-        setTimeout(() => {
-          const panel = this.contentPanel.current
-          const inner = panel.querySelector('[data-panel-inner="true"]')
-          this.contentPanel.current.style.height = `${inner.scrollHeight}px`
-        }, 0)
+        this.initPanelHeight()
       }
     )
 
     this.handleSticky()
+  }
+
+  initPanelHeight = () => {
+    this.contentPanel.current.style.display = `block`
+
+    this.pauseVideos()
+  }
+
+  setPanelHeight = () => {
+    const panel = this.contentPanel.current
+    const inner = panel.querySelector('[data-panel-inner="true"]')
+    this.contentPanel.current.style.height = `${inner.scrollHeight}px`
   }
 
   flickityIntoView = () => {
@@ -388,6 +393,7 @@ class ContentGrid extends Component {
       catSelected,
       panelIsOpen,
     } = this.state
+
     const { displayCategory, identifier } = this.props
 
     const visibleBlocks = this.state.showAll ? blocks : blocks.slice(0, 16)
@@ -449,10 +455,13 @@ class ContentGrid extends Component {
                     return (
                       <ContentPanel
                         key={i}
+                        panelIsOpen={panelIsOpen}
                         isFilterable={displayCategory}
                         currentSlide={activeSlide.id === b.id}
                         slideIndex={i}
+                        inGrid={true}
                         whiteBg
+                        heightHandler={this.setPanelHeight}
                         {...b}
                       />
                     )
