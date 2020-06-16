@@ -98,7 +98,7 @@ class FlickitySlider extends Component {
                   return (
                     <div
                       className={cx(styles.dot, {
-                        [styles.activeDot]: i === active,
+                        [styles.activeDot]: i === this.flickity.selectedIndex,
                       })}
                       key={s.id + 1}
                     ></div>
