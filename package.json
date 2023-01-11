@@ -18,7 +18,7 @@
     "gatsby-plugin-sharp": "^2.0.6",
     "gatsby-plugin-transition-link": "^1.14.2",
     "gatsby-source-contentful": "^2.0.2",
-    "gatsby-transformer-remark": "^2.1.6",
+    "gatsby-transformer-remark": "^5.25.1",
     "gatsby-transformer-sharp": "^2.0.6",
     "lodash": "^4.17.11",
     "lodash.chunk": "^4.2.0",
